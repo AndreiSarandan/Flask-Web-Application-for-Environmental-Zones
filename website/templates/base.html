@@ -149,6 +149,20 @@
         crossorigin="anonymous"></script>
 
     {% block javascript %}
+
+
+    <script>
+        window.WAQI_API_KEY = "{{ WAQI_API_KEY }}";
+        // console.log("WAQI_API_KEY:", WAQI_API_KEY);
+
+        window.GOOGLE_API_KEY = "{{ GOOGLE_API_KEY }}";
+        // console.log("GOOGLE_API_KEY:", GOOGLE_API_KEY);
+
+        window.OPEN_CAGE_API_KEY = "{{ OPEN_CAGE_API_KEY }}";
+        // console.log("OPEN_CAGE_API_KEY:", OPEN_CAGE_API_KEY);
+    </script>
+
+
     <script type="text/javascript">
         function deleteNote(noteId) {
             fetch("/delete-note", {

@@ -3,6 +3,18 @@ let gmarkers = [];
 let mc;
 // const image = '/static/images/marker3.png';
 
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Access the API key from the global variable
+    const WAQI_API_KEY = window.WAQI_API_KEY;
+    const GOOGLE_API_KEY = window.WAQI_API_KEY;
+    const OPEN_CAGE_API_KEY = window.WAQI_API_KEY;
+
+    console.log("API Key for WAI:", WAQI_API_KEY);
+
+});
+
+
 async function initMap() {
     const cities = await getCitiesFromBackend(); // Fetch cities from backend
     map = new google.maps.Map(document.getElementById('map'), {
@@ -56,7 +68,7 @@ function geocodeAddress(address, index) {
 // Load the Maps JavaScript API asynchronously
 function loadScript() {
     const script = document.createElement('script');
-    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDSrGZOUl7LV020hIPMv0WXyKemXGj0Vgk&callback=initMap';
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=' + GOOGLE_API_KEY + '&callback=initMap';
     script.defer = true;
     document.head.appendChild(script);
 }

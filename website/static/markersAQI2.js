@@ -2,9 +2,16 @@ let map;
 let geocoder;
 let gmarkers = [];
 
-// Replace with your OpenCage API key
-const openCageApiKey = '41aca459d77c4fe28b72c6bbe73d2ba1';
-const aqiApiKey = '82645b03feba4f3384606a8471f00510abc10c37';
+document.addEventListener("DOMContentLoaded", () => {
+    // Access the API key from the global variable
+    const WAQI_API_KEY = window.WAQI_API_KEY;
+    const GOOGLE_API_KEY = window.WAQI_API_KEY;
+    const OPEN_CAGE_API_KEY = window.WAQI_API_KEY;
+
+    console.log("API Key for WAI:", WAQI_API_KEY);
+
+});
+
 
 async function initMap() {
     const cities = await getCitiesFromBackend(); // Fetch cities from backend
@@ -49,7 +56,7 @@ async function addMarkers(cities) {
 }
 
 function geocodeWithOpenCage(address) {
-    const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(address)}&key=${openCageApiKey}`;
+    const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(address)}&key=${OPEN_CAGE_API_KEY}`;
     return fetch(url)
         .then(response => response.json())
         .then(data => {
@@ -65,7 +72,7 @@ function geocodeWithOpenCage(address) {
 }
 
 async function getAQI(lat, lng, city) {
-    const url = `https://api.waqi.info/feed/geo:${lat};${lng}/?token=${aqiApiKey}`;
+    const url = `https://api.waqi.info/feed/geo:${lat};${lng}/?token=${WAQI_API_KEY}`;
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -104,7 +111,7 @@ function createMarker(location, city, aqi) {
 // Load the Maps JavaScript API asynchronously
 function loadScript() {
     const script = document.createElement('script');
-    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDSrGZOUl7LV020hIPMv0WXyKemXGj0Vgk&callback=initMap';
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=' + GOOGLE_API_KEY + '&callback=initMap';
     script.defer = true;
     document.head.appendChild(script);
 }

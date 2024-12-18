@@ -2,6 +2,16 @@ let map;
 let gmarkers = [];
 let mc;
 
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Access the API key from the global variable
+    const WAQI_API_KEY = window.WAQI_API_KEY;
+
+    console.log("API Key for WAI:", WAQI_API_KEY);
+
+});
+
+
 async function initMap() {
     const cities = await getCitiesFromBackend(); // Fetch cities from backend
     map = new google.maps.Map(document.getElementById('map'), {
@@ -69,7 +79,7 @@ function getAQIColor(aqi) {
 }
 
 function getAQIData(city) {
-    var apiUrl = 'https://api.waqi.info/feed/' + encodeURIComponent(city) + '/?token=82645b03feba4f3384606a8471f00510abc10c37';
+    var apiUrl = 'https://api.waqi.info/feed/' + encodeURIComponent(city) + '/?token=' + WAQI_API_KEY;
     return fetch(apiUrl)
         .then(response => response.json())
         .then(data => data.data.aqi)
@@ -79,4 +89,3 @@ function getAQIData(city) {
         });
 }
 
-//82645b03feba4f3384606a8471f00510abc10c37

@@ -449,7 +449,7 @@ async function generateZoneDescription(cityData, city, cityInfoForTemp, notifica
 
 
 async function getAQIData(city) {
-    const apiUrl = `https://api.waqi.info/feed/${encodeURIComponent(city)}/?token=82645b03feba4f3384606a8471f00510abc10c37`;
+    const apiUrl = `https://api.waqi.info/feed/${encodeURIComponent(city)}/?token=${WAQI_API_KEY}`;
     try {
         const response = await fetch(apiUrl);
         const data = await response.json();

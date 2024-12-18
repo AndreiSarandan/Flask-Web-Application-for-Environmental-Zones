@@ -11,6 +11,16 @@ views = Blueprint('views', __name__)
 from . import db
 
 
+# Load secrets
+with open('secrets.json') as f:
+    secrets = json.load(f)
+
+@views.context_processor
+def inject_api_key():
+    #these variables will be available in all HTML templates
+    return {'WAQI_API_KEY': secrets.get('WAQI_API_KEY'), 'GOOGLE_API_KEY':secrets.get('GOOGLE_API_KEY'), 'OPEN_CAGE_API_KEY': secrets.get('OPEN_CAGE_API_KEY') }
+
+
 @views.route('/', methods=['GET','POST'])
 # @login_required #can only access the home page if logged in
 def home():
