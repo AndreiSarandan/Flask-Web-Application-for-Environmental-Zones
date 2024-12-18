@@ -1,0 +1,199 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../../static/country_info.css">
+
+    <title>Document</title>
+</head>
+
+<body class="france">
+
+    <div class="page-content">
+
+
+
+        <div class="paragraph-container">
+            <h2>Low Emission Zones in France</h2>
+            <div>
+                <button type="button" class="collapsible  on-countries">General information </button>
+                <div class="collapsed-content-viewable">
+
+                    <p class="">
+                        &emsp;France has established several Low Emission Zones (LEZs), known as ZCR (Zones à
+                        Circulation Restreinte), in various
+                        cities to improve air quality by restricting access to high-emission vehicles. <br>
+                        &emsp;Vehicles entering these zones must display a Crit'Air vignette, a sticker that classifies
+                        vehicles based on their
+                        emissions, with categories ranging from Crit'Air E (electric and hydrogen vehicles) to Crit'Air
+                        5 (the most polluting vehicles). <br>
+                        &emsp;These LEZs typically operate from Monday to Friday, between 8 AM and 8 PM. and restrict
+                        access to vehicles with higher emission
+                        levels, especially during periods
+                        of high pollution. The Crit'Air system ensures that only vehicles meeting certain emission
+                        standards can enter these zones. <br>
+                        &emsp;Exemptions in these French LEZs are limited but may include emergency vehicles and
+                        vehicles for disabled persons. <br>
+                        &emsp;Non-compliance with LEZ regulations can result in fines, emphasizing the importance of
+                        adhering to these measures. <br>
+                        &emsp;Additionally, more cities across France are planning to introduce LEZs over time, further
+                        expanding the effort to ensure
+                        cleaner air and healthier urban environments nationwide.
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" class="collapsible  on-countries">Which cities have Low
+                    Emission Zones ?
+                </button>
+                <div class="collapsed-content-viewable">
+                    <div class="cities-list">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>City</th>
+                                    <th>Required Registration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for city, registration in zip(cities, registrations) %}
+                                <tr>
+                                    <td>{{ city }}</td>
+                                    <td>{{ registration }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div>
+                <button type="button" class="collapsible  on-countries">How do I recognise a Low
+                    Emission Zone
+                    ?</button>
+                <div class="collapsed-content-viewable">
+                    <p>
+                        &emsp;The boundaries of the environmental zones are indicated by signs featuring a red circle
+                        with the label "Zones à Circulation Restreinte" (Restricted Zone). These signs do not specify
+                        which vehicles are permitted or prohibited from entering the zone.
+                    </p>
+
+                    <div class="flex-box-space-around">
+                        <img class=" small-img on-page" src={{ url_for('static', filename='france/LEZe.jpg' ) }}>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <button type="button" class="collapsible  on-countries"> Do I need a sticker or
+                    registration to enter a
+                    Low Emission Zone ?
+                </button>
+                <div class="collapsed-content-viewable">
+                    <p>
+                        &emsp;To enter the Low Emission Zone, each vehicle requires a valid French
+                        environmental
+                        sticker
+                        (Certificat qualité de l'Air). Foreign vehicles area affected as well. <br>
+                    <ul>
+                        <li><strong>Crit'Air 0/E:</strong> Green sticker for zero emission electric and hydrogen
+                            vehicles.</li>
+                        <li><strong>Crit'Air 1:</strong> Purple sticker for plug-in hybrid vehicles and Euro 5, 6 petrol
+                            vehicles.</li>
+                        <li><strong>Crit'Air 2:</strong> Yellow sticker for Euro 4 petrol vehicles, and Euro 5, 6 diesel
+                            vehicles.</li>
+                        <li><strong>Crit'Air 3:</strong> Orange sticker for Euro 2, 3 petrol vehicles and Euro 4 diesel
+                            vehicles.</li>
+                        <li><strong>Crit'Air 4:</strong> Burgundy sticker for Euro 3 diesel vehicles.</li>
+                        <li><strong>Crit'Air 5:</strong> Dark grey sticker for Euro 2 diesel vehicles.</li>
+                    </ul>
+                    <br>
+
+                    <div class="flex-box-space-around">
+                        <img class="wide-img on-page" src={{ url_for('static', filename='france/stickers.png' ) }}>
+                    </div>
+
+                    </p>
+                </div>
+                </p>
+            </div>
+
+
+
+            <div>
+
+                <button type="button" class="collapsible  on-countries"> What are the penalties
+                    ?</button>
+                <div class="collapsed-content-viewable">
+                    <p>
+                        &emsp;Violating rules of Low Emission Zones in {{country|capitalize}} results in a fine of
+                        {{fines}}.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    {% endblock %}
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+
+FLEX BOX MODEL 
+
+<div class="flex-box">
+
+    <ul class="list-group" aria-label="Low Emission Zones">
+        {%for city in cities%}
+        <li class="list-group-item">{{ city }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+
+    <p class="image-container">
+        <img class="on-page" src={{ url_for('static', filename='france/stickers.jpeg' ) }}>
+    </p>
+    <p>
+        <img class="on-page" src={{ url_for('static', filename='france/LEZe.jpg' ) }}>
+
+    </p>
+</div> -->

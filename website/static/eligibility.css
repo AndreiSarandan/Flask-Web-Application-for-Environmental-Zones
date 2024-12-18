@@ -1,0 +1,93 @@
+.eligibility-heading {
+    color: red;
+}
+
+
+.country-result {
+    color: red;
+}
+
+.registrationImageContainer {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+
+}
+
+.registration-image {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 4px;
+    /* margin: 10px; */
+    padding: 5px;
+    width: 400px;
+    height: 400px;
+}
+
+.registration-description {
+    margin: 10px 20px;
+    padding: 20px;
+    text-align: justify;
+
+}
+
+.result-phrase {
+    font-family: "Times New Roman", Times, serif;
+    font-weight: 700;
+    text-align: justify;
+    padding: 20px 20px;
+}
+
+/* transition  */
+
+.eligibility-check .form-results-container {
+    display: flex;
+    justify-content: center;
+    align-items: top;
+    /* height: 100vh; */
+    transition: justify-content 0.5s ease-in-out;
+    width: 100%;
+    flex-direction: column;
+}
+
+.form-results-container.show-results {
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+/* .form-container {
+    width: 80%;
+} */
+
+.results-container {
+    margin-left: 100px;
+    margin-top: 2vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 20px;
+}
+
+
+/* .results-container {
+    display: none;
+    width: 40%;
+}
+
+.show-results .results-container {
+    display: block;
+}
+
+.eligible-text-container {
+    background-color: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    text-align: center;
+} */
+
+
+.row {
+    margin: 50px;
+    padding: 50px;
+    display: flex;
+    /* flex-wrap: nowrap; */
+    align-items: flex-start;
+}

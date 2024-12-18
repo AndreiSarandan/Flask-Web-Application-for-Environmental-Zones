@@ -1,0 +1,345 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+<style>
+    /* Style for editable cells */
+    /* td.editable {
+        background-color: #f0f0f0;
+    } */
+
+    /* Style for delete buttons */
+    /* .delete-button {
+        display: none;
+    } */
+</style>
+
+<body class="admin">
+    <div style="z-index: 0;">
+
+
+        <div class="admin-header">
+            <p class="admin-text">Manage Low Emission Zones table</p>
+
+
+
+            <div class="admin-buttons-container">
+                <button class="admin-button" onclick="toggleEditMode()">Edit
+                </button>
+
+                <button class="admin-button" onclick="addNewRow()">Add new entry</button>
+
+                <button class="admin-button" onclick="saveChanges()">Save changes</button>
+
+            </div>
+
+            <div class="admin-search-bar-container">
+                <input type="text" id="searchInput" class="admin-search-bar" onkeyup="filterTable()"
+                    placeholder="Search by country or city...">
+                <i class="fas fa-search admin-search-icon"></i>
+            </div>
+        </div>
+        <div class="admin-container">
+            <table id="admin-table" class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID
+                            <div class="sort-buttons">
+                                <button onclick="sortTable(0, 'asc')"><i class="fas fa-sort-up"></i></button>
+                                <button onclick="sortTable(0, 'desc')"><i class="fas fa-sort-down"></i></button>
+                            </div>
+                        </th>
+                        <th>Country
+                            <div class="sort-buttons">
+                                <button onclick="sortTable(1, 'asc')"><i class="fas fa-sort-up"></i></button>
+                                <button onclick="sortTable(1, 'desc')"><i class="fas fa-sort-down"></i></button>
+                            </div>
+                        </th>
+                        <th>City
+                            <div class="sort-buttons">
+                                <button onclick="sortTable(2, 'asc')"><i class="fas fa-sort-up"></i></button>
+                                <button onclick="sortTable(2, 'desc')"><i class="fas fa-sort-down"></i></button>
+                            </div>
+                        </th>
+                        <th>Registration Class</th>
+                        <th>Minimum Diesel</th>
+                        <th>Minimum Petrol</th>
+                        <th>Fines</th>
+                        <th>Registration Type</th>
+                        <th>Registration Validity</th>
+                        <th>Required Registration</th>
+                        <th>Exception Country</th>
+                        <th>Official page</th>
+                        <th>Description</th>
+                        <th>Temporary data description</th>
+                        <th>LEZ Start Date</th>
+                        <th>LEZ End Date</th>
+                        <th>Minimum Diesel</th>
+                        <th>Minimum Petrol</th>
+                        <th>Alias</th>
+                        <th>Delete Entry</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Existing entries -->
+                    {% for zone, temporary_data in combined_data %}
+                    <tr id="row-{{ zone.id }}">
+                        <td>{{ zone.id }}</td>
+                        <td contenteditable="false">{{ zone.country }}</td>
+                        <td contenteditable="false">{{ zone.city }}</td>
+                        <td contenteditable="false">{{ zone.registration_class }}</td>
+                        <td contenteditable="false">{{ zone.minimum_diesel }}</td>
+                        <td contenteditable="false">{{ zone.minimum_petrol }}</td>
+                        <td contenteditable="false">{{ zone.fines }}</td>
+                        <td contenteditable="false">{{ zone.registration_type }}</td>
+                        <td contenteditable="false">{{ zone.registration_validity }}</td>
+                        <td contenteditable="false">{% if zone.required_registration != 'N/A' %}{{
+                            zone.required_registration }}{% endif %}</td>
+                        <td contenteditable="false">{{ zone.exception_country }}</td>
+                        <td contenteditable="false" class="description-cell" onclick="toggleDescription(this)">{{
+                            zone.official_page }}</td>
+                        <td contenteditable="false" class="description-cell" onclick="toggleDescription(this)">{{
+                            zone.description }}</td>
+
+                        <td contenteditable="false" class="temp-data-cell" onclick="toggleDescription(this)">{{
+                            temporary_data.temporary_data }}</td>
+                        <td contenteditable="false">{{ temporary_data.tp_lez_start }}</td>
+                        <td contenteditable="false">{{ temporary_data.tp_lez_end }}</td>
+                        <td contenteditable="false">{{ temporary_data.tp_minimum_diesel }}</td>
+                        <td contenteditable="false">{{ temporary_data.tp_minimum_petrol }}</td>
+                        <td contenteditable="false">{{ zone.city_alias }}</td>
+                        <td>
+                            <button class="delete-button">
+                                <span class="delete-button-span" onclick="deleteZoneInDB('{{ zone.id }}')">CONFIRM
+                                    DELETE</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                            </button>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function toggleEditMode() {
+            // Toggle contenteditable attribute for all cells except those in the new row
+            var cells = document.querySelectorAll("td:not(#new-row td)[contenteditable]");
+            cells.forEach(function (cell) {
+                cell.setAttribute("contenteditable", (cell.getAttribute("contenteditable") === "true") ? "false" : "true");
+                if (cell.getAttribute("contenteditable") === "true") {
+                    cell.classList.add("editable");
+                } else {
+                    cell.classList.remove("editable");
+                }
+            });
+
+            var delete_buttons = document.querySelectorAll(".delete-button");
+            delete_buttons.forEach(function (button) {
+                button.style.display = (button.style.display === "none") ? "table-cell" : "none";
+            });
+        }
+
+
+        function addNewRow() {
+            var table = document.getElementById("admin-table");
+            var newRow = table.insertRow(1);
+            // Insert 19 cells in the new row
+            for (var i = 0; i < 19; i++) {
+                var cell = newRow.insertCell(i);
+                cell.setAttribute("contenteditable", "true");
+                cell.classList.add("editable");
+            }
+            // Add a delete button to the new row in the 20th cell
+            var deleteButtonCell = newRow.insertCell(18); // Assuming the delete button is the 20th cell
+            deleteButtonCell.classList.add("delete-cell");
+
+            var deleteButton = document.createElement("button");
+            deleteButton.classList.add("delete-button");
+
+            var deleteButtonSpan = document.createElement("span");
+            deleteButtonSpan.classList.add("delete-button-span");
+            deleteButtonSpan.innerHTML = "CONFIRM DELETE";
+            deleteButtonSpan.onclick = function () {
+                deleteZoneInDB(newRow.rowIndex); // Assuming you have a function deleteZoneInDB that takes row index
+            };
+
+            var deleteButtonSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            deleteButtonSvg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+            deleteButtonSvg.setAttribute("width", "25");
+            deleteButtonSvg.setAttribute("height", "25");
+            deleteButtonSvg.setAttribute("fill", "none");
+            deleteButtonSvg.setAttribute("viewBox", "0 0 24 24");
+            deleteButtonSvg.setAttribute("stroke", "currentColor");
+            deleteButtonSvg.setAttribute("stroke-width", "2");
+
+            var deleteButtonPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            deleteButtonPath.setAttribute("stroke-linecap", "round");
+            deleteButtonPath.setAttribute("stroke-linejoin", "round");
+            deleteButtonPath.setAttribute("d", "M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16");
+
+            deleteButtonSvg.appendChild(deleteButtonPath);
+            deleteButton.appendChild(deleteButtonSpan);
+            deleteButton.appendChild(deleteButtonSvg);
+            deleteButtonCell.appendChild(deleteButton);
+        }
+
+        function toggleDescription(element) {
+            element.classList.toggle('expanded');
+        }
+
+        function saveChanges() {
+            var table = document.getElementById("admin-table");
+            var rows = table.querySelectorAll("tbody tr");
+
+            var updatedEntries = [];
+            rows.forEach(function (row) {
+                var entry = {
+                    id: row.querySelector("td:first-child").innerText,
+                    country: row.querySelector("td:nth-child(2)").innerText,
+                    city: row.querySelector("td:nth-child(3)").innerText,
+                    registration_class: row.querySelector("td:nth-child(4)").innerText,
+                    minimum_diesel: row.querySelector("td:nth-child(5)").innerText,
+                    minimum_petrol: row.querySelector("td:nth-child(6)").innerText,
+                    fines: row.querySelector("td:nth-child(7)").innerText,
+                    registration_type: row.querySelector("td:nth-child(8)").innerText,
+                    registration_validity: row.querySelector("td:nth-child(9)").innerText,
+                    required_registration: row.querySelector("td:nth-child(10)").innerText,
+                    exception_country: row.querySelector("td:nth-child(11)").innerText,
+                    official_page: row.querySelector("td:nth-child(12)").innerText,
+                    description: row.querySelector("td:nth-child(13)").innerText,
+                    city_alias: row.querySelector("td:nth-child(19)").innerText
+
+                };
+
+                // Find the associated temporary data for this zone
+                var temporaryDataCell = row.querySelector("td:nth-child(14)");
+                if (temporaryDataCell) {
+                    entry.temporary_data = temporaryDataCell.innerText;
+                    entry.tp_lez_start = row.querySelector("td:nth-child(15)").innerText;
+                    entry.tp_lez_end = row.querySelector("td:nth-child(16)").innerText;
+                    entry.tp_minimum_diesel = row.querySelector("td:nth-child(17)").innerText;
+                    entry.tp_minimum_petrol = row.querySelector("td:nth-child(18)").innerText;
+                }
+
+                updatedEntries.push(entry);
+            });
+
+            // Send updatedEntries to the server (Flask backend) using AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/update", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (xhr.status === 200) {
+                        alert(response.message);
+                        location.reload();
+                    } else {
+                        alert(response.message || "An error occurred while saving changes.");
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(updatedEntries));
+        }
+
+
+
+        function filterTable() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("admin-table");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td");
+                for (var j = 1; j < td.length - 1; j++) { // Exclude the last column (delete button)
+                    if (td[j]) {
+                        txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                            break; // Break out of the inner loop if a match is found
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+        }
+
+        var ascending = true;
+
+        function sortTable(columnIndex, order) {
+            var table, rows, switching, i, x, y, shouldSwitch;
+            table = document.getElementById("admin-table");
+            switching = true;
+
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("td")[columnIndex];
+                    y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+                    if (order === 'asc' && compareValues(x.innerHTML, y.innerHTML) > 0) {
+                        shouldSwitch = true;
+                        break;
+                    } else if (order === 'desc' && compareValues(x.innerHTML, y.innerHTML) < 0) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                }
+            }
+        }
+
+        function compareValues(x, y) {
+            if (isNaN(parseFloat(x)) || isNaN(parseFloat(y))) {
+                // If not numerical values, compare as strings
+                return x.localeCompare(y);
+            } else {
+                // If numerical values, compare as numbers
+                return parseFloat(x) - parseFloat(y);
+            }
+        }
+
+
+        function deleteRow(zoneId) {
+            var rowToDelete = document.getElementById("row-" + zoneId);
+            if (rowToDelete) {
+                rowToDelete.parentNode.removeChild(rowToDelete);
+                deleteZoneInDB(zoneId)
+            }
+        }
+
+        function deleteZoneInDB(zoneId) {
+            window.location.href = "/delete-zone/" + zoneId;
+        }
+    </script>
+</body>
+
+</html>
+
+
+{% endblock %}

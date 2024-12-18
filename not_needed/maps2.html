@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<head>
+    <title>Google Maps Directions</title>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSrGZOUl7LV020hIPMv0WXyKemXGj0Vgk&libraries=places&callback=initMap"></script>
+</head>
+
+<!-- Textboxes for Origin and Destination -->
+<div>
+    <label for="origin">Origin:</label>
+    <input type="text" id="origin" name='location' placeholder="Enter origin city and street">
+    <input type="text" placeholder="City" id="locality-input" />
+    <input type="text" placeholder="Country" id="country-input" />
+</div>
+
+<div>
+    <label for="destination">Destination:</label>
+    <input type="text" id="destination" name='location' placeholder="Enter destination city and street">
+    <input type="text" placeholder="City" id="locality-destianation-input" />
+    <input type="text" placeholder="Country" id="country-destination-input" />
+</div>
+
+<button onclick="calculateDirections()">Get Directions</button>
+
+<div id="map" style="height: 500px; width: 100%;"></div>
+
+<script>
+    var directionsService;
+    var directionsRenderer;
+    var map;
+    var originAutocomplete;
+    var destinationAutocomplete;
+
+    function fillInAddress(place) {
+        function getComponentName(componentType) {
+            for (const component of place.address_components || []) {
+                if (component.types[0] === componentType) {
+                    return SHORT_NAME_ADDRESS_COMPONENT_TYPES.has(componentType) ?
+                        component.short_name :
+                        component.long_name;
+                }
+            }
+            return '';
+        }
+
+        function getComponentText(componentType) {
+            return (componentType === 'origin') ?
+                `${getComponentName('street_number')} ${getComponentName('route')}` :
+                getComponentName(componentType);
+        }
+
+        for (const componentType of ADDRESS_COMPONENT_TYPES_IN_FORM) {
+            getFormInputElement(componentType).value = getComponentText(componentType);
+        }
+
+        // Additional code to fill in City and Country
+        const cityInput = getFormInputElement('locality-input');
+        const countryInput = getFormInputElement('country-input');
+
+        for (const component of place.address_components || []) {
+            if (component.types.includes('locality')) {
+                cityInput.value = component.long_name;
+            } else if (component.types.includes('country')) {
+                countryInput.value = component.long_name;
+            }
+        }
+    }
+
+    function initMap() {
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer();
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 6,
+            center: { lat: 51.509865, lng: -0.118092 }
+        });
+        directionsRenderer.setMap(map);
+
+        // Set up Autocomplete for Origin and Destination
+        originAutocomplete = new google.maps.places.Autocomplete(
+            document.getElementById('origin'),
+            { types: ['geocode'] }
+        );
+
+        destinationAutocomplete = new google.maps.places.Autocomplete(
+            document.getElementById('destination'),
+            { types: ['geocode'] }
+        );
+
+        // Log autocomplete events for troubleshooting
+        originAutocomplete.addListener('place_changed', function () {
+            console.log('Origin Autocomplete Place Changed:', originAutocomplete.getPlace());
+        });
+
+        destinationAutocomplete.addListener('place_changed', function () {
+            console.log('Destination Autocomplete Place Changed:', destinationAutocomplete.getPlace());
+        });
+    }
+
+    function calculateDirections() {
+        var origin = document.getElementById('origin').value;
+        var destination = document.getElementById('destination').value;
+
+        var request = {
+            origin: origin,
+            destination: destination,
+            travelMode: 'DRIVING'
+        };
+
+        directionsService.route(request, function (result, status) {
+            if (status == 'OK') {
+                directionsRenderer.setDirections(result);
+            } else {
+                console.error('Error fetching directions:', status);
+            }
+        });
+    }
+</script>
+
+{% endblock %}

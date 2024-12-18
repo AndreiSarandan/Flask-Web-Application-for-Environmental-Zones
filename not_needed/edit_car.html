@@ -1,0 +1,325 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}
+<link rel="stylesheet" type="text/css" href="../static/car_info.css">
+
+<!-- Include the JavaScript file -->
+<script src="../static/index.js"></script>
+<script src="../static/script.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<h1 align="center">Edit car</h1>
+<form method="POST" action="/edit/{{car.id}}">
+    <!-- Brand Dropdown -->
+    <div>
+        <label for="brand">Brand: </label>
+        <select id="brand" name="brand">
+            <option value="Audi" {% if car.brand=="Audi" %}selected{% endif %}>Audi</option>
+            <option value="BMW" {% if car.brand=="BMW" %}selected{% endif %}>BMW</option>
+            <option value="Mercedes" {% if car.brand=="Mercedes" %}selected{% endif %}>Mercedes</option>
+        </select>
+    </div>
+
+    <!-- Model Textbox -->
+    <div>
+        <label for="model">Model:</label>
+        <input type="model" id="model" name="model" value="{{car.model}}">
+    </div>
+
+    <!-- Year Dropdown -->
+    <div>
+        <label for="year">Year:</label>
+        <select id="year" name="year">
+            <!-- Generate options dynamically with a loop -->
+            {% set current_year = 2025 %}
+            {% set start_year = 1886 %}
+            {% for year in range(current_year, start_year - 1, -1) %}
+            <option value="{{ year }}" {% if car.year==year %}selected{% endif %}>{{ year }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Fuel Type Dropdown -->
+    <div>
+        <label for="fuel_type">Fuel Type: </label>
+        <select id="fuel_type" name="fuel_type">
+            <option value="PETROL" {% if car.fuel_type=="PETROL" %}selected{% endif %}>Petrol</option>
+            <option value="DIESEL" {% if car.fuel_type=="DIESEL" %}selected{% endif %}>Diesel</option>
+            <option value="ELECTRIC" {% if car.fuel_type=="ELECTRIC" %}selected{% endif %}>Electric</option>
+            <option value="BIODIESEL" {% if car.fuel_type=="BIODIESEL" %}selected{% endif %}>Biodiesel</option>
+            <option value="BIOETHANOL_E85" {% if car.fuel_type=="BIOETHANOL_E85" %}selected{% endif %}>Bioethanol E85
+            </option>
+            <option value="HYDROGEN" {% if car.fuel_type=="HYDROGEN" %}selected{% endif %}>Hydrogen</option>
+            <option value="LPG" {% if car.fuel_type=="LPG" %}selected{% endif %}>LPG</option>
+            <option value="CNG" {% if car.fuel_type=="CNG" %}selected{% endif %}>CNG</option>
+        </select>
+    </div>
+
+
+    <!-- EURO STANDARD -->
+    <div>
+        <label for="euro_standard">EURO Standard: </label>
+        <select id="euro_standard" name="euro_standard">
+            <option value="Euro 0" {% if car.euro_standard=="Euro 0" %}selected{% endif %}>Euro 0</option>
+            <option value="Euro 1" {% if car.euro_standard=="Euro 1" %}selected{% endif %}>Euro 1</option>
+            <option value="Euro 2" {% if car.euro_standard=="Euro 2" %}selected{% endif %}>Euro 2</option>
+            <option value="Euro 3" {% if car.euro_standard=="Euro 3" %}selected{% endif %}>Euro 3</option>
+            <option value="Euro 4" {% if car.euro_standard=="Euro 4" %}selected{% endif %}>Euro 4</option>
+            <option value="Euro 5" {% if car.euro_standard=="Euro 5" %}selected{% endif %}>Euro 5</option>
+            <option value="Euro 6" {% if car.euro_standard=="Euro 6" %}selected{% endif %}>Euro 6</option>
+            <option value="Euro E" {% if car.euro_standard=="Euro E" %}selected{% endif %}>Zero emission</option>
+        </select>
+    </div>
+
+    <!-- REGISTRATION COUNTRY -->
+    <div>
+        <label for="registration_country">Registration country:</label>
+        <input type="registration_country" id="registration_country" name="registration_country"
+            value="{{car.registration_country}}">
+    </div>
+
+    <br />
+
+    <h2 align="center">Choose Badges:</h2>
+
+    <!-- Austrian Environment Badge Dropdown -->
+    <div>
+        <h3>Austrian Badges</h3>
+        <label for="austrian_badge">Austrian Environment Badge:</label>
+        <select id="austrian_badge" name="austrian_badge">
+            <option value="None" {% if car.austrian_badge=="None" %}selected{% endif %}>None</option>
+            <option value="Austrian Environment Badge Class 6" {% if
+                car.austrian_badge=="Austrian Environment Badge Class 6" %}selected{% endif %}>Class 6</option>
+            <option value="Austrian Environment Badge Class 5" {% if
+                car.austrian_badge=="Austrian Environment Badge Class 5" %}selected{% endif %}>Class 5</option>
+            <option value="Austrian Environment Badge Class 4" {% if
+                car.austrian_badge=="Austrian Environment Badge Class 4" %}selected{% endif %}>Class 4</option>
+            <option value="Austrian Environment Badge Class 3" {% if
+                car.austrian_badge=="Austrian Environment Badge Class 3" %}selected{% endif %}>Class 3</option>
+            <option value="Austrian Environment Badge Class 2" {% if
+                car.austrian_badge=="Austrian Environment Badge Class 2" %}selected{% endif %}>Class 2</option>
+            <option value="Austrian Environment Badge Class 1" {% if
+                car.austrian_badge=="Austrian Environment Badge Class 1" %}selected{% endif %}>Class 1</option>
+        </select>
+    </div>
+
+    <!-- Certificat qualite de l’air Badge Dropdown -->
+    <div>
+        <h3>French Badges</h3>
+        <label for="certificat_air_class">Certificat qualite de l’air Class:</label>
+        <select id="certificat_air_class" name="certificat_air_class">
+            <option value="None" {% if car.certificat_air_class=="None" %}selected{% endif %}>None</option>
+            <option value="Class 5" {% if car.certificat_air_class=="Class 5" %}selected{% endif %}>Class 5</option>
+            <option value="Class 4" {% if car.certificat_air_class=="Class 4" %}selected{% endif %}>Class 4</option>
+            <option value="Class 3" {% if car.certificat_air_class=="Class 3" %}selected{% endif %}>Class 3</option>
+            <option value="Class 2" {% if car.certificat_air_class=="Class 2" %}selected{% endif %}>Class 2</option>
+            <option value="Class 1" {% if car.certificat_air_class=="Class 1" %}selected{% endif %}>Class 1</option>
+            <option value="Class E" {% if car.certificat_air_class=="Class E" %}selected{% endif %}>Class E</option>
+        </select>
+    </div>
+
+    <!-- German Environment Badge Dropdown -->
+    <div>
+        <h3>German Badges</h3>
+        <label for="german_environment_class">German Environment Class:</label>
+        <select id="german_environment_class" name="german_environment_class">
+            <option value="None" {% if car.german_environment_class=="None" %}selected{% endif %}>None</option>
+            <option value="Green - Class 4" {% if car.german_environment_class=="Green - Class 4" %}selected{% endif %}>
+                Class 4</option>
+            <option value="Yellow - Class 3" {% if car.german_environment_class=="Yellow - Class 3" %}selected{% endif
+                %}>Class 3</option>
+            <option value="Red - Class 2" {% if car.german_environment_class=="Red - Class 2" %}selected{% endif %}>
+                Class 2</option>
+        </select>
+
+        <!-- E-badge Dropdown -->
+        <label for="e_badge">E-badge:</label>
+        <select id="e_badge" name="e_badge">
+            <option value="None" {% if car.e_badge=="None" %}selected{% endif %}>None</option>
+            <option value="e_badge" {% if car.e_badge=="e_badge" %}selected{% endif %}>E-badge</option>
+        </select>
+    </div>
+
+    <!-- Distintivo Ambiental Badge Dropdown -->
+    <div>
+        <h3>Spanish Badges</h3>
+        <label for="distintivo_ambiental_badge">Distintivo Ambiental Badge:</label>
+        <select id="distintivo_ambiental_badge" name="distintivo_ambiental_badge">
+            <option value="None" {% if car.distintivo_ambiental_badge=="None" %}selected{% endif %}>None</option>
+            <option value="class_ec0" {% if car.distintivo_ambiental_badge=="class_ec0" %}selected{% endif %}>Class EC0
+            </option>
+            <option value="class_c" {% if car.distintivo_ambiental_badge=="class_c" %}selected{% endif %}>Class C
+            </option>
+            <option value="class_b" {% if car.distintivo_ambiental_badge=="class_b" %}selected{% endif %}>Class B
+            </option>
+            <option value="class_0" {% if car.distintivo_ambiental_badge=="class_0" %}selected{% endif %}>Class 0
+            </option>
+        </select>
+    </div>
+
+    <!-- stick'air Badge Dropdown -->
+    <div>
+        <h3>Switzerland Badges</h3>
+
+        <label for="stick_air_badge">stick'air Badge:</label>
+        <select id="stick_air_badge" name="stick_air_badge">
+            <option value="None" {% if car.stick_air_badge=="None" %}selected{% endif %}>None</option>
+            <option value="class_e" {% if car.stick_air_badge=="class_e" %}selected{% endif %}>Class E</option>
+            <option value="class_5" {% if car.stick_air_badge=="class_5" %}selected{% endif %}>Class 5</option>
+            <option value="class_4" {% if car.stick_air_badge=="class_4" %}selected{% endif %}>Class 4</option>
+            <option value="class_3" {% if car.stick_air_badge=="class_3" %}selected{% endif %}>Class 3</option>
+            <option value="class_2" {% if car.stick_air_badge=="class_2" %}selected{% endif %}>Class 2</option>
+            <option value="class_1" {% if car.stick_air_badge=="class_1" %}selected{% endif %}>Class 1</option>
+        </select>
+    </div>
+
+    <!-- Registrations Multi-Select Menu -->
+    <div class="multi-select-menu">
+        <h3>Registrations</h3>
+        <label for="registrations">Digital Registrations:</label>
+        <div class="menu-container">
+            <div class="selected-options" onclick="toggleMenu('registrationOptions')">
+                <span>Select registrations</span>
+                <span class="arrow">&#9660;</span>
+            </div>
+            <div class="options" id="registrationOptions">
+                <div>
+                    <input type="checkbox" id="antwerp_ghent" name="registrations" value="Antwerp/Ghent" {%
+                        if 'Antwerp/Ghent' in car.registrations %} checked {% endif %}> Antwerp/Ghent
+                </div>
+                <div>
+                    <input type="checkbox" id="brussels" name="registrations" value="Brussels" {% if 'Brussels' in
+                        car.registrations %} checked {% endif %}> Brussels
+                </div>
+                <div>
+                    <input type="checkbox" id="prague" name="registrations" value="Prague" {% if 'Prague' in
+                        car.registrations %} checked {% endif %}> Prague
+                </div>
+                <div>
+                    <input type="checkbox" id="denmark" name="registrations" value="Denmark" {% if 'Denmark' in
+                        car.registrations %} checked {% endif %}> Denmark
+                </div>
+                <div>
+                    <input type="checkbox" id="budapest" name="registrations" value="Budapest" {% if 'Budapest' in
+                        car.registrations %} checked {% endif %}> Budapest
+                </div>
+                <div>
+                    <input type="checkbox" id="rotterdam_maasvlakte" name="registrations" value="Rotterdam Maasvlakte"
+                        {% if 'Rotterdam Maasvlakte' in car.registrations %} checked {% endif %}> Rotterdam Maasvlakte
+                </div>
+                <div>
+                    <input type="checkbox" id="spain" name="registrations" value="Spain" {% if 'Spain' in
+                        car.registrations %} checked {% endif %}> Spain
+                </div>
+                <div>
+                    <input type="checkbox" id="bath" name="registrations" value="Bath" {% if 'Bath' in car.registrations
+                        %} checked {% endif %}> Bath
+                </div>
+                <div>
+                    <input type="checkbox" id="braford" name="registrations" value="Braford" {% if 'Braford' in
+                        car.registrations %} checked {% endif %}> Braford
+                </div>
+                <div>
+                    <input type="checkbox" id="birmingham" name="registrations" value="Birmingham" {% if 'Birmingham' in
+                        car.registrations %} checked {% endif %}> Birmingham
+                </div>
+                <div>
+                    <input type="checkbox" id="bristol" name="registrations" value="Bristol" {% if 'Bristol' in
+                        car.registrations %} checked {% endif %}> Bristol
+                </div>
+                <div>
+                    <input type="checkbox" id="london" name="registrations" value="London" {% if 'London' in
+                        car.registrations %} checked {% endif %}> London
+                </div>
+                <div>
+                    <input type="checkbox" id="portsmouth" name="registrations" value="Portsmouth" {% if 'Portsmouth' in
+                        car.registrations %} checked {% endif %}> Portsmouth
+                </div>
+                <div>
+                    <input type="checkbox" id="sheffield" name="registrations" value="Sheffield" {% if 'Sheffield' in
+                        car.registrations %} checked {% endif %}> Sheffield
+                </div>
+                <div>
+                    <input type="checkbox" id="tyneside_newcastle_gateshead" name="registrations"
+                        value="Tyneside - New castle and Gateshead" {% if 'Tyneside - New castle and Gateshead' in
+                        car.registrations %} checked {% endif %}> Tyneside - New castle and Gateshead
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Other form elements ... -->
+
+    <br />
+
+
+
+    <div align="center">
+        <button type="submit" class="btn btn-primary">Add Car</button>
+    </div>
+</form>
+
+<!-- <script>
+    // Declare a variable to store the car ID
+    let currentCarId;
+
+    // Function to handle editing a car
+    function editCar(carId) {
+        // Store the current car ID
+        currentCarId = carId;
+        window.location.href = `/edit-car/${carId}`;
+    }
+    function populateEditCarForm(carId) {
+        fetch(`/get-car/${carId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch car details');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Populate the form fields with data
+                document.getElementById('brand').value = data.brand;
+                document.getElementById('model').value = data.model;
+                // Populate other fields as needed
+            })
+            .catch(error => {
+                console.error('Error fetching car details:', error);
+            });
+    }
+
+
+    // Call populateEditCarForm function when the page loads
+    document.addEventListener('DOMContentLoaded', function () {
+        // Extract car ID from the URL (assuming it's passed as a query parameter)
+        const urlParams = new URLSearchParams(window.location.search);
+        const carId = urlParams.get('id');
+        // Populate form with car details
+        populateEditCarForm(carId);
+    });
+
+    // Event listener for form submission
+    document.getElementById('edit-car-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        // Extract form data and submit to the server for update
+        const formData = new FormData(this);
+        // Use the stored car ID
+        fetch(`/update-car/${currentCarId}`, {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Car updated successfully, redirect to another page or show a success message
+                } else {
+                    throw new Error('Failed to update car');
+                }
+            })
+            .catch(error => console.error('Error updating car:', error));
+    });
+</script> -->
+
+
+
+{% endblock %}

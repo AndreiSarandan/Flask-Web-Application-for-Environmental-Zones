@@ -1,0 +1,65 @@
+/* .notification {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.notification {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    z-index: 1000;
+} */
+/* 
+.notification.success {
+    border: 2px solid green;
+}
+
+.notification.error {
+    border: 2px solid red;
+
+}
+
+.notification-container {
+    position: absolute;
+    top: 100px;
+    margin: 20px;
+    Change position to relative
+    Add margin-top to create space below the form
+    max-width: 20vw;
+    z-index: 999;
+}
+
+
+.notification {
+    border-radius: 10px;
+    border: 2px solid rgb(255, 255, 255, 0.7);
+    font-size: 1.25em;
+    font-family: 'Nanum Gothic';
+    background-color: rgb(255, 255, 255, 0.5);
+    color: black;
+    margin: 5vw;
+    padding: 5px;
+
+
+} */
+
+/* .close-button {
+    background-color: transparent;
+    border: none;
+    color: #888;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.close-button:hover {
+    color: #333;
+} */

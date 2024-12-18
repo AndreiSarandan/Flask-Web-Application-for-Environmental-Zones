@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        crossorigin="anonymous" />
+    <!-- <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script> -->
+
+    <link rel="stylesheet" href="../static/form.css">
+    <link rel="stylesheet" href="../static/navbar.css">
+    <link rel="stylesheet" href="../static/base.css">
+    <link rel="stylesheet" href="../static/listaa2.css">
+    <link rel="stylesheet" href="../static/collapsible.css">
+
+
+    <title>{% block title %}Home{% endblock %}</title>
+</head>
+
+<body>
+    <nav id="navbar">
+        <ul class="navbar-items">
+
+
+            <!-- 
+            <li class="dropdown">
+                <a class="hideOnMobile" href="#" id="navbarDropdown" role="button" data-hover="dropdown"
+                    aria-haspopup="true" aria-expanded="false"><img style="width: 1.9vw; margin-top: 0.9vh;"
+                        alt="Drop"></i></a>
+                <div class="dropdown-menu-custom" aria-labelledby="navbarDropdown">
+                    {%for country in countries_with_lez%}
+                    <a class="dropdown-item" href="{{ url_for('views.country_info', country=country.lower()) }}">{{
+                        country }}</a>
+                    {% endfor %}
+
+                </div>
+            </li> -->
+
+            <!-- meniu stanga -->
+            <li class="navbar-li">
+                <div class="menu-button-container" onclick="toggleDropdown()">
+                    <div class="bar1"></div>
+                    <div class="bar2"></div>
+                    <div class="bar3"></div>
+                </div>
+
+
+                <div id="description-dropdown" class="dropdown-content" style="z-index: 100;">
+                    <div class="list-container2" style="position: relative; z-index: 100;">
+                        <header role="banner2" style="position: relative; z-index: 100;">
+                            <nav class="nav2" role="navigation2" style="position: relative; z-index: 100;">
+                                <ul class="nav__list2" style="position: relative; z-index: 100;">
+                                    {% for country in countries_with_lez %}
+                                    <li style="position: relative; z-index: 100;">
+                                        <input id="group-{{ loop.index }}2" type="checkbox" hidden />
+                                        <label class="no-margin-label" for="group-{{ loop.index }}2"><span
+                                                class="fa fa-angle-right2"></span><a
+                                                href="{{ url_for('views.country_info', country=country) }}">{{
+                                                country }}</a></label>
+                                        <!-- <ul class="sub-group-list2" style="position: relative; z-index: 100;">
+                                            {% for city in cities_by_country[country] %}
+                                            <li><a class="exclude" href="#">{{ city }}</a></li>
+                                            {% endfor %}
+                                        </ul> -->
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </nav>
+                        </header>
+                    </div>
+                </div>
+
+            </li>
+            <!-- --- -->
+
+            <li class="navbar-li"><a class="goToHome" href="/">Home</a></li>
+            {% if user.is_authenticated %}
+
+
+            <!-- <li class="navbar-li"><a class="hideOnMobile" href="/info">INFO</a></li> -->
+            <li class="navbar-li"><a class="hideOnMobile" href="/eligibility-check">Eligibility Check</a></li>
+            <li class="navbar-li"><a class="hideOnMobile" href="/maps">Route planner</a></li>
+            <!-- <li class="navbar-li"><a class="hideOnMobile" href="/pollution">Pollution map</a></li> -->
+            {%if user.is_admin%}
+            <li class="navbar-li"><a class="hideOnMobile" href="/admin_dashboard">ADMIN</a></li>
+            {%endif%}
+            <li class="dropdown navbar-li">
+                <a class="hideOnMobile" href="#" id="navbarDropdown" role="button" data-hover="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <img style="height: 30px; width: 30px;" src="../static/general/icons8-male-user-96.png"
+                        alt=" User Icon">
+                </a>
+                <div class="dropdown-menu-custom" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/my-profile">My Profile</a>
+                    <a class="dropdown-item" href="/new-car">Add a new car</a>
+                    <a class="dropdown-item" href="/logout">Logout</a>
+                </div>
+            </li>
+            <li class="menu-button navbar-li" onclick="showSidebar()"><a href="#"><svg
+                        xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960" width="26">
+                        <path d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z" />
+                    </svg></a></li>
+            {% else %}
+            <!-- <li class="navbar-li"><a class="hideOnMobile" id="INFO" href="/info">INFO</a></li> -->
+            <li class="navbar-li"><a class="hideOnMobile" id="login" href="/login">Login</a></li>
+            <li class="navbar-li"><a class="hideOnMobile" id="signUp" href="/sign-up">Sign Up</a></li>
+            <li class="menu-button navbar-li" onclick="showSidebar()"><a href="#"><svg
+                        xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 96 960 960" width="26">
+                        <path d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z" />
+                    </svg></a></li>
+            {% endif %}
+        </ul>
+
+    </nav>
+
+
+    <!-- <br><br> -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    {% if category =='Error' %}
+    <div class="alert alert-danger alter-dismissable fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% else %}
+    <div class="alert alert-success alter-dismissable fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endif %} {% endfor %} {% endif %} {% endwith %}
+
+    {% block content %} {% endblock %}
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    {% block javascript %}
+    <script type="text/javascript">
+        function deleteNote(noteId) {
+            fetch("/delete-note", {
+                method: "POST",
+                body: JSON.stringify({ noteId: noteId }),
+            }).then((_res) => {
+                window.location.href = "/";
+            });
+        }
+    </script>
+
+    <script>
+        function showSidebar() {
+            const sidebar = document.querySelector('.sidebar')
+            sidebar.style.display = 'flex'
+        }
+        function hideSidebar() {
+            const sidebar = document.querySelector('.sidebar')
+            sidebar.style.display = 'none'
+        }
+
+        // JavaScript to toggle dropdown visibility
+        function toggleDropdown() {
+            var dropdown = document.getElementById("description-dropdown");
+            dropdown.classList.toggle("show");
+        }
+
+
+
+        // JavaScript to hide dropdown when clicking outside of it
+        window.onclick = function (event) {
+            var dropdown = document.getElementById("description-dropdown");
+            var menuButtonContainer = document.querySelector('.menu-button-container');
+
+            // Check if the clicked element is not part of the dropdown or its children
+            if (!dropdown.contains(event.target) && !menuButtonContainer.contains(event.target)) {
+                if (dropdown.classList.contains('show')) {
+                    dropdown.classList.remove('show');
+                }
+            }
+        }
+    </script>
+
+    <script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+            // Check initial display state and set "active" class accordingly
+            if (coll[i].nextElementSibling.style.display === "block") {
+                coll[i].classList.add("active");
+            }
+
+            coll[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                    if (content.classList.contains("active"))
+                        content.classList.remove("active");
+
+                }
+
+                else {
+                    content.style.display = "block";
+                }
+            });
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('input').forEach(input => {
+                input.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                    }
+                });
+            });
+        });
+    </script>
+    <div class="page-content">
+
+    </div>
+    {% endblock %}
+
+
+</body>
+
+</html>

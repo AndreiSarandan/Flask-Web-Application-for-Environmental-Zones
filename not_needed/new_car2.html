@@ -1,0 +1,281 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}
+<link rel="stylesheet" type="text/css" href="../static/car_info.css">
+
+<!-- Include the JavaScript file -->
+<script src="../static/index.js"></script>
+
+<h1 id="h1-new-vehicle" align="center">ADD NEW VEHICLE</h1>
+<form method="POST">
+
+    <h2 align="center">Car Details:</h2>
+
+    <!-- Brand Dropdown -->
+    <div class="elem-group">
+        <label for="brand">Brand: </label>
+        <select id="brand" name="brand">
+            <option value="Audi">Audi</option>
+            <option value="BMW">BMW</option>
+            <option value="Mercedes">Mercedes</option>
+        </select>
+    </div>
+
+    <!-- Model Textbox -->
+    <div class="elem-group">
+        <label for="model">Model:</label>
+        <input type="model" id="model" name="model">
+    </div>
+
+    <!-- Year Dropdown -->
+    <div class="elem-group">
+        <label for="year">Year:</label>
+        <select id="year" name="year">
+            <!-- Generate options dynamically with a loop -->
+            {% set current_year = 2025 %}
+            {% set start_year = 1886 %}
+            {% for year in range(current_year, start_year - 1, -1) %}
+            <option value="{{ year }}">{{ year }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Fuel Type Dropdown -->
+    <div class="elem-group inlined">
+        <label for="fuel_type">Fuel Type: </label>
+        <select id="fuel_type" name="fuel_type">
+            <option value="PETROL">Petrol</option>
+            <option value="DIESEL">Diesel</option>
+            <option value="ELECTRIC">Electric</option>
+            <option value="PHEV">PHEV</option>
+            <option value="BIODIESEL">Biodiesel</option>
+            <option value="BIOETHANOL_E85">Bioethanol E85</option>
+            <option value="HYDROGEN">Hydrogen</option>
+            <option value="LPG">LPG</option>
+            <option value="CNG">CNG</option>
+        </select>
+    </div>
+
+
+    <!-- EURO STANDARD -->
+    <div class="elem-group inlined">
+        <label for="euro_standard">EURO Standard: </label>
+        <select id="euro_standard" name="euro_standard">
+            <option value="Euro 0">Euro 0</option>
+            <option value="Euro 1">Euro 1</option>
+            <option value="Euro 2">Euro 2</option>
+            <option value="Euro 3">Euro 3</option>
+            <option value="Euro 4">Euro 4</option>
+            <option value="Euro 5">Euro 5</option>
+            <option value="Euro 6">Euro 6</option>
+            <option value="Euro E">Zero emission</option>
+        </select>
+    </div>
+
+    <!-- REGISTRATION COUNTRY -->
+    <div class="elem-group">
+        <label for="registration_country">Registration country:</label>
+        <input type="registration_country" id="registration_country" name="registration_country">
+    </div>
+
+    <br />
+
+    <h2 align="center">Choose Badges:</h2>
+
+    <!-- Austrian Environment Badge Dropdown -->
+    <div class="elem-group">
+        <h3>Austrian Badges</h3>
+        <label for="austrian_badge">Austrian Environment Badge:</label>
+        <select id="austrian_badge" name="austrian_badge">
+            <option value="None">None</option>
+            <option value="Austrian Environment Badge Class 6">Class 6</option>
+            <option value="Austrian Environment Badge Class 5">Class 5</option>
+            <option value="Austrian Environment Badge Class 4">Class 4</option>
+            <option value="Austrian Environment Badge Class 3">Class 3</option>
+            <option value="Austrian Environment Badge Class 2">Class 2</option>
+            <option value="Austrian Environment Badge Class 1">Class 1</option>
+        </select>
+    </div>
+
+    <!-- Certificat qualite de l’air Badge Dropdown -->
+    <div class="elem-group">
+        <h3>French Badges</h3>
+        <label for="certificat_air_class">Certificat qualite de l’air Class:</label>
+        <select id="certificat_air_class" name="certificat_air_class">
+            <option value="None">None</option>
+            <option value="Class 5">Class 5</option>
+            <option value="Class 4">Class 4</option>
+            <option value="Class 3">Class 3</option>
+            <option value="Class 2">Class 2</option>
+            <option value="Class 1">Class 1</option>
+            <option value="Class E">Class E</option>
+
+        </select>
+    </div>
+
+    <!-- German Environment Badge Dropdown -->
+    <div class="elem-group">
+        <h3>German Badges</h3>
+        <label for="german_environment_class">German Environment Class:</label>
+        <select id="german_environment_class" name="german_environment_class">
+            <option value="None">None</option>
+            <option value="Green - Class 4">Class 4</option>
+            <option value="Yellow - Class 3">Class 3</option>
+            <option value="Red - Class 2">Class 2</option>
+        </select>
+
+        <!-- E-badge Dropdown -->
+        <label for="e_badge">E-badge:</label>
+        <select id="e_badge" name="e_badge">
+            <option value="None">None</option>
+            <option value="e_badge">E-badge</option>
+        </select>
+    </div>
+
+    <!-- Distintivo Ambiental Badge Dropdown -->
+    <div class="elem-group">
+        <h3>Spanish Badges</h3>
+        <label for="distintivo_ambiental_badge">Distintivo Ambiental Badge:</label>
+        <select id="distintivo_ambiental_badge" name="distintivo_ambiental_badge">
+            <option value="None">None</option>
+            <option value="class_ec0">Class EC0</option>
+            <option value="class_c">Class C</option>
+            <option value="class_b">Class B</option>
+            <option value="class_0">Class 0</option>
+        </select>
+    </div>
+
+    <!-- stick'air Badge Dropdown -->
+    <div class="elem-group">
+        <h3>Switzerland Badges</h3>
+
+        <label for="stick_air_badge">stick'air Badge:</label>
+        <select id="stick_air_badge" name="stick_air_badge">
+            <option value="None">None</option>
+            <option value="class_e">Class E</option>
+            <option value="class_5">Class 5</option>
+            <option value="class_4">Class 4</option>
+            <option value="class_3">Class 3</option>
+            <option value="class_2">Class 2</option>
+            <option value="class_1">Class 1</option>
+        </select>
+    </div>
+
+    <!-- Registrations Multi-Select Menu -->
+    <div class="multi-select-menu">
+        <h3>Other Registrations</h3>
+        <label for="registrations">Digital Registrations:</label>
+        <div class="menu-container">
+            <div class="selected-options" onclick="toggleMenu('registrationOptions')">
+                <span>Select registrations</span>
+                <span class="arrow">&#9660;</span>
+            </div>
+            <div class="options" id="registrationOptions">
+                <div onclick="toggleCheckbox('antwerp_ghent')">Antwerp/Ghent</div>
+                <input type="checkbox" id="antwerp_ghent" name="registrations" value="Antwerp/Ghent"
+                    style="display: none;">
+                <div onclick="toggleCheckbox('brussels')">Brussels</div>
+                <input type="checkbox" class="checkbox" id="brussels" name="registrations" value="Brussels"
+                    style="display: none;">
+                <div onclick="toggleCheckbox('prague')">Prague</div>
+                <input type="checkbox" id="prague" name="registrations" value="Prague" style="display: none;">
+                <div onclick="toggleCheckbox('denmark')">Denmark</div>
+                <input type="checkbox" id="denmark" name="registrations" value="Denmark" style="display: none;">
+                <div onclick="toggleCheckbox('budapest')">Budapest</div>
+                <input type="checkbox" id="budapest" name="registrations" value="Budapest" style="display: none;">
+                <div onclick="toggleCheckbox('spain')">Spain</div>
+                <input type="checkbox" id="spain" name="registrations" value="Spain" style="display: none;">
+                <div onclick="toggleCheckbox('amsterdam')">Amsterdam</div>
+                <input type="checkbox" id="amsterdam" name="registrations" value="Amsterdam" style="display: none;">
+                <div onclick="toggleCheckbox('arnhem')">Arnhem</div>
+                <input type="checkbox" id="arnhem" name="registrations" value="Arnhem" style="display: none;">
+                <div onclick="toggleCheckbox('thehague')">The Hague</div>
+                <input type="checkbox" id="thehague" name="registrations" value="The Hague" style="display: none;">
+                <div onclick="toggleCheckbox('utrecht')">Utrecht</div>
+                <input type="checkbox" id="utrecht" name="registrations" value="Utrecht" style="display: none;">
+                <div onclick="toggleCheckbox('aberdeen')">Aberdeen</div>
+                <input type="checkbox" id="aberdeen" name="registrations" value="Aberdeen" style="display: none;">
+                <div onclick="toggleCheckbox('birmingham')">Birmingham</div>
+                <input type="checkbox" id="birmingham" name="registrations" value="Birmingham" style="display: none;">
+                <div onclick="toggleCheckbox('bristol')">Bristol</div>
+                <input type="checkbox" id="bristol" name="registrations" value="Bristol" style="display: none;">
+                <div onclick="toggleCheckbox('dundee')">Dundee</div>
+                <input type="checkbox" id="dundee" name="registrations" value="Dundee" style="display: none;">
+                <div onclick="toggleCheckbox('edinburgh')">Edinburgh</div>
+                <input type="checkbox" id="edinburgh" name="registrations" value="Edinburgh" style="display: none;">
+                <div onclick="toggleCheckbox('glasgow')">Glasgow</div>
+                <input type="checkbox" id="glasgow" name="registrations" value="Glasgow" style="display: none;">
+                <div onclick="toggleCheckbox('london')">London</div>
+                <input type="checkbox" id="london" name="registrations" value="London" style="display: none;">
+                <div onclick="toggleCheckbox('portsmouth')">Portsmouth</div>
+                <input type="checkbox" id="portsmouth" name="registrations" value="Portsmouth" style="display: none;">
+                <div onclick="toggleCheckbox('sheffield')">Sheffield</div>
+                <input type="checkbox" id="sheffield" name="registrations" value="Sheffield" style="display: none;">
+                <div onclick="toggleCheckbox('newcastle')">Newcastle</div>
+                <input type="checkbox" id="newcastle" name="registrations" value="Newcastle" style="display: none;">
+                <div onclick="toggleCheckbox('manchester')">Manchester</div>
+                <input type="checkbox" id="manchester" name="registrations" value="Manchester" style="display: none;">
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Other form elements ... -->
+
+    <br />
+
+
+
+    <div align="center">
+        <button type="submit" class="btn btn-primary" id="add-car-button"> + </button>
+    </div>
+</form>
+
+<script>
+    function toggleMenu(menuId) {
+        var menu = document.getElementById(menuId);
+        if (menu.style.display === "none" || menu.style.display === "") {
+            menu.style.display = "block";
+        } else {
+            menu.style.display = "none";
+        }
+    }
+
+    // Update the toggleCheckbox function
+    function toggleCheckbox(optionId) {
+        var checkbox = document.getElementById(optionId);
+        checkbox.checked = !checkbox.checked;
+
+        var option = checkbox.previousElementSibling; // Get the div element before the checkbox
+        if (checkbox.checked) {
+            option.classList.add('selected'); // Add the 'selected' class if checkbox is checked
+        } else {
+            option.classList.remove('selected'); // Remove the 'selected' class if checkbox is unchecked
+        }
+
+        // Update the text based on selected options
+        updateSelectedText();
+    }
+
+    // Add a function to update the selected text
+    function updateSelectedText() {
+        var selectedOptions = document.querySelectorAll('.options div.selected');
+        var selectedText = document.querySelector('.selected-options span:first-child');
+        if (selectedOptions.length > 0) {
+            selectedText.textContent = selectedOptions.length + ' selected';
+        } else {
+            selectedText.textContent = 'Select registrations';
+        }
+    }
+
+    // Add an event listener to close the dropdown menu when clicking outside of it
+    document.addEventListener('click', function (event) {
+        var menu = document.getElementById('registrationOptions');
+        var target = event.target;
+        if (!menu.contains(target) && target !== menu && target !== document.querySelector('.selected-options')) {
+            menu.style.display = 'none';
+        }
+    });
+
+</script>
+
+{% endblock %}

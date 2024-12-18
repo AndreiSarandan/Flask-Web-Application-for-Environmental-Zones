@@ -1,0 +1,700 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}
+<link rel="stylesheet" type="text/css" href="../static/car_info.css">
+<link rel="stylesheet" href="../static/jquery-msgpopup.css" />
+
+<!-- Include the JavaScript file -->
+<script src="../static/index.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="../static/jquery-msgpopup.js"></script>
+
+<body class="new-car">
+
+
+    <!-- <h1 id="h1-new-vehicle" align="center">ADD NEW VEHICLE</h1> -->
+    <form id='new-car-form' method="POST">
+
+        <h3 class="h3title" align="center">CAR DETAILS</h3>
+
+        <!-- Brand Dropdown -->
+        <div class="elem-group">
+            <label for="brand">Brand: </label>
+            <select id="brand" name="brand">
+                <option value="">Select Brand</option>
+                <option value="Alfa Romeo">Alfa Romeo</option>
+                <option value="Aston Martin">Aston Martin</option>
+                <option value="Audi">Audi</option>
+                <option value="Bentley">Bentley</option>
+                <option value="BMW">BMW</option>
+                <option value="Bugatti">Bugatti</option>
+                <option value="Buick">Buick</option>
+                <option value="Cadillac">Cadillac</option>
+                <option value="Chevrolet">Chevrolet</option>
+                <option value="Chrysler">Chrysler</option>
+                <option value="Dacia">Dacia</option>
+                <option value="Dodge">Dodge</option>
+                <option value="Ferrari">Ferrari</option>
+                <option value="Fiat">Fiat</option>
+                <option value="Ford">Ford</option>
+                <option value="Genesis">Genesis</option>
+                <option value="GMC">GMC</option>
+                <option value="Honda">Honda</option>
+                <option value="Hummer">Hummer</option>
+                <option value="Hyundai">Hyundai</option>
+                <option value="Infiniti">Infiniti</option>
+                <option value="Isuzu">Isuzu</option>
+                <option value="Jaguar">Jaguar</option>
+                <option value="Jeep">Jeep</option>
+                <option value="Kia">Kia</option>
+                <option value="Lamborghini">Lamborghini</option>
+                <option value="LandRover">Land Rover</option>
+                <option value="Lexus">Lexus</option>
+                <option value="Lincoln">Lincoln</option>
+                <option value="Lotus">Lotus</option>
+                <option value="Maserati">Maserati</option>
+                <option value="Mazda">Mazda</option>
+                <option value="McLaren">McLaren</option>
+                <option value="Mercedes">Mercedes</option>
+                <option value="Mercury">Mercury</option>
+                <option value="Mini">Mini</option>
+                <option value="Mitsubishi">Mitsubishi</option>
+                <option value="Nissan">Nissan</option>
+                <option value="Oldsmobile">Oldsmobile</option>
+                <option value="Pontiac">Pontiac</option>
+                <option value="Porsche">Porsche</option>
+                <option value="Ram">Ram</option>
+                <option value="Rolls-Royce">Rolls-Royce</option>
+                <option value="Saab">Saab</option>
+                <option value="Saturn">Saturn</option>
+                <option value="Scion">Scion</option>
+                <option value="Smart">Smart</option>
+                <option value="Subaru">Subaru</option>
+                <option value="Suzuki">Suzuki</option>
+                <option value="Tesla">Tesla</option>
+                <option value="Toyota">Toyota</option>
+                <option value="Volkswagen">Volkswagen</option>
+                <option value="Volvo">Volvo</option>
+            </select>
+        </div>
+
+        <!-- Model Textbox -->
+        <div class="elem-group">
+            <label for="model">Model:</label>
+            <select id="model" name="model">
+                <option value="">Select Model</option>
+
+            </select>
+        </div>
+
+        <!-- Year Dropdown -->
+        <div class="elem-group">
+            <label for="year">Year:</label>
+            <select id="year" name="year">
+                <option value="">Select Year</option>
+                <!-- Generate options dynamically with a loop -->
+                {% set current_year = 2025 %}
+                {% set start_year = 1886 %}
+                {% for year in range(current_year, start_year - 1, -1) %}
+                <option value="{{ year }}">{{ year }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Fuel Type Dropdown -->
+        <div class="elem-group inlined">
+            <label for="fuel_type">Fuel Type: </label>
+            <select id="fuel_type" name="fuel_type">
+                <option value="">Select Fuel</option>
+                <option value="PETROL">Petrol</option>
+                <option value="DIESEL">Diesel</option>
+                <option value="ELECTRIC">Electric</option>
+                <option value="HYBRID">Hybrid</option>
+                <option value="PHEV">PHEV</option>
+                <option value="HYDROGEN">Hydrogen</option>
+                <option value="LPG">LPG</option>
+                <option value="CNG">CNG</option>
+            </select>
+        </div>
+
+
+        <!-- EURO STANDARD -->
+        <div class="elem-group inlined">
+            <label for="euro_standard">EURO Standard: </label>
+            <select id="euro_standard" name="euro_standard">
+            </select>
+        </div>
+
+
+
+
+        <!-- REGISTRATION COUNTRY -->
+        <div class="elem-group">
+            <label for="registration_country">Registration Country:</label>
+            <select id="registration_country" name="registration_country">
+                <option value="">Select Country</option>
+                <option value="Albania">Albania</option>
+                <option value="Andorra">Andorra</option>
+                <option value="Austria">Austria</option>
+                <option value="Belarus">Belarus</option>
+                <option value="Belgium">Belgium</option>
+                <option value="Bulgaria">Bulgaria</option>
+                <option value="Croatia">Croatia</option>
+                <option value="Cyprus">Cyprus</option>
+                <option value="Czech Republic">Czech Republic</option>
+                <option value="Denmark">Denmark</option>
+                <option value="Estonia">Estonia</option>
+                <option value="Finland">Finland</option>
+                <option value="France">France</option>
+                <option value="Germany">Germany</option>
+                <option value="Greece">Greece</option>
+                <option value="Hungary">Hungary</option>
+                <option value="Iceland">Iceland</option>
+                <option value="Ireland">Ireland</option>
+                <option value="Italy">Italy</option>
+                <option value="Lithuania">Lithuania</option>
+                <option value="Luxembourg">Luxembourg</option>
+                <option value="Malta">Malta</option>
+                <option value="Moldova">Moldova</option>
+                <option value="Monaco">Monaco</option>
+                <option value="Montenegro">Montenegro</option>
+                <option value="Netherlands">Netherlands</option>
+                <option value="Norway">Norway</option>
+                <option value="Poland">Poland</option>
+                <option value="Portugal">Portugal</option>
+                <option value="Romania">Romania</option>
+                <option value="Russia">Russia</option>
+                <option value="Serbia">Serbia</option>
+                <option value="Slovakia">Slovakia</option>
+                <option value="Slovenia">Slovenia</option>
+                <option value="Spain">Spain</option>
+                <option value="Sweden">Sweden</option>
+                <option value="Switzerland">Switzerland</option>
+                <option value="Turkey">Turkey</option>
+                <option value="Ukraine">Ukraine</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="Vatican City">Vatican City</option>
+            </select>
+        </div>
+
+
+        <!-- Has DPF Checkbox -->
+        <div class="elem-group inlined custom-checkbox">
+            <input type="checkbox" id="has_dpf" name="has_dpf">
+        </div>
+        <div class="elem-group inlined"> <label for="has_dpf">DPF/Catalytic converter </label></div>
+
+
+
+        <br />
+
+        <h4 class="h4title" align="center">SELECT REGISTRATIONS</h4>
+
+        <!-- Add a span to display the selected registration -->
+        <div id="selected-registrations"></div>
+
+
+        <div class="text-center mt-3">
+            <button type="button" class="text-center mt-3 add-button" onclick="showView1()">
+                <img class src="../static/general/icons8-plus-math-24.png" alt="">
+            </button>
+        </div>
+
+
+
+        <div class="elem-group">
+
+            <!-- View 1 -->
+            <div class="tab options" id="view1">
+                <!-- <h2 class="h3title">Country: </h2> -->
+
+                <input class="select1" type="radio" name="reg-country" value="belgium" id="belgium-radio"
+                    onclick="showOptionsPanel('belgium')">
+                <label class="clickable-label" for="belgium-radio">Belgium</label>
+
+                <input class="select1" type="radio" name="reg-country" value="bulgaria" id="bulgaria-radio"
+                    onclick="showOptionsPanel('bulgaria')">
+                <label class="clickable-label" for="bulgaria-radio">Bulgaria</label>
+
+                <input class="select1" type="radio" name="reg-country" value="denmark" id="denmark-radio"
+                    onclick="showOptionsPanel('denmark')">
+                <label class="clickable-label" for="denmark-radio">Denmark</label>
+
+                <input class="select1" type="radio" name="reg-country" value="france" id="france-radio"
+                    onclick="showOptionsPanel('france')">
+                <label class="clickable-label" for="france-radio">France</label>
+
+                <input class="select1" type="radio" name="reg-country" value="germany" id="germany-radio"
+                    onclick="showOptionsPanel('germany')">
+                <label class="clickable-label" for="germany-radio">Germany</label>
+
+                <!-- <input type="radio" name="reg-country" value="netherlands" id="netherlands-radio"
+                    onclick="showOptionsPanel('netherlands')">
+                <label class="clickable-label" for="netherlands-radio">Netherlands</label> -->
+
+                <!-- <input type="radio" name="reg-country" value="poland" id="poland-radio"
+                    onclick="showOptionsPanel('poland')">
+                <label class="clickable-label" for="poland-radio">Poland</label> -->
+
+                <input type="radio" name="reg-country" value="spain" id="spain-radio"
+                    onclick="showOptionsPanel('spain')">
+                <label class="clickable-label" for="spain-radio">Spain</label>
+
+                <input type="radio" name="reg-country" value="united-kingdom" id="united-kingdom-radio"
+                    onclick="showOptionsPanel('united-kingdom')">
+                <label class="clickable-label" for="united-kingdom-radio">United Kingdom</label>
+
+            </div>
+
+            <!-- View 2-->
+
+            <!-- Belgium -->
+            <div id="belgium-options" class="tab options" style="display: none;">
+                <label>Select Digital Registration:</label><br>
+                <input type="checkbox" id="Antwerp/Ghent" name="Antwerp/Ghent" value="Antwerp/Ghent">
+                <label class="clickable-label" for="Antwerp/Ghent">Antwerp/Ghent</label><br>
+
+                <input type="checkbox" id="Brussels" name="Brussels" value="Brussels">
+                <label class="clickable-label" for="Brussels">Brussels</label><br>
+
+                <div class="buttons-div">
+                    <!-- Back Button -->
+                    <button class="return-button" type="button" onclick="goBack()"><img
+                            src="../static/general/icons8-chevron-left-16.png" alt=""></button>
+                    <!-- Add Save button -->
+                    <button class="save-registration-button" type="button"
+                        onclick="saveRegistration('Belgium', getSelectedRegistration('belgium-options'))"><img
+                            src="../static/general/icons8-double-tick-24.png" alt=""></button>
+                </div>
+            </div>
+            <!-- Denmark -->
+            <div id="denmark-options" class="tab options" style="display: none;">
+                <label>Select Digital Registration:</label><br>
+                <input type="checkbox" id="Aalborg" name="Aalborg" value="Aalborg">
+                <label class="clickable-label" for="Aalborg">Aalborg</label><br>
+
+                <input type="checkbox" id="Aarhus" name="Aarhus" value="Aarhus">
+                <label class="clickable-label" for="Aarhus">Aarhus</label><br>
+
+                <input type="checkbox" id="Copenhagen" name="Copenhagen" value="Copenhagen">
+                <label class="clickable-label" for="Copenhagen">Copenhagen</label><br>
+
+                <input type="checkbox" id="Odense" name="Odense" value="Odense">
+                <label class="clickable-label" for="Odense">Odense</label><br>
+
+                <div class="buttons-div">
+                    <!-- Back Button -->
+                    <button class="return-button" type="button" onclick="goBack()"><img
+                            src="../static/general/icons8-chevron-left-16.png" alt=""></button>
+                    <!-- Add Save button -->
+                    <button class="save-registration-button" type="button"
+                        onclick="saveRegistration('Denmark', getSelectedRegistration('denmark-options'))"><img
+                            src="../static/general/icons8-double-tick-24.png" alt=""></button>
+                </div>
+            </div>
+
+            <!-- France -->
+            <div id="france-options" class="tab options" style="display: none;">
+                <!-- Add France-specific options here -->
+                <label>Select Crit'Air Sticker:</label><br>
+                <input type="radio" id="critair-1" name="critair" value="Crit Air 1">
+                <label class="clickable-label" for="critair-1">Crit'Air 1</label><br>
+                <input type="radio" id="critair-2" name="critair" value="Crit Air 2">
+                <label class="clickable-label" for="critair-2">Crit'Air 2</label><br>
+                <input type="radio" id="critair-3" name="critair" value="Crit Air 3">
+                <label class="clickable-label" for="critair-3">Crit'Air 3</label><br>
+                <input type="radio" id="critair-4" name="critair" value="Crit Air 4">
+                <label class="clickable-label" for="critair-4">Crit'Air 4</label><br>
+                <input type="radio" id="critair-5" name="critair" value="Crit Air 5">
+                <label class="clickable-label" for="critair-5">Crit'Air 5</label><br>
+                <input type="radio" id="critair-E" name="critair" value="Crit Air E">
+                <label class="clickable-label" for="critair-E">Crit'Air E</label><br>
+
+                <div class="buttons-div">
+                    <!-- Back Button -->
+                    <button class="return-button" type="button" onclick="goBack()"><img
+                            src="../static/general/icons8-chevron-left-16.png" alt=""></button>
+                    <!-- Add Save button -->
+                    <button class="save-registration-button" type="button"
+                        onclick="saveRegistration('France', getSelectedRegistration('france-options'))"><img
+                            src="../static/general/icons8-double-tick-24.png" alt=""></button>
+                </div>
+            </div>
+
+            <div id="germany-options" class="tab options" style="display: none;">
+                <!-- Add Germany-specific options here -->
+                <label>Select Umweltplakette:</label><br>
+                <input type="radio" id="green" name="german-sticker" value="Green Umweltplakette - 4">
+                <label class="clickable-label" for="green">Green Umweltplakette - 4</label><br>
+                <input type="radio" id="yellow" name="german-sticker" value="Yellow Umweltplakette - 3">
+                <label class="clickable-label" for="yellow">Yellow Umweltplakette - 3</label><br>
+                <input type="radio" id="red" name="german-sticker" value="Red Umweltplakette - 2">
+                <label class="clickable-label" for="red">Red Umweltplakette - 2</label><br>
+
+                <div class="buttons-div">
+                    <!-- Back Button -->
+                    <button class="return-button" type="button" onclick="goBack()"><img
+                            src="../static/general/icons8-chevron-left-16.png" alt=""></button>
+                    <!-- Add Save button -->
+                    <button class="save-registration-button" type="button"
+                        onclick="saveRegistration('Germany', getSelectedRegistration('germany-options'))"><img
+                            src="../static/general/icons8-double-tick-24.png" alt=""></button>
+                </div>
+            </div>
+
+
+            <!-- United Kingdom -->
+            <div id="united-kingdom-options" class="tab options" style="display: none;">
+                <label>Select Digital Registration:</label><br>
+                <input type="checkbox" id="Aberdeen" name="Aberdeen" value="Aberdeen">
+                <label class="clickable-label" for="Aberdeen">Aberdeen</label><br>
+
+                <input type="checkbox" id="Birmingham" name="Birmingham" value="Birmingham">
+                <label class="clickable-label" for="Birmingham">Birmingham</label><br>
+
+                <input type="checkbox" id="Bristol" name="Bristol" value="Bristol">
+                <label class="clickable-label" for="Bristol">Bristol</label><br>
+
+                <input type="checkbox" id="Dundee" name="Dundee" value="Dundee">
+                <label class="clickable-label" for="Dundee">Dundee</label><br>
+
+                <input type="checkbox" id="Edinburgh" name="Edinburgh" value="Edinburgh">
+                <label class="clickable-label" for="Edinburgh">Edinburgh</label><br>
+
+                <input type="checkbox" id="Glasgow" name="Glasgow" value="Glasgow">
+                <label class="clickable-label" for="Glasgow">Glasgow</label><br>
+
+                <input type="checkbox" id="London" name="London" value="London">
+                <label class="clickable-label" for="London">London</label><br>
+
+                <input type="checkbox" id="Portsmouth" name="Portsmouth" value="Portsmouth">
+                <label class="clickable-label" for="Portsmouth">Portsmouth</label><br>
+
+                <input type="checkbox" id="Sheffield" name="Sheffield" value="Sheffield">
+                <label class="clickable-label" for="Sheffield">Sheffield</label><br>
+
+                <input type="checkbox" id="New Castle" name="New Castle" value="New Castle">
+                <label class="clickable-label" for="New Castle">New Castle</label><br>
+
+                <input type="checkbox" id="Manchester" name="Manchester" value="Manchester">
+                <label class="clickable-label" for="Manchester">Manchester</label><br>
+
+                <div class="buttons-div">
+                    <!-- Back Button -->
+                    <button class="return-button" type="button" onclick="goBack()"><img
+                            src="../static/general/icons8-chevron-left-16.png" alt=""></button>
+                    <!-- Add Save button -->
+                    <button class="save-registration-button" type="button"
+                        onclick="saveRegistration('United Kingdom', getSelectedRegistration('united-kingdom-options'))"><img
+                            src="../static/general/icons8-double-tick-24.png" alt=""></button>
+                </div>
+            </div>
+
+            <!-- Netherlands -->
+            <div id="netherlands-options" class="tab options" style="display: none;">
+                <label>Select Digital Registration:</label><br>
+                <input type="checkbox" id="Amsterdam" name="Amsterdam" value="Amsterdam">
+                <label class="clickable-label" for="Amsterdam">Amsterdam</label><br>
+
+                <input type="checkbox" id="Arnhem" name="Arnhem" value="Arnhem">
+                <label class="clickable-label" for="Arnhem">Arnhem</label><br>
+
+                <input type="checkbox" id="The Hague" name="The Hague" value="The Hague">
+                <label class="clickable-label" for="The Hague">The Hague</label><br>
+
+                <input type="checkbox" id="Utrecht" name="Utrecht" value="Utrecht">
+                <label class="clickable-label" for="Utrecht">Utrecht</label><br>
+
+                <div class="buttons-div">
+                    <!-- Back Button -->
+                    <button class="return-button" type="button" onclick="goBack()"><img
+                            src="../static/general/icons8-chevron-left-16.png" alt=""></button>
+                    <!-- Add Save button -->
+                    <button class="save-registration-button" type="button"
+                        onclick="saveRegistration('Netherlands', getSelectedRegistration('netherlands-options'))"><img
+                            src="../static/general/icons8-double-tick-24.png" alt=""></button>
+                </div>
+            </div>
+
+            <!-- Poland -->
+            <div id="poland-options" class="tab options" style="display: none;">
+                <label>Select Sticker:</label><br>
+                <input type="checkbox" id="Krakow" name="Krakow" value="Krakow">
+                <label class="clickable-label" for="Krakow">Krakow</label><br>
+
+                <input type="checkbox" id="Warsaw" name="Warsaw" value="Warsaw">
+                <label class="clickable-label" for="Warsaw">Warsaw</label><br>
+
+                <div class="buttons-div">
+                    <!-- Back Button -->
+                    <button class="return-button" type="button" onclick="goBack()"><img
+                            src="../static/general/icons8-chevron-left-16.png" alt=""></button>
+                    <!-- Add Save button -->
+                    <button class="save-registration-button" type="button"
+                        onclick="saveRegistration('Poland', getSelectedRegistration('poland-options'))"><img
+                            src="../static/general/icons8-double-tick-24.png" alt=""></button>
+                </div>
+            </div>
+
+            <!-- Spain -->
+            <div id="spain-options" class="tab options" style="display: none;">
+                <label>Select Sticker:</label><br>
+                <input type="radio" id="B" name="distintivo_ambiental" value="Distintivo Ambiental B">
+                <label class="clickable-label" for="B">B</label><br>
+
+                <input type="radio" id="C" name="distintivo_ambiental" value="Distintivo Ambiental C">
+                <label class="clickable-label" for="C">C</label><br>
+
+                <input type="radio" id="ECO" name="distintivo_ambiental" value="Distintivo Ambiental ECO">
+                <label class="clickable-label" for="ECO">ECO</label><br>
+
+                <input type="radio" id="Zero" name="distintivo_ambiental" value="Distintivo Ambiental Zero">
+                <label class="clickable-label" for="Zero">Zero (Zero emission)</label><br>
+
+                <input type="radio" id="Barcelona" name="distintivo_ambiental" value="Barcelona">
+                <label class="clickable-label" for="Barcelona">Barcelona (Foreign vehicles only)</label><br>
+
+                <div class="buttons-div">
+                    <!-- Back Button -->
+                    <button class="return-button" type="button" onclick="goBack()"><img
+                            src="../static/general/icons8-chevron-left-16.png" alt=""></button>
+                    <!-- Add Save button -->
+                    <button class="save-registration-button" type="button"
+                        onclick="saveRegistration('Spain', getSelectedRegistration('spain-options'))"><img
+                            src="../static/general/icons8-double-tick-24.png" alt=""></button>
+                </div>
+            </div>
+
+            <!-- Bulgaria -->
+            <div id="bulgaria-options" class="tab options" style="display: none;">
+                <label>Select Sticker:</label><br>
+                <input type="checkbox" id="Sofia" name="Sofia" value="Eco-Stickers (I and II) - Sofia">
+                <label class="clickable-label" for="Sofia">Sofia</label><br>
+
+                <div class="buttons-div">
+                    <!-- Back Button -->
+                    <button class="return-button" type="button" onclick="goBack()"><img
+                            src="../static/general/icons8-chevron-left-16.png" alt=""></button>
+                    <!-- Add Save button -->
+                    <button class="save-registration-button" type="button"
+                        onclick="saveRegistration('Bulgaria', getSelectedRegistration('bulgaria-options'))"><img
+                            src="../static/general/icons8-double-tick-24.png" alt=""></button>
+                </div>
+            </div>
+
+
+
+        </div>
+        </div>
+
+        <br />
+
+
+        <div class="text-right mt-3">
+            <button class="save-car-button" type="submit"><span class="save-car-button-span">Car Saved </span>
+                SAVE
+            </button>
+        </div>
+    </form>
+
+
+    <script>
+
+
+
+
+        // Function to populate the model dropdown based on the selected brand
+        function populateModels() {
+            var brandSelect = document.getElementById("brand");
+            var modelSelect = document.getElementById("model");
+            var models = {
+                "Alfa Romeo": ["Giulia", "Stelvio"],
+                "Aston Martin": ["DB11", "DBS Superleggera", "DBX", "Vantage"],
+                Audi: ["A1", "A3", "A4", "A5", "A6", "A7", "A8", "Q2", "Q3", "Q5", "Q7", "Q8", "TT", "R8", "RS3", "RS4", "RS5", "RS6", "RS7", "RS Q3"],
+                Bentley: ["Bentayga", "Continental", "Flying Spur"],
+                BMW: ["1 Series", "2 Series", "3 Series", "4 Series", "5 Series", "6 Series", "7 Series", "8 Series", "M2", "M3", "M4", "M5", "M8", "X1", "X2", "X3", "X4", "X5", "X6", "X7", "X8", "Z4", "i3", "i4", "iX", "iX3", "iX4", "iX5", "iX6"],
+                Bugatti: ["Chiron", "Divo", "La Voiture Noire"],
+                Cadillac: ["CT4", "CT5", "CT6", "Escalade", "XT4", "XT5", "XT6"],
+                Chevrolet: ["Blazer", "Bolt EV", "Camaro", "Colorado", "Corvette", "Equinox", "Express", "Malibu", "Silverado", "Spark", "Suburban", "Tahoe", "Trailblazer", "Traverse", "Trax"],
+                Chrysler: ["300"],
+                Dacia: ["Duster", "Dokker", "Sandero", "Logan", "Lodgy", "Spring", "Jogger"],
+                Dodge: ["Challenger", "Charger", "Durango"],
+                Ferrari: ["488", "812 Superfast", "GTC4Lusso", "Portofino", "Roma", "SF90 Stradale"],
+                Fiat: ["500", "500L", "500X"],
+                Ford: ["Bronco", "Bronco Sport", "Edge", "Escape", "Expedition", "Explorer", "F-150", "F-250", "F-350", "F-450", "Fusion", "Mustang", "Ranger", "Transit Connect"],
+                Genesis: ["G70", "G80", "G90"],
+                GMC: ["Acadia", "Canyon", "Sierra 1500", "Sierra 2500HD", "Sierra 3500HD", "Terrain", "Yukon", "Yukon XL"],
+                Honda: ["Accord", "Civic", "Clarity", "CR-V", "Fit", "HR-V", "Insight", "Odyssey", "Passport", "Pilot", "Ridgeline"],
+                Hummer: ["H2", "H3"],
+                Hyundai: ["Accent", "Elantra", "Elantra GT", "Kona", "Nexo", "Palisade", "Santa Fe", "Sonata", "Tucson", "Veloster"],
+                Infiniti: ["Q50", "Q60", "Q70", "QX30", "QX50", "QX55", "QX60", "QX80"],
+                Isuzu: ["Ascender", "i-Series", "NPR", "NQR", "NRR"],
+                Jaguar: ["E-Pace", "F-Pace", "F-Type", "I-Pace", "XE", "XF", "XJ"],
+                Jeep: ["Cherokee", "Compass", "Gladiator", "Grand Cherokee", "Renegade", "Wrangler"],
+                Kia: ["Cadenza", "Forte", "K5", "Niro", "Optima", "Rio", "Seltos", "Sorento", "Soul", "Sportage", "Stinger"],
+                Lamborghini: ["Aventador", "Huracan", "Urus"],
+                LandRover: ["Defender", "Discovery", "Discovery Sport", "Range Rover", "Range Rover Evoque", "Range Rover Sport", "Range Rover Velar"],
+                Lexus: ["ES", "GX", "IS", "LC", "LS", "LX", "NX", "RC", "RX", "UX"],
+                Lincoln: ["Aviator", "Continental", "Corsair", "MKZ", "Nautilus", "Navigator"],
+                Lotus: ["Evora", "Exige", "Elise"],
+                Maserati: ["Ghibli", "Levante", "Quattroporte"],
+                Mazda: ["CX-3", "CX-30", "CX-5", "CX-9", "MX-5 Miata", "Mazda2", "Mazda3", "Mazda6"],
+                McLaren: ["540C", "570S", "600LT", "720S", "GT", "P1"],
+                Mercedes: ["A-Class", "B-Class", "C-Class", "CL-Class", "CLA-Class", "CLS-Class", "E-Class", "G-Class", "GLA-Class", "GLB-Class", "GLC-Class", "GLE-Class", "GLS-Class", "S-Class", "SL-Class", "SLS-Class", "SLC-Class", "AMG GT", "AMG GT 4-Door", "EQB", "EQC", "EQE", "EQS", "Metris", "Sprinter"],
+                Mercury: ["Grand Marquis", "Mariner", "Milan", "Montego", "Mountaineer", "Sable"],
+                Mini: ["Clubman", "Convertible", "Countryman", "Hardtop 2 Door", "Hardtop 4 Door"],
+                Mitsubishi: ["Eclipse Cross", "Mirage", "Outlander", "Outlander Sport"],
+                Nissan: ["370Z", "Altima", "Armada", "Frontier", "Kicks", "Leaf", "Maxima", "Murano", "NV", "Pathfinder", "Rogue", "Rogue Sport", "Sentra", "Titan", "Versa"],
+                Oldsmobile: ["Alero", "Aurora", "Bravada", "Cutlass", "Intrigue", "Silhouette"],
+                Pontiac: ["G5", "G6", "G8", "Solstice", "Vibe"],
+                Porsche: ["911", "718 Boxster", "718 Cayman", "Cayenne", "Macan", "Panamera", "Taycan"],
+                RollsRoyce: ["Cullinan", "Dawn", "Ghost", "Phantom", "Wraith"],
+                Saab: ["9-3", "9-5"],
+                Saturn: ["Aura", "Ion", "Outlook", "Sky", "Vue"],
+                Scion: ["FR-S", "iA", "iM", "iQ", "tC", "xD"],
+                Smart: ["ForTwo", "Roadster", "ForFour"],
+                Subaru: ["Ascent", "BRZ", "Crosstrek", "Forester", "Impreza", "Legacy", "Outback", "WRX", "XV Crosstrek"],
+                Suzuki: ["Equator", "Grand Vitara", "Kizashi", "SX4", "XL7"],
+                Tesla: ["Model 3", "Model S", "Model X", "Model Y", "Roadster"],
+                Toyota: ["86", "4Runner", "Avalon", "C-HR", "Camry", "Corolla", "GR Supra", "Highlander", "Land Cruiser", "Mirai", "Prius", "RAV4", "Sequoia", "Sienna", "Tacoma", "Tundra", "Venza", "Yaris", "Yaris Cross"],
+                Volkswagen: ["Arteon", "Atlas", "Atlas Cross Sport", "Golf", "ID.4", "Jetta", "Passat", "Taos", "Tiguan", "Touareg"],
+                Volvo: ["S60", "S90", "V60", "V90", "XC40", "XC60", "XC90"]
+            };
+            // Get the selected brand
+            var selectedBrand = brandSelect.value;
+            // Clear previous options
+            modelSelect.innerHTML = "";
+            // Populate model dropdown with models corresponding to the selected brand
+            models[selectedBrand].forEach(function (model) {
+                var option = document.createElement("option");
+                option.value = model;
+                option.text = model;
+                modelSelect.appendChild(option);
+            });
+
+            // Show the model dropdown
+            document.getElementById("modelGroup").style.display = "block";
+        }
+
+        // Event listener for changes in the brand dropdown
+        document.getElementById("brand").addEventListener("change", populateModels);
+
+        // Function to populate the Euro standard dropdown based on the selected fuel type
+        function populateEuroStandard() {
+            var fuelType = document.getElementById("fuel_type");
+            var euroStandard = document.getElementById("euro_standard");
+            var standards = {
+                PETROL: ["Euro 0", "Euro 1 ", "Euro 2", "Euro 3", "Euro 4", "Euro 5", "Euro 6"],
+                DIESEL: ["Euro 0", "Euro 1 ", "Euro 2", "Euro 3", "Euro 4", "Euro 5", "Euro 6"],
+                BIODIESEL: ["Euro 0", "Euro 1 ", "Euro 2", "Euro 3", "Euro 4", "Euro 5", "Euro 6"],
+                BIOETHANOL_E85: ["Euro 0", "Euro 1 ", "Euro 2", "Euro 3", "Euro 4", "Euro 5", "Euro 6"],
+                LPG: ["Euro 0", "Euro 1 ", "Euro 2", "Euro 3", "Euro 4", "Euro 5", "Euro 6"],
+                CNG: ["Euro 0", "Euro 1 ", "Euro 2", "Euro 3", "Euro 4", "Euro 5", "Euro 6"],
+                PHEV: ["Euro 0", "Euro 1 ", "Euro 2", "Euro 3", "Euro 4", "Euro 5", "Euro 6"],
+                ELECTRIC: ["Zero Emssion"],
+                HYDROGEN: ["Zero Emssion"]
+            };
+
+            // Get the selected fuel type
+            var selectedFuelType = fuelType.value;
+
+            // Clear previous options
+            euroStandard.innerHTML = "";
+
+            // Populate Euro standard dropdown with standards corresponding to the selected fuel type
+            standards[selectedFuelType].forEach(function (standard) {
+                var option = document.createElement("option");
+                option.value = standard;
+                option.text = standard;
+                euroStandard.appendChild(option);
+            });
+
+            // Show the Euro standard dropdown
+            document.getElementById("standardGroup").style.display = "block";
+        }
+
+        // Event listener for changes in the fuel type dropdown
+        document.getElementById("fuel_type").addEventListener("change", populateEuroStandard);
+
+        // Call populateEuroStandard() to populate the Euro standard dropdown when the page loads
+        populateEuroStandard();
+
+
+
+
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var saveCarButton = document.querySelector(".save-car-button");
+
+            saveCarButton.addEventListener("click", function (event) {
+                event.preventDefault(); // Prevent the default form submission behavior
+
+                var form = document.getElementById("new-car-form");
+                var button = this;
+                button.disabled = true; // Disable the button to prevent multiple submissions
+                button.classList.add("clicked");
+
+                // Ensure the span is properly targeted
+                var span = button.querySelector(".save-car-button-span");
+                if (span) {
+                    span.style.opacity = 1; // Make the span visible
+                }
+
+                // Add a delay before submitting the form
+                setTimeout(function () {
+                    form.submit();
+                }, 2000); // 2 seconds delay
+            });
+        });
+
+
+
+
+        function toggleMenu(menuId) {
+            var menu = document.getElementById(menuId);
+            if (menu.style.display === "none" || menu.style.display === "") {
+                menu.style.display = "block";
+            } else {
+                menu.style.display = "none";
+            }
+        }
+
+        // Update the toggleCheckbox function
+        function toggleCheckbox(optionId) {
+            var checkbox = document.getElementById(optionId);
+            checkbox.checked = !checkbox.checked;
+
+            var option = checkbox.previousElementSibling; // Get the div element before the checkbox
+            if (checkbox.checked) {
+                option.classList.add('selected'); // Add the 'selected' class if checkbox is checked
+            } else {
+                option.classList.remove('selected'); // Remove the 'selected' class if checkbox is unchecked
+            }
+
+            // Update the text based on selected options
+            updateSelectedText();
+        }
+
+        // Add a function to update the selected text
+        function updateSelectedText() {
+            var selectedOptions = document.querySelectorAll('.options div.selected');
+            var selectedText = document.querySelector('.selected-options span:first-child');
+            if (selectedOptions.length > 0) {
+                selectedText.textContent = selectedOptions.length + ' selected';
+            } else {
+                selectedText.textContent = 'Select registrations';
+            }
+        }
+
+        // Add an event listener to close the dropdown menu when clicking outside of it
+        document.addEventListener('click', function (event) {
+            var menu = document.getElementById('registrationOptions');
+            var target = event.target;
+            if (!menu.contains(target) && target !== menu && target !== document.querySelector('.selected-options')) {
+                menu.style.display = 'none';
+            }
+        });
+
+    </script>
+</body>
+{% endblock %}

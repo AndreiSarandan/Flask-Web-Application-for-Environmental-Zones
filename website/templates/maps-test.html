@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Place Autocomplete</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <!-- AIzaSyDSrGZOUl7LV020hIPMv0WXyKemXGj0Vgk -->
+    <script src="../static/route_planner.js"></script>
+
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSrGZOUl7LV020hIPMv0WXyKemXGj0Vgk&libraries=places&callback=initMap"
+        defer></script>
+
+    <link rel="stylesheet" href="../static/map.css">
+    <link rel="stylesheet" href="../static/list.css">
+    <link rel="stylesheet" href="../static/notifications.css">
+    <link rel="stylesheet" href="../static/collapsible.css">
+
+</head>
+
+
+<body class="route-planner">
+    <div class="container-fluid" style="z-index: 0;">
+        <div class="row row-short-top-margin">
+            <div class="left-div addresses left-content ">
+                <!-- <div class="route-planner-description">
+
+                    <p class="text">
+                        Please select your vehicle and your destination.
+                        <br>
+                        Remember, the access will only be
+                        assessed for the selected destination, as Low Emission Zones primarily affect city centers.
+                        <br>
+                        We recommend adding any intermediary cities you plan to pass through, as they won't be
+                        automatically
+                        included in the evaluation.
+                    </p>
+                </div> -->
+
+
+                <div class=" form-container">
+                    <form id="directions-form" method="POST">
+
+
+
+                        <h2 class="smallerh2" style="display: flex; justify-content: center; ">
+                            ROUTE PLANNER</h2>
+
+                        <div class="elem-group ">
+                            <label for="selected-car">Select Vehicle:</label>
+                            <select name="selected-car" id="selected-car">
+
+                                {% for car in user.cars %}
+                                <option value="{{ car.id }}">{{ car.brand }} - {{ car.model }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div id="registration_date_container">
+
+                        </div>
+
+                        <div class="elem-group ">
+                            <label for="selected-car">Select Saved Route</label>
+                            <select id="saved-routes">
+                                <option value="">Select a route</option>
+                                {% for route in saved_routes %}
+                                <option class="selected-route" value="{{ route.destinations_json }}">{{
+                                    route.destinations_text }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div>
+                            <h5 class="text-center h5title">OR</h5>
+                        </div>
+
+
+                        <!-- </div> -->
+                        <div id="city-inputs-container">
+                            <!-- At least one city input -->
+                            <div class="elem-group">
+                                <label for="street-city-1">Select Destinations:</label>
+                                <input class="address_election city-input" type="text" id="street-city-1"
+                                    name="street-city-1" placeholder="Enter city street">
+                            </div>
+                        </div>
+                        <div class="text-center mt-3">
+
+                            <button class="directions-button add-button text-center" type="button" onclick="addField()">
+                                <img class src="../static/general/icons8-plus-math-24.png" alt="">
+                            </button>
+                        </div>
+
+                        <!-- <button class="directions-button" type="button" onclick="removeField()">Remove
+                                Destination</button> -->
+
+
+
+                        <div class="form-buttons-container">
+                            <button class="save-route-button" type="button" id="button" onclick="saveTrip()">Save
+                                Route</button>
+                            <button class="directions-button" type="button" id="submit-button"
+                                onclick="handleFormSubmission()"><img src="../static/general/icons8-double-arrow-24.png"
+                                    alt=""></button>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+            <div class="right-div right-content">
+                <div class=map-box>
+                    <div id="map" style="height: 75vh; width: 80vw;"></div><br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="description-container">
+
+        <!-- <div class="description error-description">
+            <h3 class="city-name">PARIS</h3>
+            <p class="city-paragraph">Low Emission Zone: Paris, France <br>Selected vehicle is NOT allowed to drive in
+                Paris.
+                <br>Access is restricted to vehicles that have Crit'air sticker 3 <br>Penalties for not complying to
+                the regulations: 68 - 180 €. <br>The driving restriction applies Monday to Friday, from 8 am to 8 pm.
+                <br>
+            </p>
+            <div class="anchor-container"><br><a class="redirect-link" href="/eligibility-check">Click here to check
+                    your car's eligibility for registrations.</a><br><a class="redirect-link"
+                    href="https://www.certificat-air.gouv.fr/">Further information on the official page.</a></div>
+        </div>
+
+        <div class="description success-description">
+            <h3 class="city-name">PARIS</h3>
+            <p class="city-paragraph">Low Emission Zone: Paris, France <br>Selected vehicle is allowed to drive in
+                Paris.
+                <br>Access is restricted to vehicles that have Crit'air sticker 3 <br>Penalties for not complying to
+                the regulations: 68 - 180 €. <br>The driving restriction applies Monday to Friday, from 8 am to 8 pm.
+                <br>
+            </p>
+            <div class="anchor-container"><br><a class="redirect-link" href="/eligibility-check">Click here to check
+                    your car's eligibility for registrations.</a><br><a class="redirect-link"
+                    href="https://www.certificat-air.gouv.fr/">Further information on the official page.</a></div>
+        </div> -->
+        <!-- <div class="description error-description">
+            <h3>Paris</h3>
+            <p>Low emission zone: Paris, France <br>
+                You are not allowed to drive in Paris. <br>Access is restricted to vehicles
+                that have Crit'air sticker 3 <br>
+                Penalties for not complying with the regulations: 68 - 180 € <br>
+            </p>
+            <img class="description-image" id="image-Paris" src="static/images/sad_earth.png">
+            <div class="anchor-container"><br>
+                <a class="redirect-link" href="/eligibility-check">Click here to check your car's
+                    eligibility for registrations.</a><br>
+                <a class="redirect-link" href="https://www.certificat-air.gouv.fr/">Further information on the official
+                    page.</a>
+            </div>
+        </div>
+        <div class="description success-description">
+            <h3>London</h3>
+            <p>Low emission zone: London, United Kingdom <br>
+                Daily fee required in London LEZ. <br>
+                Only vehicles Euro 6 Diesel
+                and Euro 4 Petrol are allowed. <br>
+                Penalties for not complying with the regulations: 60 - 480£ <br>
+            </p>
+            <img class="description-image" id="image-London" src="static/images/sad_earth.png">
+            <div class="anchor-container"><br><a class="redirect-link" href="/eligibility-check">Click here to check
+                    your
+                    car's
+                    eligibility for registrations.</a><br>
+                <a class="redirect-link"
+                    href="https://tfl.gov.uk/modes/driving/low-emission-zone#:~:text=The%20Low%20Emission%20Zone%20(LEZ,every%20day%20of%20the%20year.">Further
+                    information on the official page.</a>
+            </div>
+        </div>
+
+        <div class="description success-description">
+            <h3>London</h3>
+            <p>Low emission zone: London, United Kingdom <br>
+                Daily fee required in London LEZ. <br>
+                Only vehicles Euro 6 Diesel
+                and Euro 4 Petrol are allowed. <br>
+                Penalties for not complying with the regulations: 60 - 480£ <br>
+            </p>
+            <img class="description-image" id="image-London" src="static/images/sad_earth.png">
+            <div class="anchor-container"><br><a class="redirect-link" href="/eligibility-check">Click here to check
+                    your
+                    car's
+                    eligibility for registrations.</a><br>
+                <a class="redirect-link"
+                    href="https://tfl.gov.uk/modes/driving/low-emission-zone#:~:text=The%20Low%20Emission%20Zone%20(LEZ,every%20day%20of%20the%20year.">Further
+                    information on the official page.</a>
+            </div>
+        </div>
+
+        <div class="description success-description">
+            <h3>London</h3>
+            <p>Low emission zone: London, United Kingdom <br>
+                Daily fee required in London LEZ. <br>
+                Only vehicles Euro 6 Diesel
+                and Euro 4 Petrol are allowed. <br>
+                Penalties for not complying with the regulations: 60 - 480£ <br>
+            </p>
+            <img class="description-image" id="image-London" src="static/images/sad_earth.png">
+            <div class="anchor-container"><br><a class="redirect-link" href="/eligibility-check">Click here to check
+                    your
+                    car's
+                    eligibility for registrations.</a><br>
+                <a class="redirect-link"
+                    href="https://tfl.gov.uk/modes/driving/low-emission-zone#:~:text=The%20Low%20Emission%20Zone%20(LEZ,every%20day%20of%20the%20year.">Further
+                    information on the official page.</a>
+            </div>
+        </div>
+        <div class="description success-description">
+            <h3>London</h3>
+            <p>Low emission zone: London, United Kingdom <br>
+                Daily fee required in London LEZ. <br>
+                Only vehicles Euro 6 Diesel
+                and Euro 4 Petrol are allowed. <br>
+                Penalties for not complying with the regulations: 60 - 480£ <br>
+            </p>
+            <img class="description-image" id="image-London" src="static/images/sad_earth.png">
+            <div class="anchor-container"><br><a class="redirect-link" href="/eligibility-check">Click here to check
+                    your
+                    car's
+                    eligibility for registrations.</a><br>
+                <a class="redirect-link"
+                    href="https://tfl.gov.uk/modes/driving/low-emission-zone#:~:text=The%20Low%20Emission%20Zone%20(LEZ,every%20day%20of%20the%20year.">Further
+                    information on the official page.</a>
+            </div>
+        </div> -->
+
+    </div>
+
+    <script src="../static/collapsible.js"></script>
+    <script>
+        // Attach event listener to the select element with id 'saved-routes'
+        const selectMenu = document.getElementById('saved-routes');
+        selectMenu.addEventListener('change', updateTextBoxes);
+    </script>
+</body>
+
+
+</html>
+
+{% endblock %}
+
+
+
+</html>

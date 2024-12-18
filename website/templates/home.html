@@ -1,0 +1,337 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="../static/swiper.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="../static/list.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        crossorigin="anonymous" />
+    <link rel="stylesheet" href="../static/listaa2.css">
+
+    <!-- jQuery and Marker Clusterer scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markerclustererplus/dist/markerclusterer.min.js"></script>
+    <!-- Your script -->
+    <script src="../static/markersAQI2.js"></script>
+    <!-- Swiper library script -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- Your Swiper initialization script -->
+    <link rel="stylesheet" type="text/css" href=" ../static/steps.css">
+
+    <!-- <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSrGZOUl7LV020hIPMv0WXyKemXGj0Vgk&callback=initMap"></script> -->
+
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+
+<body class="home">
+
+    <div class="page-content home-page-content">
+
+        <div class="first-two">
+
+            <div class="paragraph-container-home-no-margin-right p-margin-top">
+                <h2 class="h2title">
+                    WHAT IS A LOW EMISSION ZONE ?
+                </h2>
+                <div class="first-two">
+                    <p class="text" style="width: 40vw;">
+                        Low Emission Zones (LEZs) are geographical areas, located in the centers of large urban
+                        settlements,
+                        where specific restrictions are imposed on highly polluting vehicles. Typically, this kind of
+                        vehicles
+                        are
+                        prohibited from entering the zone, or in certain instances, additional fees can be paid for
+                        access.
+                        <br> <br>
+                        Different countries might use various terms to refer to Low Emission Zones. For example, they
+                        are called Umweltzonen in Germany, Milieuzones in the Netherlands, Miljøzone in Denmark, and ZTL
+                        ambiente in Italy.
+                        <br><br>
+                        This web application allows to you to plan the route and ensures compliance with Low Emission
+                        Zone regulations. Discover
+                        which cities have LEZs and find out what registration options are available for your vehicle.
+                        Please make sure you introduce each city you plan to stay in. The verification is only made for
+                        the cities introduced in the Route Planner form.
+                    </p>
+                </div>
+            </div>
+            <div class="separation-bar"> </div>
+
+            <div class="paragraph-container-home-no-margin-right p-margin-top">
+                <h2 class="h2title">
+                    STEPS
+                </h2>
+                <div class="text">
+                    <div class="steps-list">
+                        <div class="step-number">1</div>
+                        <div class="step-desc">Create an account.<br> Complete the registration process to gain complete
+                            access.</div>
+                    </div>
+
+                    <div class="steps-list">
+                        <div class="step-number">2</div>
+                        <div class="step-desc">Add your vehicle. <br>Additionally, select any registrations that are
+                            assigned to your vehicle.</div>
+                    </div>
+
+                    <div class="steps-list">
+                        <div class="step-number">3</div>
+                        <div class="step-desc">Verify the eligibility your vehicle. <br>Test your car for national LEZ
+                            schemas and determine which registration can be assigned.</div>
+                    </div>
+
+                    <div class="steps-list">
+                        <div class="step-number">4</div>
+                        <div class="step-desc">Plan your trip. <br> Verify if there are any Low
+                            Emission Zones and if your vehicle is allowed through.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="steps-container">
+            <ol class="steps">
+                <li>
+                    <div class="steps__icon-container">
+                        {% if user.is_authenticated %}
+                        <a class="redirect" href="/my-profile">
+                            <img src="../static/general/user.svg" alt="User">
+                        </a>
+                        {% else%}
+                        <a class="redirect" href="/sign-up">
+                            <img src="../static/general/user.svg" alt="User">
+                        </a>
+                        {% endif %}
+                    </div>
+                    <div class="steps__label">Create An Account</div>
+                </li>
+                <li>
+                    <div class="steps__icon-container">
+                        <a class="redirect" href="/new-car">
+                            <img src="../static/general/car-icon.svg" alt="Car Icon">
+                        </a>
+                    </div>
+                    <div class="steps__label">Add Your Vehicle</div>
+                </li>
+                <li>
+                    <div class="steps__icon-container">
+                        <a class="redirect" href="/eligibility-check">
+                            <img src="../static/general/icons8-approval-96.png" alt="Check">
+                    </div>
+                    </a>
+                    <div class="steps__label">Check Eligibility </div>
+                </li>
+                <li>
+                    <div class="steps__icon-container">
+                        <a class="redirect" href="/maps">
+                            <img src="../static/general/small_map_icon.svg" alt="Map Icon">
+                        </a>
+                    </div>
+                    <div class="steps__label">Plan Your Trip</div>
+                </li>
+            </ol>
+        </div>
+
+
+        <div class="paragraph-container-home-no-margin-right">
+            <h2 class="h2title">
+                WHICH EUROPEAN COUNTRIES HAVE LEZs?
+            </h2>
+            <p class="text">
+                By 2025, over 500 Low Emission Zones will be established across Europe. Despite their variations,
+                complying with these regulations improves air quality. Here is a list of cities with Low Emission Zones
+                included in this application.
+            </p>
+        </div>
+
+
+        <div class="paragraph-container-home-no-margin-right flex">
+            <div class="list-container">
+                <header role="banner">
+                    <nav class="nav" role="navigation">
+                        <ul class="nav__list">
+                            <!-- Start of Flask loop for countries -->
+                            {% for country in countries_with_lez %}
+                            <li>
+                                <input id="group-{{ loop.index }}" type="checkbox" hidden />
+                                <label for="group-{{ loop.index }}"><span class="fa fa-angle-right"></span>{{
+                                    country
+                                    }}</label>
+                                <ul class="sub-group-list">
+                                    <!-- Start of Flask loop for cities -->
+                                    {% for city in cities_by_country[country] %}
+                                    <li><a>{{ city }}</a></li>
+                                    {% endfor %}
+                                    <!-- End of Flask loop for cities -->
+                                </ul>
+                            </li>
+                            {% endfor %}
+                            <!-- End of Flask loop for countries -->
+                        </ul>
+                    </nav>
+                </header>
+            </div>
+            <div id="map" class="home-page-map"></div>
+
+        </div>
+
+        <div class="paragraph-container-home-no-margin-right">
+            <h2 class="h2title">
+                WHAT ARE THE BENEFITS OF LOW EMISSION ZONES?
+            </h2>
+            <p class="text">
+                Low Emission Zones bring a range of advantages, most notably by enhancing air quality through the
+                reduction of harmful pollutants such as NO2 and particulate matter (PM). This improvement in air
+                quality positively impacts public health by lowering the rates of respiratory and cardiovascular
+                diseases. Additionally, Low Emission Zones support the transition to greener transportation methods,
+                including electric vehicles and public transit, thereby contributing to efforts against climate change.
+                Moreover, these zones contribute to a better urban living experience by reducing noise pollution and
+                promoting a more sustainable environment.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Swiper -->
+    <div class="swiper">
+        <div class="swiper-wrapper">
+
+            <div class="swiper-slide swiper-slide-visible swiper-slide-fully-visible swiper-slide-active">
+                <a href="{{ url_for('views.country_info', country='italy') }}">
+                    <img class="travel-slider-bg-image" src="../static/italy/italy3.jpg">
+                    <div class="travel-slider-content">
+                        <div class="travel-slider-title">ITALY</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="swiper-slide swiper-slide-visible swiper-slide-fully-visible swiper-slide-active">
+                <a href="{{ url_for('views.country_info', country='portugal') }}">
+                    <img class="travel-slider-bg-image" src="../static/PORTUGAL/portugal3.jpg">
+                    <div class="travel-slider-content">
+                        <div class="travel-slider-title">PORTUGAL</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="swiper-slide swiper-slide-visible swiper-slide-fully-visible swiper-slide-active">
+                <a href="{{ url_for('views.country_info', country='spain') }}">
+                    <img class="travel-slider-bg-image" src="../static/SPAIN/spain3.jpg">
+                    <div class="travel-slider-content">
+                        <div class="travel-slider-title">SPAIN</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="swiper-slide swiper-slide-visible swiper-slide-fully-visible swiper-slide-active">
+                <a href="{{ url_for('views.country_info', country='france') }}">
+                    <img class="travel-slider-bg-image" src="../static/france/france1.jpg">
+                    <div class="travel-slider-content">
+                        <div class="travel-slider-title">FRANCE</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="swiper-slide swiper-slide-visible swiper-slide-fully-visible swiper-slide-active">
+                <a href="{{ url_for('views.country_info', country='belgium') }}">
+                    <img class="travel-slider-bg-image" src="../static/belgium/belgium.jpg">
+                    <div class="travel-slider-content">
+                        <div class="travel-slider-title">BELGIUM</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="swiper-slide swiper-slide-visible swiper-slide-fully-visible swiper-slide-active">
+                <a href="{{ url_for('views.country_info', country='poland') }}">
+                    <img class="travel-slider-bg-image" src="../static/POLAND/poland.jpg">
+                    <div class="travel-slider-content">
+                        <div class="travel-slider-title">POLAND</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="swiper-slide swiper-slide-visible swiper-slide-fully-visible swiper-slide-active">
+                <a href="{{ url_for('views.country_info', country='bulgaria') }}">
+                    <img class="travel-slider-bg-image" src="../static/BULGARIA/sofia city.jpg">
+                    <div class="travel-slider-content">
+                        <div class="travel-slider-title">BULGARIA</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="swiper-slide swiper-slide-visible swiper-slide-fully-visible swiper-slide-active">
+                <a href="{{ url_for('views.country_info', country='hungary') }}">
+                    <img class="travel-slider-bg-image" src="../static/HUNGARY/budapest.jpg">
+                    <div class="travel-slider-content">
+                        <div class="travel-slider-title">HUNGARY</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="swiper-slide swiper-slide-visible swiper-slide-fully-visible swiper-slide-active">
+                <a href="{{ url_for('views.country_info', country='united kingdom') }}">
+                    <img class="travel-slider-bg-image" src="../static/UK/uk3.jpg">
+                    <div class="travel-slider-content">
+                        <div class="travel-slider-title">UNITED KINGDOM</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="swiper-slide swiper-slide-visible swiper-slide-fully-visible swiper-slide-active">
+                <a href="{{ url_for('views.country_info', country='netherlands') }}">
+                    <img class="travel-slider-bg-image" src="../static/NETHERLANDS/netherlands3.jpg">
+                    <div class="travel-slider-content">
+                        <div class="travel-slider-title">NETHERLANDS</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="swiper-slide swiper-slide-visible swiper-slide-fully-visible swiper-slide-active">
+                <a href="{{ url_for('views.country_info', country='denmark') }}">
+                    <img class="travel-slider-bg-image" src="../static/denmark/denmark.jpg">
+                    <div class="travel-slider-content">
+                        <div class="travel-slider-title">DENMARK</div>
+                    </div>
+                </a>
+            </div>
+
+
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+        <!-- Add Arrows -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+    <script src="../static/swiper.js"></script>
+    <script>
+        window.addEventListener('load', function () {
+            var separationBar = document.querySelector('.separation-bar');
+            var paragraphContainer = document.querySelector('.paragraph-container-home-no-margin-right');
+
+            // Get the height of the paragraph container
+            var paragraphContainerHeight = paragraphContainer.clientHeight;
+
+            // Set the height of the separation bar
+            separationBar.style.height = paragraphContainerHeight + 'px';
+        });
+    </script>
+
+    {% endblock %}
+</body>
+
+</html>

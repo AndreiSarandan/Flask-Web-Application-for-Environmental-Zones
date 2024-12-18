@@ -1,0 +1,274 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Place Autocomplete</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="../static/route_planner3.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
+    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.15.2/maps/maps-web.min.js"></script>
+    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.0/maps/maps-web.min.js"></script>
+    <script
+        src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.1.2-public-preview.15/services/services-web.min.js"></script>
+    <script
+        src="https://api.tomtom.com/maps-sdk-for-web/cdn/plugins/SearchBox/3.1.3-public-preview.0/SearchBox-web.js"></script>
+
+
+    <!-- External library stylesheets -->
+    <link rel="stylesheet" type="text/css"
+        href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.0/maps/maps.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://api.tomtom.com/maps-sdk-for-web/cdn/plugins/SearchBox/3.1.3-public-preview.0/SearchBox.css" />
+
+    <!-- Custom stylesheets -->
+    <link rel="stylesheet" href="../static/map.css">
+    <link rel="stylesheet" href="../static/list.css">
+    <link rel="stylesheet" href="../static/notifications.css">
+</head>
+
+
+<body class="route-planner">
+
+
+    <!-- <div class="paragraph-container-home">
+
+        <p class="text">
+            Select your vehicle and choose any locations, such as hotels or landmarks.
+            <br>
+            Remember, the access will only be
+            assessed for the the selected destiantions, as Low Emission Zones primarily affect city centers.
+            <br>
+            We recommend to add any intermediary cities you plan to pass through, as they won't be automatically
+            included in the evaluation." .
+        </p>
+    </div> -->
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="left-div addresses left-content ">
+                <div class=" form-container">
+                    <form id="directions-form" method="POST">
+                        <h2 style="display: flex; justify-content: center; ">
+                            ROUTE PLANNER</h2>
+                        <div class="elem-group ">
+                            <label for="selected-car">SELECT VEHICLE:</label>
+                            <select name="selected-car" id="selected-car">
+
+                                {% for car in user.cars %}
+                                <option value="{{ car.id }}">{{ car.brand }} - {{ car.model }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <select id="saved-routes">
+                            <option value="">Select a saved route</option>
+                            {% for route in saved_routes %}
+                            <option class="selected-route" value="{{ route.destinations_json }}">{{
+                                route.destinations_json }}</option>
+                            {% endfor %}
+                        </select>
+
+                        <div id="city-inputs-container">
+                            <!-- At least one city input -->
+                            <div class="elem-group">
+                                <label for="street-city-1">CITY ADDRESS:</label>
+                                <input class="address_election city-input" type="text" id="street-city-1"
+                                    name="street-city-1" placeholder="Enter city street">
+                            </div>
+                        </div>
+                        <div class="directions-button-container">
+                            <button class="directions-button" type="button" onclick="addField()">Add
+                                Destination</button>
+                            <button class="directions-button" type="button" onclick="removeField()">Remove
+                                Destination</button>
+                            <button class="directions-button" type="button" id="submit-button"
+                                onclick="handleFormSubmission()">GO</button>
+                            <button class="directions-button" class="save-button" type="button" id="button"
+                                onclick="saveTrip()">Save
+                                Route</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="right-div right-content">
+                <div class=map-box>
+                    <div id="map" style="height: 100%; width: 55vw;"></div><br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="description-container">
+
+    </div>
+    <!-- <script>
+        // Attach event listener to the select element with id 'saved-routes'
+        const selectMenu = document.getElementById('saved-routes');
+        selectMenu.addEventListener('change', updateTextBoxes);
+    </script> -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Initialize TomTom Map
+            var map = tt.map({
+                key: "mQcGLHkFNZAGEAObwqggNXkGHUE56pTQ", // Replace with your TomTom API key
+                container: "map",
+                center: [15.4, 53.0],
+                zoom: 3,
+            });
+
+            // Initialize SearchBox
+            var searchBox = new tt.plugins.SearchBox(tt.services, {
+                language: 'en-US',
+                limit: 5 // Adjust limit as needed
+            });
+
+            // Get the input field for street-city-1
+            var inputField = document.getElementById('street-city-1');
+
+            // Handle search result selection
+            searchBox.on('tomtom.searchbox.resultselected', function (event) {
+                var result = event.data.result;
+                inputField.value = result.data.address.freeformAddress;
+            });
+        });
+    </script>
+
+    <script>
+        function handleResultsFound(event) {
+            var results = event.data.results.fuzzySearch.results
+
+            if (results.length === 0) {
+                searchMarkersManager.clear()
+            }
+            searchMarkersManager.draw(results)
+            fitToViewport(results)
+        }
+
+        function handleResultSelection(event) {
+            var result = event.data.result
+            if (result.type === "category" || result.type === "brand") {
+                return
+            }
+            searchMarkersManager.draw([result])
+            fitToViewport(result)
+        }
+
+        function fitToViewport(markerData) {
+            if (!markerData || (markerData instanceof Array && !markerData.length)) {
+                return
+            }
+            var bounds = new tt.LngLatBounds()
+            if (markerData instanceof Array) {
+                markerData.forEach(function (marker) {
+                    bounds.extend(getBounds(marker))
+                })
+            } else {
+                bounds.extend(getBounds(markerData))
+            }
+            map.fitBounds(bounds, { padding: 100, linear: true })
+        }
+
+        function getBounds(data) {
+            var btmRight
+            var topLeft
+            if (data.viewport) {
+                btmRight = [
+                    data.viewport.btmRightPoint.lng,
+                    data.viewport.btmRightPoint.lat,
+                ]
+                topLeft = [data.viewport.topLeftPoint.lng, data.viewport.topLeftPoint.lat]
+            }
+            return [btmRight, topLeft]
+        }
+
+        function handleResultClearing() {
+            searchMarkersManager.clear()
+        }
+
+        function SearchMarkersManager(map, options) {
+            this.map = map
+            this._options = options || {}
+            this._poiList = undefined
+            this.markers = {}
+        }
+
+        SearchMarkersManager.prototype.draw = function (poiList) {
+            this._poiList = poiList
+            this.clear()
+            this._poiList.forEach(function (poi) {
+                var markerId = poi.id
+                var poiOpts = {
+                    name: poi.poi ? poi.poi.name : undefined,
+                    address: poi.address ? poi.address.freeformAddress : "",
+                    distance: poi.dist,
+                    classification: poi.poi ? poi.poi.classifications[0].code : undefined,
+                    position: poi.position,
+                    entryPoints: poi.entryPoints,
+                }
+                var marker = new SearchMarker(poiOpts, this._options)
+                marker.addTo(this.map)
+                this.markers[markerId] = marker
+            }, this)
+        }
+
+        SearchMarkersManager.prototype.clear = function () {
+            for (var markerId in this.markers) {
+                var marker = this.markers[markerId]
+                marker.remove()
+            }
+            this.markers = {}
+            this._lastClickedMarker = null
+        }
+        function SearchMarker(poiData, options) {
+            this.poiData = poiData
+            this.options = options || {}
+            this.marker = new tt.Marker({
+                element: this.createMarker(),
+                anchor: "bottom",
+            })
+            var lon = this.poiData.position.lng || this.poiData.position.lon
+            this.marker.setLngLat([lon, this.poiData.position.lat])
+        }
+
+        SearchMarker.prototype.addTo = function (map) {
+            this.marker.addTo(map)
+            this._map = map
+            return this
+        }
+
+        SearchMarker.prototype.createMarker = function () {
+            var elem = document.createElement("div")
+            elem.className = "tt-icon-marker-black tt-search-marker"
+            if (this.options.markerClassName) {
+                elem.className += " " + this.options.markerClassName
+            }
+            var innerElem = document.createElement("div")
+            innerElem.setAttribute(
+                "style",
+                "background: white; width: 10px; height: 10px; border-radius: 50%; border: 3px solid black;"
+            )
+
+            elem.appendChild(innerElem)
+            return elem
+        }
+
+        SearchMarker.prototype.remove = function () {
+            this.marker.remove()
+            this._map = null
+        }
+
+    </script>
+
+</body>
+
+
+</html>
+
+{% endblock %}

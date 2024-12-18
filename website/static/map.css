@@ -1,0 +1,211 @@
+body {
+    padding-top: 0px;
+    /* Adjust this value to add space between navbar and content */
+}
+
+.container-fluid {
+    width: 100%;
+}
+
+.address_selection {
+    background-color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 12px;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 400px;
+}
+
+
+
+.textarea-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.textarea {
+    width: 45%;
+    height: 300px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+}
+
+.textarea-container>div {
+    flex: 1 1 50%;
+    /* Each div takes 50% width */
+    padding: 10px;
+    box-sizing: border-box;
+    overflow: auto;
+    /* Enable scrolling if content overflows */
+}
+
+.city-info {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.city-info h3 {
+    margin-top: 0;
+}
+
+.city-info p {
+    margin: 5px 0;
+}
+
+/* map */
+.map-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 20px;
+    margin-top: 2vh;
+    overflow: hidden;
+
+}
+
+#map {
+    border-radius: 10px;
+}
+
+
+/* :fullscreen map */
+/* #map {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+} */
+
+#map-shadow {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vw;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    /* Adjust the shadow color and size as needed */
+}
+
+.box div {
+    width: 100px;
+    height: 100px;
+}
+
+
+.save-route-button-container {
+    position: relative;
+
+}
+
+.save-route-button-container button {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+#hideable,
+#origin-description-output,
+#destination-description-output {
+    display: none;
+    /* initialy invisible  */
+}
+
+
+/* nefolosit */
+/* .flex-box-description-container {
+    display: flex;
+    justify-content: center;
+    gap: 8vw;
+} */
+
+
+
+/* varianta coloana pe mijloc */
+/* #description-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+} */
+
+
+.form-buttons-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.route-planner-description {
+    width: 35vw;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    margin-bottom: 2vh;
+    padding-bottom: 0.5vh;
+    padding-top: 0.5vh;
+
+}
+
+
+#description-container {
+    margin-top: 2vh;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    /* align-content: space-evenly; */
+}
+
+.description-box {
+    padding: 20px 20px;
+    background-color: white;
+}
+
+.success-no-lez-description,
+.success-description {
+    font-family: verdana;
+    font-weight: 450;
+    box-shadow: 5px 10px green;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    width: 45vw;
+    margin-bottom: 3vh;
+    padding: 20px 20px;
+    z-index: 1;
+}
+
+.error-description {
+    font-family: verdana;
+    font-weight: 450;
+    box-shadow: 5px 10px 0 red;
+    /* Horizontal offset, vertical offset, blur radius, spread radius */
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    width: 45vw;
+    margin-bottom: 3vh;
+    padding: 20px 20px;
+    z-index: 1;
+
+}
+
+
+.city-name {
+    font-size: 3.5vh;
+    font-weight: 550;
+}
+
+.required-registration {
+    font-family: verdana;
+    font-style: italic;
+    font-weight: 550;
+
+}

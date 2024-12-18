@@ -1,0 +1,169 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../../static/country_info.css">
+
+    <title>Document</title>
+</head>
+
+<body class="netherlands">
+
+    <div class="page-content">
+
+
+
+
+        <div class="paragraph-container">
+            <h2>Low Emission Zones in Netherlands</h2>
+            <div>
+                <button type="button" class="collapsible  on-countries">General information </button>
+                <div class="collapsed-content-viewable">
+                    <p class="">
+                        &emsp;The Netherlands has a national framework for Low Emission Zones (LEZ), known as
+                        'Milieuzone', which exclusively apply to diesel vehicles. Vehicles using other types of fuel are
+                        always allowed to enter these zones. <br>
+
+                        &emsp;Access to these zones is regulated based on the Euro standard, differentiating between
+                        light-duty vehicles on one hand and heavy-duty vehicles and/or coaches on the other. No stickers
+                        or registration are required, as compliance is ensured through cameras and special enforcement
+                        officers. <br>
+
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <button type="button" class="collapsible  on-countries">Which cities have Low
+                        Emission Zones ?
+                    </button>
+                    <div class="collapsed-content-viewable">
+                        <div class="cities-list">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>City</th>
+                                        <th>Required Registration</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for city, registration in zip(cities, registrations) %}
+                                    <tr>
+                                        <td>{{ city }}</td>
+                                        <td>{{ registration }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="button" class="collapsible  on-countries">How do I recognise a Low
+                        Emission Zone
+                        ?</button>
+                    <div class="collapsed-content-viewable">
+                        <p>The traffic sign for a
+                            green zone displays a passenger car and a van followed by a green circle with a '4'
+                            inside. This
+                            signifies that only light-duty diesel vehicles meeting the Euro 4 standard and above can
+                            enter
+                            these zones.
+                        </p>
+                        <div class="flex-box-space-around">
+
+                            <img style="margin-top: 2vh;" class="on-page" src={{ url_for('static',
+                                filename='/netherlands/Netherlands_purple_Low_Emission_Zone_combi_road_sign.jpg' ) }}>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="button" class="collapsible  on-countries"> Do I need a sticker or
+                        registration to enter a
+                        Low Emission Zone ?
+                    </button>
+
+                    <div class="collapsed-content-viewable">
+                        <p>
+                            No registration needed.
+
+                        </p>
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <button type="button" class="collapsible  on-countries"> What are the penalties
+                        ?</button>
+                    <div class="collapsed-content-viewable">
+                        <p>
+                            &emsp;Violating rules of Low Emission Zones in {{country|capitalize}} results in a fine of
+                            {{fines}}.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endblock %}
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+
+FLEX BOX MODEL 
+
+<div class="flex-box">
+
+    <ul class="list-group" aria-label="Low Emission Zones">
+        {%for city in cities%}
+        <li class="list-group-item">{{ city }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+
+    <p class="image-container">
+        <img class="on-page" src={{ url_for('static', filename='france/stickers.jpeg' ) }}>
+    </p>
+    <p>
+        <img class="on-page" src={{ url_for('static', filename='france/LEZe.jpg' ) }}>
+
+    </p>
+</div> -->s

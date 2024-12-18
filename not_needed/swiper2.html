@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Swiper demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+
+  <style>
+    .slide-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 50vh;
+    }
+
+    body {
+      background-color: #1B1B1B;
+    }
+
+    swiper-container {
+      width: 80%;
+      height: 60%;
+    }
+
+    swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="slide-container">
+    <swiper-container class="mySwiper">
+      <swiper-slide>
+        <img
+          src="https://thegadgetflow.com/wp-content/uploads/2020/04/10-gadgets-for-a-futuristic-home-office-1200x675.jpg">
+      </swiper-slide>
+
+      <swiper-slide>
+        <img src="https://resources.owllabs.com/hubfs/uneebo-office-design-yNtCxu4kJXk-unsplash.jpg">
+      </swiper-slide>
+
+      <swiper-slide>
+        <img
+          src="https://cdn.bisnow.net/resize?type=jpeg&url=https%3A%2F%2Fs3.amazonaws.com%2Fcdn.bisnow.net%2Fcontent%2Fimages%2F2019%2F03%2F5ca121a2f2118-20180520_venture_arch_opentable_0002_screenres-copy.jpeg&width=2160&sign=0OQSfq1SFkLDAMZhNvFNGDfDgR7LLrpgTkBcab8_tqc">
+      </swiper-slide>
+
+      <swiper-slide>
+        <img
+          src="https://www.hpe.com/content/dam/hpe/insights/articles/2021/09/how-technology-is-enabling-the-new-hybrid-workspace/How-technology-is-enabling-the-new-hyrbid-workspace.jpg.transform/nxt-original/image.jpeg">
+      </swiper-slide>
+
+      <swiper-slide>
+        <img src="https://cdna.artstation.com/p/assets/images/images/049/563/806/large/amy-colored.jpg?1652793049">
+      </swiper-slide>
+
+      <swiper-slide>
+        <img src="https://cdn.oneesports.gg/cdn-data/2022/02/Anime_HimoutoUmaruChanR-1024x576.webp">
+      </swiper-slide>
+
+      <swiper-slide>
+        <img src="https://i.pinimg.com/550x/f5/a3/85/f5a385e2976b8d378a55cfa04396315a.jpg">
+      </swiper-slide>
+
+      <swiper-slide><img
+          src="https://www.cnet.com/a/img/resize/69256d2623afcbaa911f08edc45fb2d3f6a8e172/hub/2023/02/03/afedd3ee-671d-4189-bf39-4f312248fb27/gettyimages-1042132904.jpg?auto=webp&fit=crop&height=675&width=1200"></swiper-slide>
+
+      <swiper-slide><img
+          src="https://imageio.forbes.com/specials-images/imageserve/5f962df3991e5636a2f68758/0x0.jpg?format=jpg&crop=812,457,x89,y103,safe&width=1200"></swiper-slide>
+
+    </swiper-container>
+    <div class="swiper-button-next" style="position: relative !important; top: 20px !important; "></div>
+    <div class="swiper-button-prev" style="position: relative !important; top: 20px !important; left: 5px !important; ">
+    </div>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-element-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+  <!-- Initialize Swiper -->
+  <script>
+    var swiper = new Swiper(".mySwiper", {
+      slidesPerView: 3,
+      spaceBetween: 30,
+      loop: true,
+      speed: 1000,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      breakpoints: {
+        320: {
+          slidesPerView: 1,
+        },
+        480: {
+          slidesPerView: 2,
+        },
+        768: {
+          slidesPerView: 3,
+        },
+        1200: {
+          slidesPerView: 4,
+        },
+      },
+    });
+
+
+
+
+
+  </script>
+</body>
+
+</html>

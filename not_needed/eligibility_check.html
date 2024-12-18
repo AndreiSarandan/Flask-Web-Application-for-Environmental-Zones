@@ -1,0 +1,179 @@
+:root {
+--step-line-color: #873684;
+--step-line-width: 2px;
+--step-line-offset: 15px;
+--step-circle-diameter: 150px;
+--step-circle-color: #faebfb;
+--step-spacing: 80px;
+--step-endcap-size: 6px;
+--step-label-offset: 20px;
+--step-label-fontsize: 12px;
+--step-label-lineheight: 1.5;
+}
+
+html {
+box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+box-sizing: inherit;
+}
+
+body {
+margin: 100px auto;
+}
+
+.steps {
+margin: 0 auto;
+padding: 0;
+list-style-type: none;
+display: flex;
+justify-content: center;
+gap: var(--step-spacing);
+}
+
+.steps li {
+position: relative;
+}
+
+.steps li::before,
+.steps li::after {
+position: absolute;
+content: "";
+background-color: var(--step-line-color);
+height: var(--step-line-width);
+width: calc(
+var(--step-spacing) -
+(2 * (var(--step-line-offset) - var(--step-line-width)))
+);
+}
+
+.steps li:nth-child(odd)::before,
+.steps li:nth-child(odd)::after {
+top: calc(
+(var(--step-circle-diameter) / 2) - (var(--step-line-offset) / 2) -
+var(--step-line-width)
+);
+}
+
+.steps li:nth-child(even)::before,
+.steps li:nth-child(even)::after {
+bottom: calc(
+(var(--step-circle-diameter) / 2) - (var(--step-line-offset) / 2) -
+var(--step-line-width)
+);
+}
+
+.steps li::before {
+left: calc(
+-1 * (var(--step-spacing) -
+(var(--step-line-offset) - var(--step-line-width)))
+);
+}
+
+.steps li::after {
+right: calc(
+-1 * (var(--step-spacing) -
+(var(--step-line-offset) - var(--step-line-width)))
+);
+}
+
+.steps li .steps__icon-container {
+background-color: var(--step-circle-color);
+width: var(--step-circle-diameter);
+height: var(--step-circle-diameter);
+border-radius: calc(var(--step-circle-diameter) / 2);
+font-size: 36px;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.steps li .steps__icon-container::before {
+position: absolute;
+left: -var(--step-line-offset);
+content: "";
+display: block;
+width: calc((2 * var(--step-line-offset)) + var(--step-circle-diameter));
+height: calc(var(--step-line-offset) + var(--step-circle-diameter) / 2);
+border: var(--step-line-width) solid var(--step-line-color);
+}
+
+.steps li:nth-child(odd) .steps__icon-container::before {
+top: calc(-1 * var(--step-line-offset));
+border-radius: calc(
+(2 * var(--step-line-offset)) + var(--step-circle-diameter)
+)
+calc((2 * var(--step-line-offset)) + var(--step-circle-diameter)) 0 0;
+border-bottom-width: 0;
+clip-path: inset(0 0 calc(var(--step-line-offset) / 2) 0);
+}
+
+.steps li:nth-child(even) .steps__icon-container::before {
+bottom: calc(-1 * var(--step-line-offset));
+border-radius: 0 0
+calc((2 * var(--step-line-offset)) + var(--step-circle-diameter))
+calc((2 * var(--step-line-offset)) + var(--step-circle-diameter));
+border-top-width: 0;
+clip-path: inset(calc(var(--step-line-offset) / 2) 0 0 0);
+}
+
+.steps li .steps__label {
+position: absolute;
+width: 100%;
+text-align: center;
+font-family: sans-serif;
+font-size: var(--step-label-fontsize);
+line-height: var(--step-label-lineheight);
+}
+
+.steps li:nth-child(odd) .steps__label {
+top: calc(var(--step-circle-diameter) + var(--step-label-offset));
+}
+
+.steps li:nth-child(even) .steps__label {
+bottom: calc(var(--step-circle-diameter) + var(--step-label-offset));
+}
+
+.steps .steps__label::before,
+.steps .steps__label::after {
+position: absolute;
+content: "";
+background-color: var(--step-line-color);
+width: var(--step-endcap-size);
+height: var(--step-endcap-size);
+border-radius: calc(var(--step-endcap-size) / 2);
+}
+
+.steps li:nth-child(odd) .steps__label::before,
+.steps li:nth-child(odd) .steps__label::after {
+top: calc(
+(-1 * var(--step-label-offset)) -
+((var(--step-circle-diameter) + var(--step-line-offset)) / 2) -
+(var(--step-line-width) / 2) - (var(--step-endcap-size) / 2)
+);
+}
+
+.steps li:nth-child(even) .steps__label::before,
+.steps li:nth-child(even) .steps__label::after {
+bottom: calc(
+(-1 * var(--step-label-offset)) -
+((var(--step-circle-diameter) + var(--step-line-offset)) / 2) -
+(var(--step-line-width) / 2) - (var(--step-endcap-size) / 2)
+);
+}
+
+.steps .steps__label::before {
+left: calc(
+(-1 * var(--step-spacing)) + var(--step-line-offset) -
+var(--step-line-width) - (var(--step-endcap-size) / 2)
+);
+}
+
+.steps .steps__label::after {
+right: calc(
+(-1 * var(--step-spacing)) + var(--step-line-offset) -
+var(--step-line-width) - (var(--step-endcap-size) / 2)
+);
+}

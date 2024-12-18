@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/list.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        crossorigin="anonymous" />
+    <title>INO PAGE</title>
+</head>
+
+<body class="info">
+
+    <h1>THIS PAGE CONTAINS GENERAL INFOMATION ABOUT LEZ IN EUROPE</h1>
+
+    <div class="list-container">
+        <ul list-group>
+            {%for country in countries_with_lez%}
+            <li class="list-group-item">
+                <a href="{{ url_for('views.country_info', country=country.lower()) }}">{{ country }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+
+
+</body>
+
+</html>
+
+{% endblock %}

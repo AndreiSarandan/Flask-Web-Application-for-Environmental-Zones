@@ -1,0 +1,803 @@
+body {
+    /* background-image: url("../static/images/black\ and\ blue.jpg"); */
+    color: white;
+    overflow-x: hidden;
+
+}
+
+
+body.login,
+body.sign-up {
+    background: url("../static/general/car2.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+body.route-planner {
+    background: url("../static/general/route.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+body.eligibility-check {
+
+    background: url("../static/general/eligibility3.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+body.home {
+
+    background: url("../static/general/home1.jpg") no-repeat center center fixed;
+    /* background: url("../static/general/home1.jpg") no-repeat center center fixed; */
+
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    /* opacity: 0.5; */
+    /* background-color: black; */
+
+    /* mix-blend-mode: lighten; */
+    background-blend-mode: overlay;
+
+}
+
+body.new-car {
+
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)), url("../static/general/car3.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+body.my-profile,
+body.edit-car {
+
+    background: linear-gradient(rgba(0, 0, 0, 0.250), rgba(0, 0, 0, 0.7)), url("../static/general/car.jpg") no-repeat center center fixed;
+    /* background: url("../static/general/home1.jpg") no-repeat center center fixed; */
+
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    /* opacity: 0.5; */
+    /* background-color: black; */
+
+    /* mix-blend-mode: lighten; */
+    background-blend-mode: overlay;
+}
+
+body.admin {
+
+    /* background: url("../static/general/wallpaper.jpg") no-repeat center center fixed; */
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    overflow-x: hidden;
+    background-color: rgb(122, 183, 117);
+}
+
+body.info {
+
+    background: url("../static/general/wallpaper2.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+/* frame of the page */
+.page-content {
+    margin: 0px 5vw;
+    padding: 0px 50px;
+}
+
+.home-page-content {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border-radius: 10px;
+    padding: 10px 50px;
+}
+
+.home-page-map {
+    height: 60vh;
+    width: 93%;
+    /* margin: 5vh 2.7vw; */
+    border-radius: 1%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.hideOnMobile:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+    color: white;
+    text-decoration: none;
+}
+
+
+.goToHome:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+    color: white;
+    text-decoration: none;
+}
+
+.text {
+    margin: 5vh 2.7vw;
+    font-size: 800;
+    font-weight: 600;
+    text-align: justify;
+    word-spacing: 2px;
+    /* Align text justify */
+}
+
+.text-smaller {
+    margin: 5vh 2.7vw;
+    text-align: justify;
+    word-spacing: 2px;
+    font-size: 1.2rem;
+    width: 21vw;
+    text-align: justify;
+    word-spacing: 2px;
+}
+
+
+
+/* Hide the dropdown menu by default */
+.dropdown-menu-custom {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+    color: white;
+    text-decoration: none;
+    overflow: hidden;
+    /* Prevents scrollbar */
+    white-space: nowrap;
+    /* Prevents line wrapping */
+}
+
+/* Show the dropdown menu when the parent element is hovered */
+.dropdown:hover .dropdown-menu-custom {
+    display: block;
+
+}
+
+/* Style for dropdown menu items */
+.dropdown-menu-custom .dropdown-item {
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+    color: white !important;
+    text-decoration: none;
+    padding: 12px 25px !important;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.5;
+    z-index: 100;
+
+}
+
+/* Style for dropdown menu items on hover */
+.dropdown-menu-custom .dropdown-item:hover {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2) !important;
+    z-index: 100;
+
+}
+
+/* Style for dropdown menu container */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    /* padding-right: 30px; */
+    z-index: 100;
+
+}
+
+/* Adjust the style for the dropdown menu icon */
+.dropdown-menu-custom img {
+    height: 30px;
+    width: 30px;
+}
+
+/* Adjust styles for better visibility */
+.dropdown:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* Style for dropdown menu toggle*/
+/* .dropdown-toggle::after {
+    display: inline-block;
+    margin-left: 0.255em;
+    vertical-align: 0.255em;
+    content: "";
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+} */
+
+
+/* Original CSS styles */
+
+/* Add media query for smaller screens */
+@media only screen and (max-width: 768px) {
+    .row {
+        flex-direction: column;
+    }
+
+    .left-div,
+    .right-div {
+        width: 100%;
+    }
+
+    .divider {
+        display: none;
+        /* Hide the divider on smaller screens */
+    }
+
+    .textarea-container {
+        flex-direction: column;
+    }
+
+    .textarea-container textarea {
+        width: 100%;
+    }
+
+    .swiper-slide {
+        /* Adjust width for larger screens */
+        width: 50%;
+    }
+}
+
+/* Other existing styles */
+
+
+p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1.5rem;
+    font-weight: 450;
+    text-align: justify;
+}
+
+h1 {
+    font-size: 50px !important;
+    color: white !important;
+}
+
+h1,
+h2 {
+    font-family: fantasy, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+.h2title {
+    margin-top: 2vh;
+    margin-left: 1.3vw;
+    font-size: 50px;
+    color: white;
+    font-family: fantasy, Arial, Helvetica, sans-serif;
+}
+
+.smallerh2 {
+    margin-top: 2vh;
+    margin-left: 1.3vw;
+    font-size: 40px;
+    color: white;
+    font-family: fantasy, Arial, Helvetica, sans-serif;
+    font-weight: 400;
+}
+
+.h3title {
+    margin-top: 2vh;
+    margin-bottom: 8vh;
+    margin-left: 1.3vw;
+    font-size: 50px;
+    color: white;
+    font-family: fantasy, Arial, Helvetica, sans-serif;
+}
+
+
+.h4title {
+    margin-top: 2vh;
+    margin-bottom: 0px;
+    margin-left: 1.3vw;
+    font-size: 35px;
+    color: white;
+    font-family: fantasy, Arial, Helvetica, sans-serif;
+}
+
+.h5title {
+    font-size: 20px;
+    color: white;
+    font-family: sans-serif;
+    font-weight: 700;
+    margin: 20px;
+}
+
+
+.mt-3 {
+    margin-top: 10px !important;
+}
+
+#h1-new-vehicle {
+    padding-bottom: 50px;
+    font-size: 7vh;
+    font-family: fantasy, Arial, Helvetica, sans-serif;
+
+}
+
+/* paragrphs on the home-page */
+
+.paragraph-container-home {
+    margin: 0px 50px;
+    margin-bottom: 100px;
+}
+
+.paragraph-container-home-no-margin-left {
+    margin-bottom: 100px;
+    margin-right: 50px;
+}
+
+.paragraph-container-home-no-margin-right {
+    margin-bottom: 100px;
+
+}
+
+.p-margin-top {
+    margin-top: 5vh;
+    margin-bottom: 30px;
+
+}
+
+.steps-container {
+    margin-top: 50px;
+    margin-bottom: 190px;
+}
+
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex-box-space-around {
+    display: flex;
+    justify-content: space-around;
+}
+
+
+.menu-button-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    z-index: 100;
+}
+
+.bar1,
+.bar2,
+.bar3 {
+    width: 30px;
+    height: 2px;
+    background-color: white;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+.dropdown-content {
+    position: absolute;
+    top: 50px;
+    left: -250px;
+    width: 250px;
+    background-color: #151515;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+    color: white;
+    text-decoration: none;
+    transition: left 0.3s ease;
+    margin-right: 20px;
+    z-index: 100;
+    height: auto;
+}
+
+.dropdown-content.show {
+    left: 0;
+    z-index: 100;
+
+}
+
+.show {
+    display: block;
+    z-index: 100;
+}
+
+.no-margin-label {
+    margin: 0 0;
+
+}
+
+.redirect {
+    background-color: transparent !important;
+
+}
+
+a {
+
+    &:link,
+    &:visited {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+}
+
+
+ul {
+    margin-bottom: 0px !important;
+}
+
+
+/* NEW BUTTONS */
+/* delete */
+
+/* .delete-button-no-span {
+    display: none;
+} */
+
+
+.buttons-div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.save-route-button,
+#checkEligibilityBtn,
+.save-car-button {
+    color: white;
+    position: relative;
+    width: 80px;
+    height: 50px;
+    border: 1px solid white;
+    border-radius: 9px;
+    background-color: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    box-shadow: 0 0 10px white;
+    overflow: hidden;
+    transition: .3s;
+}
+
+
+.directions-button {
+    color: white;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border: 1px solid white;
+    border-radius: 9px;
+    background-color: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    box-shadow: 0 0 10px white;
+    overflow: hidden;
+    transition: .3s;
+}
+
+
+.save-route-button,
+.directions-button {
+    width: auto;
+    padding: 2px 10px;
+}
+
+.save-car-button {
+    font-family: sans-serif;
+    font-weight: 600;
+}
+
+#checkEligibilityBtn {
+    width: 50px;
+    height: 30px;
+    font-family: sans-serif;
+    font-weight: 600;
+}
+
+.save-registration-button,
+.return-button {
+    color: white;
+    position: relative;
+    width: 43px;
+    height: 30px;
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    box-shadow: 0 0 10px white;
+    overflow: hidden;
+    transition: .3s;
+    font-size: small;
+}
+
+.save-db-button,
+.add-button,
+#add-registration-button,
+.delete-button-no-span,
+.edit-button,
+.delete-button {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    border: 1px solid white;
+    background-color: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    box-shadow: 0 0 10px white;
+    overflow: hidden;
+    transition: .3s;
+}
+
+.delete-minus-button-no-span {
+    width: 48px;
+    height: 48px;
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid rgba(0, 0, 0, 0);
+    cursor: pointer;
+
+}
+
+
+/* .save-car-button:hover, */
+.save-db-button:hover,
+.directions-button:hover,
+.save-route-button:hover,
+.save-car-button:hover,
+#checkEligibilityBtn:hover,
+#add-registration-button:hover,
+.delete-button-no-span:hover,
+.edit-button:hover,
+.delete-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.2);
+    box-shadow: 0 0 4px #111;
+    transition: .3s;
+}
+
+.delete-minus-button-no-span:hover {
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid rgba(0, 0, 0, 0);
+    transform: scale(1.2);
+    transition: .3s;
+}
+
+.add-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.2);
+    box-shadow: 0 0 4px #111;
+    transition: .3s;
+}
+
+/* .save-car-button svg, */
+#add-registration-button svg,
+.edit-button svg,
+.delete-button svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: .3s;
+    color: red;
+}
+
+.delete-button-no-span svg {
+    position: relative;
+
+    transition: .3s;
+    color: red;
+}
+
+
+.add-button svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: .3s;
+    color: white !important;
+}
+
+.add-button:focus svg,
+/* .save-car-button:focus svg, */
+.delete-button:focus svg {
+    opacity: 0;
+    transition: .3s;
+}
+
+
+.save-car-button-span,
+.delete-button-span {
+    width: 150px;
+    position: absolute;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    font-weight: 400;
+    transition: .3s;
+    color: red;
+}
+
+.add-button:focus,
+.save-car-button:focus,
+.delete-button:focus {
+    width: 150px;
+    height: 50px;
+    transition: .3s;
+}
+
+
+.save-car-button:focus span,
+.delete-button:focus span {
+    opacity: 1;
+    transition: .3s;
+}
+
+/* edit */
+
+.edit-button {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background-color: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    box-shadow: 0 0 10px white;
+    overflow: hidden;
+    transition: .3s;
+}
+
+.edit-button:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+    transform: scale(1.2);
+    box-shadow: 0 0 4px #111;
+    transition: .3s;
+}
+
+.edit-button svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: .3s;
+    fill: green;
+}
+
+/* #add-registration-button {
+    border: none;
+    border-radius: 4px;
+
+} */
+
+.add-registrations-button-div {
+    margin: 10px;
+    text-align: center;
+}
+
+.minus-image {
+    width: 100%;
+    height: 100%;
+}
+
+
+.cities-list {
+    max-height: 40vh;
+    overflow-y: auto;
+}
+
+
+.first-two {
+    display: flex;
+    justify-content: space-between;
+}
+
+.steps-list {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4vh;
+    width: 100%;
+}
+
+.step-number {
+    height: 60px;
+    width: 60px;
+    font-size: large;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 50px;
+    /* Adjust the margin between step number and text */
+}
+
+/* .step-nr{
+
+} */
+
+.steps-list>div {
+    display: flex;
+    align-items: center;
+}
+
+.steps-list>div:last-child {
+    margin-right: 0;
+    /* Remove right margin for the last div */
+}
+
+.step-desc {
+    font-size: 1.2rem;
+    width: 21vw;
+    text-align: justify;
+    word-spacing: 2px;
+}
+
+.separation-bar {
+    width: 5px;
+    background-color: white;
+    margin-top: 2.5vh;
+    max-height: fit-content;
+}
+
+
+.small-img {
+    width: 300px;
+    height: 300px;
+    margin-top: 2vh;
+}
+
+.medium-img {
+    margin-top: 2vh;
+    width: 600px;
+    height: 400px;
+}
+
+.wide-img {
+    margin-top: 2vh;
+    width: 700px;
+    height: 400px;
+}
+
+
+.login-form-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+
+}
+
+
+.empty-list-info {
+    color: white;
+}
+
+
+/* 
+.login-form {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+} */

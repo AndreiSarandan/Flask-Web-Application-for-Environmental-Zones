@@ -1,0 +1,119 @@
+.multi-select-menu {
+    margin-bottom: 20px;
+}
+
+.multi-select-menu h3 {
+    margin-bottom: 10px;
+}
+
+.menu-container {
+    position: relative;
+}
+
+
+.arrow {
+    margin-left: 10px;
+}
+
+.options {
+
+    display: none;
+
+
+}
+
+.options div {
+    padding: 5px;
+    cursor: pointer;
+}
+
+
+
+/* Style for selected options */
+.selected {
+    background-color: #e0e0e0;
+    /* Light gray background */
+}
+
+.options div.selected {
+    background-color: #f0f0f0;
+    /* Highlight selected options */
+}
+
+.clickable-label {
+    border-radius: 10px;
+    border: 2px solid rgb(59, 90, 68, 0.8);
+    box-sizing: border-box;
+    font-size: 1.25em;
+    font-family: sans-serif;
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+}
+
+/* .selected-registration-input:hover, */
+.clickable-label:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 4px #111;
+    transition: .3s;
+}
+
+
+input[type="radio"] {
+    display: none;
+    border-radius: 10px;
+    border: 2px solid rgb(81, 115, 69, 0.8);
+    box-sizing: border-box;
+    font-size: 1.25em;
+    font-family: sans-serif;
+    width: 100%;
+    padding: 10px;
+    background-color: rgb(81, 115, 69, 0.8);
+    color: white;
+}
+
+input[type="checkbox"] {
+    display: none;
+    border-radius: 10px;
+    border: 2px solid rgb(81, 115, 69, 0.8);
+    box-sizing: border-box;
+    font-size: 1.25em;
+    font-family: sans-serif;
+    width: 100%;
+    padding: 10px;
+    background-color: rgb(81, 115, 69, 0.8);
+    color: white;
+}
+
+input[type="radio"]:checked+label {
+    background-color: rgb(59, 90, 68, 0.8);
+}
+
+input[type="checkbox"]:checked+label {
+    background-color: rgb(59, 90, 68, 0.8);
+}
+
+#view1 {
+    display: none;
+}
+
+/* Hide the delete button initially */
+.shortDeleteButton {
+    display: none;
+
+}
+
+/* Show the delete button when the parent div is hovered */
+.hoverable:hover .shortDeleteButton {
+    display: inline-block !important;
+    border: solid 2px green;
+
+}
+
+.hoverable:hover {
+    .shortDeleteButton {
+        display: block;
+
+    }
+}
