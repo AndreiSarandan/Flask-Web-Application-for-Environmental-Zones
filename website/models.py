@@ -459,14 +459,15 @@ def get_registration_class(country):
 
 
 class RequestLog(db.Model):
-    __tablename__ = 'Requests Log'
+    __tablename__ = 'Requests_Log'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # Foreign key to User model
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)  # Foreign key to User model
+    ip_address = db.Column(db.String(50), nullable=False)  # Add this column
     endpoint = db.Column(db.String(255), nullable=False)
     timestamp = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
 class BlockedUser(db.Model):
-    __tablename__ = 'Blocked Users'
-    ip_address = db.Column(db.String(50), nullable=True)  # For unauthenticated users
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True) # For authenticated users
+    __tablename__ = 'Blocked_Users'
+    ip_address = db.Column(db.String(50), nullable=True, primary_key=True)  # For unauthenticated users
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # For authenticated users
     blocked_until = db.Column(db.DateTime, nullable=False)

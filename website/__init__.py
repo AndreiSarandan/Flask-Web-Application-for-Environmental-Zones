@@ -20,6 +20,13 @@ def create_app(config_name='DevelopmentConfig'):
     db.init_app(app)
     migrate.init_app(app, db)
 
+    from .middleware import monitor_requests
+
+    # Register Middleware
+    @app.before_request
+    def monitor_requests_wrapper():
+        return monitor_requests()
+
     from .views import views
     app.register_blueprint(views, url_prefix='/')
     
