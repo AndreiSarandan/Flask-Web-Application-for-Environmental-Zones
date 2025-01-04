@@ -3,14 +3,8 @@ from flask_login import UserMixin
 from sqlalchemy import text
 from datetime import datetime
 from sqlalchemy import asc
+from datetime import datetime, timezone
 
-# class Car(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-#     brand = db.Column(db.String(50))
-#     model = db.Column(db.String(50))
-#     year = db.Column(db.Integer)
-#     euro_standard=db.Column(db.String(50))
 
 
 class Car(db.Model):
@@ -114,7 +108,6 @@ class Zone(db.Model):
         countries = Zone.query.with_entities(Zone.country).distinct().order_by(asc(Zone.country)).all()
         countries_with_lez = [country[0].strip("()''") for country in countries]
 
-        # Get cities grouped by country, ordered alphabetically
         cities_by_country = {}
         for country in countries_with_lez:
             cities_query = Zone.query.filter_by(country=country).with_entities(Zone.city).order_by(asc(Zone.city)).all()
@@ -462,3 +455,17 @@ def get_registration_class(country):
     # Add more countries as needed
     else:
         return None
+
+
+
+class RequestLog(db.Model):
+    __tablename__ = 'Requests Log'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # Foreign key to User model
+    endpoint = db.Column(db.String(255), nullable=False)
+    timestamp = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+
+class BlockedUser(db.Model):
+    __tablename__ = 'Blocked Users'
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)  # Foreign key to User model
+    blocked_until = db.Column(db.DateTime, nullable=False)
