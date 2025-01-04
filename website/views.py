@@ -12,7 +12,7 @@ from . import db
 
 
 # Load secrets
-with open('secrets.json') as f:
+with open('secrets.json') as f: 
     secrets = json.load(f)
 
 @views.context_processor

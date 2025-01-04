@@ -467,5 +467,6 @@ class RequestLog(db.Model):
 
 class BlockedUser(db.Model):
     __tablename__ = 'Blocked Users'
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)  # Foreign key to User model
+    ip_address = db.Column(db.String(50), nullable=True)  # For unauthenticated users
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True) # For authenticated users
     blocked_until = db.Column(db.DateTime, nullable=False)
