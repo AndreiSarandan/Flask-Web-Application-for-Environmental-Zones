@@ -28,7 +28,7 @@ def block_ip(ip_address, user_id=None, duration_minutes=5):
     db.session.commit()
 
 
-def detect_suspicious_behavior(ip_address, threshold=100, time_window=60):
+def detect_suspicious_behavior(ip_address, threshold=50, time_window=60):
     """
     Checks if an IP has exceeded the request threshold within the given time window.
     """
@@ -42,3 +42,6 @@ def detect_suspicious_behavior(ip_address, threshold=100, time_window=60):
 
     return request_count > threshold
     
+
+def detect_recurrent_suspicious_behaviour(ip_address, threshold=2):
+    pass

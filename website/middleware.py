@@ -17,6 +17,9 @@ def monitor_requests():
 
     user_id = current_user.id if current_user.is_authenticated else None
 
+    if user_is_blocked(ip_address):
+        return jsonify({"error": "Your IP has been blocked due to excessive requests."}), 429
+
     # Log the request
     log_request(ip_address, endpoint, user_id)
 
@@ -24,3 +27,9 @@ def monitor_requests():
     if detect_suspicious_behavior(ip_address):
         block_ip(ip_address)
         return jsonify({"error": "Your IP has been blocked due to excessive requests."}), 429
+
+
+def user_is_blocked(ip_address):
+    from .models import BlockedUser
+    blocked_user = BlockedUser.query.filter_by(ip_address=ip_address).first()
+    return blocked_user
