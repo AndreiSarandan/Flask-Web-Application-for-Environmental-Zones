@@ -470,5 +470,5 @@ class BlockedUser(db.Model):
     __tablename__ = 'Blocked_Users'
     ip_address = db.Column(db.String(50), nullable=True, primary_key=True)  # For unauthenticated users
     user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # For authenticated users
-    blocked_until = db.Column(db.DateTime, nullable=False)
+    blocked_until = db.Column(db.DateTime(timezone=True), nullable=False)
     total_bans = db.Column(db.Integer,default=0)

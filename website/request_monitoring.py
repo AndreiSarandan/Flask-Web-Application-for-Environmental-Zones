@@ -10,19 +10,26 @@ def log_request(ip_address, endpoint, user_id):
     db.session.add(request_log)
     db.session.commit()
 
-def block_ip(ip_address, user_id=None, duration_minutes=5):
-    # Blocks an IP address for a specified duration.
-        
-        
-    block_until = datetime.now(timezone.utc) + timedelta(minutes=duration_minutes)
+def block_ip(ip_address, user_id=None, ban_duration_minutes=1,treshold_permanent_ban=2):
+    # set duration of temporary ban    
+    block_until = datetime.now(timezone.utc) + timedelta(minutes=ban_duration_minutes)
     
     # Block the IP address
     blocked_ip = BlockedUser.query.filter_by(ip_address=ip_address).first()
+    #if IP is NOT on the blocked list -> add to block list
     if not blocked_ip:
-        blocked_ip = BlockedUser(ip_address=ip_address, blocked_until=block_until)
+        blocked_ip = BlockedUser(ip_address=ip_address,user_id=user_id ,blocked_until=block_until,total_bans=1)
         db.session.add(blocked_ip)
+
+    #if IP IS ALREADY on the blocked list -> update the list
     else:
-        blocked_ip.blocked_until = block_until
+        blocked_ip.total_bans=blocked_ip.total_bans+1
+
+        #if treshold for permanent ban is reached -> perma ban (2099)
+        if blocked_ip.total_bans>=treshold_permanent_ban:
+            blocked_ip.blocked_until=datetime(2099,1,1, tzinfo=timezone.utc)
+        else:
+            blocked_ip.blocked_until = block_until
     
     
     db.session.commit()
@@ -42,6 +49,3 @@ def detect_suspicious_behavior(ip_address, threshold=50, time_window=60):
 
     return request_count > threshold
     
-
-def detect_recurrent_suspicious_behaviour(ip_address, threshold=2):
-    pass
