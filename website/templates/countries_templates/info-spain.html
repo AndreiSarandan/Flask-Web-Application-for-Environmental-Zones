@@ -1,0 +1,191 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../../static/country_info.css">
+
+    <title>Document</title>
+</head>
+
+<body class="spain">
+
+    <div class="page-content">
+
+
+
+        <div class="paragraph-container">
+            <h2>Low Emission Zones in Spain</h2>
+            <div>
+                <button type="button" class="collapsible  on-countries">General information </button>
+                <div class="collapsed-content-viewable">
+                    <p class="">
+
+                        &emsp;The Spanish Congress approved the Climate Change Act, requiring municipalities with more
+                        than 50,000 inhabitants to implement a Low Emission Zone (LEZ) by 2023. This mandates 149 cities
+                        to restrict older vehicles, aiming to reduce pollution and promote cleaner air. <br>
+
+                        &emsp;Spain's LEZs, Emergency Schemes, and Access Regulations include the requirement for
+                        vehicles to display windscreen stickers. These stickers, part of the national scheme, are
+                        essential for accessing LEZs and can be obtained by Spanish vehicles only. <br>
+
+                        &emsp;However, stickers from other countries, such as Germany and France, are officially
+                        accepted by Spanish authorities, allowing foreign vehicles to comply with LEZ regulations.
+                        Foreign vehicles must still adhere to the specific emission standards
+                        and regulations of the Spanish LEZs. This ensures that all vehicles contribute to the reduction
+                        of urban emissions and the improvement of air
+                        quality. <br>
+
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" class="collapsible  on-countries">Which cities have Low
+                    Emission Zones ?
+                </button>
+                <div class="collapsed-content-viewable">
+                    <div class="cities-list">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>City</th>
+                                    <th>Required Registration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for city, registration in zip(cities, registrations) %}
+                                <tr>
+                                    <td>{{ city }}</td>
+                                    <td>{{ registration }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" class="collapsible  on-countries">How do I recognise a Low
+                    Emission Zone
+                    ?</button>
+                <div class="collapsed-content-viewable">
+                    <p> &emsp;Environmental zones are marked by specific traffic signs. </p>
+
+                    <div class="flex-box-space-around">
+                        <p>
+                            <img class="small-img on-page" src={{ url_for('static', filename='spain/LEZs.jpg' ) }}>
+                            <img class="small-img on-page" src={{ url_for('static', filename='spain/LEZ.png' ) }}>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" class="collapsible  on-countries"> Do I need a sticker or
+                    registration to enter a
+                    Low Emission Zone ?
+                </button>
+
+                <div class="collapsed-content-viewable">
+
+                    <p>
+                        &emsp;To be allowed to enter a ZBE (Low Emission Zone), vehicles must be registered. <br>
+
+                        &emsp;The Spanish emissions sticker is exclusively available for vehicles registered in Spain.
+                        However, Spanish authorities officially recognize emission stickers issued by other European
+                        countries, requiring foreign vehicles to also comply with the LEZ restrictions.
+                        <br>
+
+                    <ul>
+                        <li>&emsp;<strong>Distintivo Ambiental B:</strong> Petrol: Euro 3. Diesel: Euro 4 and 5.</li>
+                        <li>&emsp;<strong>Distintivo Ambiental C:</strong> Petrol: Euro 4, 5, and 6. Diesel: Euro 6.
+                        </li>
+                        <li>&emsp;<strong>Distintivo Ambiental ECO:</strong> Hybrid and/or gas vehicles that also meet:
+                            Petrol: Euro 4, 5, and 6. Diesel: Euro 6.</li>
+                        <li>&emsp;<strong>Distintivo Ambiental Cero:</strong> 100% electric, fuel cell, plug-in-hybrid
+                            (minimum range 40 km) vehicles.</li>
+                    </ul>
+                    <div class="flex-box-space-around">
+                        <p>
+                            <img class="on-page" src={{ url_for('static', filename='spain/stickers1.png' ) }}>
+
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div>
+
+                <button type="button" class="collapsible  on-countries"> What are the penalties
+                    ?</button>
+                <div class="collapsed-content-viewable">
+                    <p>
+                        &emsp;Violating rules of Low Emission Zones in {{country|capitalize}} results in a fine of
+                        {{fines}}.
+                    </p>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    {% endblock %}
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+
+FLEX BOX MODEL 
+
+<div class="flex-box">
+
+    <ul class="list-group" aria-label="Low Emission Zones">
+        {%for city in cities%}
+        <li class="list-group-item">{{ city }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+
+    <p class="image-container">
+        <img class="on-page" src={{ url_for('static', filename='france/stickers.jpeg' ) }}>
+    </p>
+    <p>
+        <img class="on-page" src={{ url_for('static', filename='france/LEZe.jpg' ) }}>
+
+    </p>
+</div> -->

@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<head>
+    <title>Google Maps Directions</title>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSrGZOUl7LV020hIPMv0WXyKemXGj0Vgk&libraries=places&callback=initMap"
+        async defer></script>
+
+</head>
+<div>
+    <form id="directions-form"></form>
+
+    <label for="origin">Origin:</label>
+    <input type="text" id="origin" placeholder="Enter origin city and street">
+    <input type="text" id="locality-input-origin" placeholder="City">
+    <input type="text" id="country-input-origin" placeholder="Country"><br>
+
+    <label for="destination">Destination:</label>
+    <input type="text" id="destination" placeholder="Enter destination city and street">
+    <input type="text" id="locality-input-destination" placeholder="City">
+    <input type="text" id="country-input-destination" placeholder="Country">
+
+    <button type="button" onclick="calculateDirections()">Get Directions</button>
+    <input type="submit" style="display: none;">
+    </form>
+</div>
+<div id="map" style="height: 500px; width: 100%;"></div>
+
+
+
+<script>
+    var directionsService, directionsRenderer, map, originAutocomplete, destinationAutocomplete;
+
+    function fillInAddress(place, inputId) {
+        const componentTypeMap = {
+            location: 'route',
+            locality: 'locality',
+            country: 'country'
+        };
+
+        const components = place.address_components.filter(component => component.types.includes(componentTypeMap[inputId]));
+        const address = components.map(component => component.long_name).join(', ');
+
+        switch (inputId) {
+            case 'origin':
+                document.getElementById('locality-input-origin').value = components[0]?.long_name || '';
+                console.log(components[0]?.long_name || '');
+                document.getElementById('country-input-origin').value = components.find(c => c.types.includes('country'))?.long_name || '';
+                console.log(components.find(c => c.types.includes('country'))?.long_name || '');
+                break;
+            case 'destination':
+                document.getElementById('locality-input-destination').value = components[0]?.long_name || '';
+                console.log(components[0]?.long_name || '');
+                document.getElementById('country-input-destination').value = components.find(c => c.types.includes('country'))?.long_name || '';
+                console.log(components.find(c => c.types.includes('country'))?.long_name || '');
+                break;
+        }
+    }
+
+    function initMap() {
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer();
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 6,
+            center: { lat: 51.509865, lng: -0.118092 }
+        });
+        directionsRenderer.setMap(map);
+
+        originAutocomplete = new google.maps.places.Autocomplete(
+            document.getElementById('origin'),
+            { types: ['geocode'] }
+        );
+
+        destinationAutocomplete = new google.maps.places.Autocomplete(
+            document.getElementById('destination'),
+            { types: ['geocode'] }
+        );
+
+        originAutocomplete.addListener('place_changed', function () {
+            const place = originAutocomplete.getPlace();
+            fillInAddress(place, 'origin');
+        });
+
+        destinationAutocomplete.addListener('place_changed', function () {
+            const place = destinationAutocomplete.getPlace();
+            fillInAddress(place, 'destination');
+        });
+    }
+
+    function calculateDirections() {
+        const origin = document.getElementById('origin').value;
+        const destination = document.getElementById('destination').value;
+        const form = document.getElementById('directions-form');
+        form.submit();
+
+        var request = {
+            origin: origin,
+            destination: destination,
+            travelMode: 'DRIVING'
+        };
+
+        directionsService.route(request, function (response, status) {
+            if (status == 'OK') {
+                directionsRenderer.setDirections(response);
+            } else {
+                console.error('Error fetching directions:', status);
+            }
+        });
+    }
+
+    document.getElementById('directions-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+
+        fetch('/calculate-directions', {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Response from the backend
+
+                // Update the map with the calculated directions
+                updateMap(data);
+            })
+            .catch(error => {
+                console.error('Error sending data:', error);
+            });
+    });
+</script>
+{% endblock %}

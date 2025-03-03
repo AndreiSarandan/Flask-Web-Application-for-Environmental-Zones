@@ -1,0 +1,171 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../../static/country_info.css">
+
+    <title>Document</title>
+</head>
+
+<body class="poland">
+
+    <div class="page-content">
+
+
+        <div class="paragraph-container">
+            <h2>Low Emission Zones in Poland</h2>
+            <div>
+                <button type="button" class="collapsible  on-countries">General information </button>
+                <div class="collapsed-content-viewable">
+                    <p class="">
+                        &emsp;Poland has various Access Regulation Schemes, including limited traffic zones, pedestrian
+                        areas, LTZ for lorries, and weight restrictions in major cities. Low Emission Zones (LEZ) will
+                        be established in Krakow and Warsaw starting from 1 July
+                        2024. <br>
+
+                        &emsp;In Krakow, the LEZ will have two phases. From 1 July 2024, the
+                        minimum standards are Euro 1 for petrol/LPG and Euro 2 for diesel vehicles registered before 1
+                        March 2023, and Euro 3 for petrol/LPG and Euro 5 for diesel vehicles registered after that date.
+                        From 1 July 2026, the standards will be Euro 3 for petrol/LPG and Euro 5 for diesel vehicles.
+                        <br>
+
+                        &emsp;Warsaw's LEZ will also start on 1 July 2024, with the minimum standards being Euro 2 for
+                        petrol and Euro 4 for diesel. These standards will tighten over time, reaching Euro 6 for both
+                        petrol and diesel by 1 July 2032. <br>
+
+                        &emsp;Other Polish cities, such as Wrocław, Bydgoszcz, Gliwice,
+                        Łódź, Zabrze, Rzeszów, and Gdańsk might impose LEZs in the future. <br>
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" class="collapsible  on-countries">Which cities have Low
+                    Emission Zones ?
+                </button>
+                <div class="collapsed-content-viewable">
+                    <div class="cities-list">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>City</th>
+                                    <th>Required Registration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for city, registration in zip(cities, registrations) %}
+                                <tr>
+                                    <td>{{ city }}</td>
+                                    <td>{{ registration }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div>
+                <button type="button" class="collapsible  on-countries">How do I recognise a Low
+                    Emission Zone
+                    ?</button>
+                <p>
+                <p> &emsp;Environmental zones are marked by specific traffic signs.
+                </p>
+                <div class="collapsed-content-viewable">
+
+                    <div class="flex-box-space-around">
+                        <p>
+                            <img class="medium-img on-page" src={{ url_for('static', filename='/poland/LEZ.jpg' ) }}>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" class="collapsible  on-countries"> Do I need a sticker or
+                    registration to enter a
+                    Low Emission Zone ?
+                </button>
+
+                <div class="collapsed-content-viewable">
+                    <p>
+                        For the moment, no registration required. Stickers might be required in the future.
+                    </p>
+                </div>
+
+            </div>
+
+            <div>
+
+                <button type="button" class="collapsible  on-countries"> What are the penalties
+                    ?</button>
+                <div class="collapsed-content-viewable">
+                    <p>
+                        &emsp;Violating rules of Low Emission Zones in {{country|capitalize}} results in a fine of
+                        {{fines}}.
+                    </p>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    {% endblock %}
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+
+FLEX BOX MODEL 
+
+<div class="flex-box">
+
+    <ul class="list-group" aria-label="Low Emission Zones">
+        {%for city in cities%}
+        <li class="list-group-item">{{ city }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+
+    <p class="image-container">
+        <img class="on-page" src={{ url_for('static', filename='france/stickers.jpeg' ) }}>
+    </p>
+    <p>
+        <img class="on-page" src={{ url_for('static', filename='france/LEZe.jpg' ) }}>
+
+    </p>
+</div> -->

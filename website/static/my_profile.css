@@ -1,0 +1,34 @@
+/* Add a small line between the two sides */
+.divider {
+    width: 5px;
+    height: 90vh;
+    background-color: white;
+    margin: 0 2vw;
+}
+
+.user_details {
+
+    position: relative;
+    margin-top: 30vh;
+}
+
+.profile-cars-list {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+
+/* Change text color to black */
+.list-group-item {
+    color: white;
+    background-color: rgba(9, 9, 8, 0.7);
+
+}
+
+/* Add margin-bottom for space between list items */
+.list-group-item {
+    margin-bottom: 10px;
+    font-family: sans-serif;
+
+    /* Adjust this value as needed */
+}

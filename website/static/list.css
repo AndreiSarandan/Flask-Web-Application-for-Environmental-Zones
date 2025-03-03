@@ -1,0 +1,112 @@
+/* Custom styles */
+
+.left-div {
+    width: 28%;
+    float: left;
+    /* margin-right: 5vw; */
+    z-index: 999;
+}
+
+.right-div {
+    width: 68vw;
+    float: right;
+    /* margin-left: 5vw; */
+    /* margin-right: 5vw; */
+}
+
+.left-content {
+    text-align: left;
+    color: white;
+}
+
+.right-content {
+    /* display: flex; */
+    position: relative;
+    justify-content: flex-end;
+}
+
+.eli .cars-list-container {
+    width: 100%;
+}
+
+/* Or, if you want to target the <ul> element directly */
+ul#notes {
+    width: 100%;
+    /* Adjust the width as needed */
+    /* Add other styles as necessary */
+}
+
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.btn-black {
+    color: #fff;
+    background-color: #AA9997;
+    border: 1px solid #000;
+}
+
+.btn-rmv {
+    color: #fff;
+    background-color: #DE0000;
+    border: 1px solid #000;
+}
+
+.btn-add {
+    color: #fff;
+    background-color: #44D131;
+    border: 1px solid #000;
+}
+
+
+
+/* Flexbox row layout */
+.row {
+    margin: 50px;
+    padding: 50 px;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: flex-start;
+}
+
+.row-short-top-margin {
+    margin: 0px;
+
+}
+
+
+.eligible-text-container {
+    /* height: 700px; */
+    background-color: rgba(0, 0, 0, 0.6);
+    width: 100%;
+}
+
+.short {
+    width: 800px;
+    margin-left: 10vw;
+
+}
+
+.addresses {
+    padding-left: 0;
+    position: relative;
+}
+
+
+
+label {
+    color: white;
+}
+
+.list-container {
+    margin-left: 25px;
+    width: 20vw;
+    /* margin: 15px; */
+}
+
+.add-button-div {
+    display: block;
+}

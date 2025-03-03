@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+
+{% extends "base.html" %}
+{% block title %}Eligibility Check{% endblock %}
+{% block content%}
+<html>
+
+<head>
+    <title>Eligibility Check</title>
+    <link rel="stylesheet" type="text/css" href="/static/eligibility.css">
+    <link rel="stylesheet" href="../static/list.css">
+    <link rel="stylesheet" href="../static/collapsible.css">
+</head>
+
+<body class="eligibility-check">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="form-results-container">
+                <div class="form-container">
+                    <form id="eligibilityForm" action="/eligibility-check" method="POST">
+                        <!-- <button type="button" class="collapsible">SELECT VEHICLE</button> -->
+                        <!-- <div class="elem-group collapsed-content"> -->
+                        <div class="elem-group">
+                            <label for="navigation_country">Select Vehicle:</label>
+
+                            <div>
+                                <!-- <label class="h5title" for=" selected-car">SELECT VEHICLE:</label> -->
+                                <select name="selected-car" id="selected-car">
+                                    <option value="None">Select Vehicle</option>
+
+                                    {% for car in user.cars %}
+                                    <option value="{{ car.id }}">{{ car.brand }} - {{ car.model }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h5 class="text-center h5title">OR</h5>
+                        </div>
+
+
+
+                        <!-- <h5 class="h5title">TEST A NEW VEHICLE</h5> -->
+                        <button type="button" class="collapsible_new-car-div  on-eligibility">Test New Vehicle</button>
+                        <div class="collapsed-content">
+                            <!-- Year Dropdown -->
+                            <div class="elem-group">
+                                <label for="year">Year:</label>
+                                <select id="year" name="year">
+                                    <!-- Generate options dynamically with a loop -->
+                                    {% set current_year = 2025 %}
+                                    {% set start_year = 1886 %}
+                                    {% for year in range(current_year, start_year - 1, -1) %}
+                                    <option value="{{ year }}">{{ year }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <!-- Fuel Type Dropdown -->
+                            <div class="elem-group">
+                                <label for="fuel_type">Fuel Type: </label>
+                                <select id="fuel_type" name="fuel_type">
+                                    <option value="PETROL">Petrol</option>
+                                    <option value="DIESEL">Diesel</option>
+                                    <option value="ELECTRIC">Electric</option>
+                                    <option value="PHEV">PHEV</option>
+                                    <option value="HYDROGEN">Hydrogen</option>
+                                    <option value="LPG">LPG</option>
+                                    <option value="CNG">CNG</option>
+                                </select>
+                            </div>
+
+                            <!-- EURO STANDARD -->
+                            <div class="elem-group">
+                                <label for="euro_standard">EURO Standard: </label>
+                                <select id="euro_standard" name="euro_standard">
+                                    <option value="Euro 0">Euro 0</option>
+                                    <option value="Euro 1">Euro 1</option>
+                                    <option value="Euro 2">Euro 2</option>
+                                    <option value="Euro 3">Euro 3</option>
+                                    <option value="Euro 4">Euro 4</option>
+                                    <option value="Euro 5">Euro 5</option>
+                                    <option value="Euro 6">Euro 6</option>
+                                    <option value="Euro E">Zero emission</option>
+                                </select>
+                            </div>
+
+                            <!-- Registration Country Dropdown -->
+                            <div class="elem-group">
+                                <label for="registration_country">Registration country:</label>
+                                <select id="registration_country" name="registration_country">
+                                    <option value="">Select Country</option>
+                                    <option value="Albania">Albania</option>
+                                    <option value="Andorra">Andorra</option>
+                                    <option value="Austria">Austria</option>
+                                    <option value="Belarus">Belarus</option>
+                                    <option value="Belgium">Belgium</option>
+                                    <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+                                    <option value="Bulgaria">Bulgaria</option>
+                                    <option value="Croatia">Croatia</option>
+                                    <option value="Cyprus">Cyprus</option>
+                                    <option value="Czech Republic">Czech Republic</option>
+                                    <option value="Denmark">Denmark</option>
+                                    <option value="Estonia">Estonia</option>
+                                    <option value="Finland">Finland</option>
+                                    <option value="France">France</option>
+                                    <option value="Germany">Germany</option>
+                                    <option value="Greece">Greece</option>
+                                    <option value="Hungary">Hungary</option>
+                                    <option value="Iceland">Iceland</option>
+                                    <option value="Ireland">Ireland</option>
+                                    <option value="Italy">Italy</option>
+                                    <option value="Kosovo">Kosovo</option>
+                                    <option value="Latvia">Latvia</option>
+                                    <option value="Liechtenstein">Liechtenstein</option>
+                                    <option value="Lithuania">Lithuania</option>
+                                    <option value="Luxembourg">Luxembourg</option>
+                                    <option value="Malta">Malta</option>
+                                    <option value="Moldova">Moldova</option>
+                                    <option value="Monaco">Monaco</option>
+                                    <option value="Montenegro">Montenegro</option>
+                                    <option value="Netherlands">Netherlands</option>
+                                    <option value="North Macedonia">North Macedonia</option>
+                                    <option value="Norway">Norway</option>
+                                    <option value="Poland">Poland</option>
+                                    <option value="Portugal">Portugal</option>
+                                    <option value="Romania">Romania</option>
+                                    <option value="Russia">Russia</option>
+                                    <option value="San Marino">San Marino</option>
+                                    <option value="Serbia">Serbia</option>
+                                    <option value="Slovakia">Slovakia</option>
+                                    <option value="Slovenia">Slovenia</option>
+                                    <option value="Spain">Spain</option>
+                                    <option value="Sweden">Sweden</option>
+                                    <option value="Switzerland">Switzerland</option>
+                                    <option value="Turkey">Turkey</option>
+                                    <option value="Ukraine">Ukraine</option>
+                                    <option value="United Kingdom">United Kingdom</option>
+                                    <option value="Vatican City">Vatican City</option>
+                                    <!-- Add more countries here if needed -->
+                                </select>
+                            </div>
+
+
+                            <!-- Has DPF Checkbox -->
+                            <div class="elem-group inlined custom-checkbox">
+                                <input type="checkbox" id="has_dpf" name="has_dpf">
+                            </div>
+                            <div class="elem-group inlined"> <label for="has_dpf">DPF/Catalytic converter </label></div>
+
+                        </div>
+                        <br> <br>
+
+                        <!-- Navigation Country Dropdown -->
+                        <div class="elem-group">
+                            <label for="navigation_country">Navigation country:</label>
+                            <select id="navigation_country" name="navigation_country">
+                                <option value="Belgium">Belgium</option>
+                                <option value="Bulgaria">Bulgaria</option>
+                                <option value="Denmark">Denmark</option>
+                                <option value="Germany">Germany</option>
+                                <option value="France">France</option>
+                                <option value="Netherlands">Netherlands</option>
+                                <option value="Italy">Italy</option>
+                                <option value="Poland">Poland</option>
+                                <option value="Portugal">Portugal</option>
+                                <option value="Spain">Spain</option>
+                                <option value="United Kingdom">United Kingdom</option>
+                                <!-- Add more countries here if needed -->
+                            </select>
+                        </div>
+
+                        <div id="registration_date_container" class="elem-group">
+
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="text-right">
+                            <button type="submit" id="checkEligibilityBtn"> <img
+                                    src="../static/general/icons8-chevron-right-16.png"></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="results-container">
+                    <div id="results"></div>
+                    <div id="results-image"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var coll = document.getElementsByClassName("collapsible_new-car-div");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+            });
+        }
+    </script>
+
+    <script>
+        // JavaScript functions and event listeners as described above
+        document.getElementById("checkEligibilityBtn").addEventListener("click", function (event) {
+            event.preventDefault();
+            var selectedCar = document.getElementById("selected-car").value;
+            var navigationCountry = document.getElementById("navigation_country").value;
+            var carRegistrationDateElement = document.getElementById('registration_date');
+
+            if (navigationCountry === 'Poland' && (!carRegistrationDateElement || !carRegistrationDateElement.value)) {
+                alert("Please select vehicle registration date.");
+                return;
+            }
+            if (selectedCar !== "None") {
+                checkExistingCar();
+            } else {
+                checkNewVehicle();
+            }
+            document.querySelector('.form-results-container').classList.add('show-results');
+        });
+
+        function addRegistrationDateField() {
+            var div = document.getElementById('registration_date_container');
+            const label = document.createElement("label");
+            label.textContent = "Registration date";
+            label.id = "registration_date_label";
+            const input = document.createElement("input");
+            input.id = "registration_date";
+            input.name = "registration_date";
+            input.type = "date";
+            div.appendChild(label);
+            div.appendChild(input);
+        }
+
+        function removeRegistrationDateField() {
+            const registrationDateField = document.getElementById('registration_date');
+            const registrationDateLabel = document.getElementById('registration_date_label');
+            if (registrationDateField) {
+                registrationDateField.remove();
+                registrationDateLabel.remove();
+            }
+        }
+
+        document.getElementById('navigation_country').addEventListener('change', function () {
+            const selectedCountry = this.value;
+            if (selectedCountry === 'Poland') {
+                addRegistrationDateField();
+            } else {
+                removeRegistrationDateField();
+            }
+        });
+
+        async function checkExistingCar() {
+            event.preventDefault();
+            var selectedCar = document.getElementById("selected-car").value;
+            const navigationCountry = document.getElementById("navigation_country").value;
+            var registrationCountry = document.getElementById("registration_country").value;
+            const carRegistrationDateElement = document.getElementById('registration_date');
+            const carRegistrationDate = carRegistrationDateElement ? carRegistrationDateElement.value : null;
+            const formData = new FormData();
+            formData.append('selected-car', selectedCar);
+            formData.append('navigation-country', navigationCountry);
+            formData.append('registration_country', registrationCountry);
+            formData.append('registration_date', carRegistrationDate);
+
+            try {
+                const response = await fetch(`/get-vehicle-info/${selectedCar}`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to retrieve car information');
+                }
+
+                const responseData = await response.json();
+                updateRegistrationInfo(responseData);
+
+            } catch (error) {
+                console.error('Error retrieving car information:', error);
+            }
+        }
+
+        async function checkNewVehicle() {
+            event.preventDefault();
+            var year = document.getElementById("year").value;
+            var fuelType = document.getElementById("fuel_type").value;
+            var euroStandard = document.getElementById("euro_standard").value;
+            var registrationCountry = document.getElementById("registration_country").value;
+            var hasDpf = document.getElementById("has_dpf").checked;
+            var navigationCountry = document.getElementById("navigation_country").value;
+            const carRegistrationDateElement = document.getElementById('registration_date');
+            const carRegistrationDate = carRegistrationDateElement ? carRegistrationDateElement.value : null;
+
+            const formData = new FormData();
+            formData.append('year', year);
+            formData.append('fuelType', fuelType);
+            formData.append('euroStandard', euroStandard);
+            formData.append('registrationCountry', registrationCountry);
+            formData.append('hasDpf', hasDpf);
+            formData.append('navigationCountry', navigationCountry);
+            formData.append('registration_date', carRegistrationDate);
+
+            try {
+                const response = await fetch(`/get-new-vehicle-info`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(Object.fromEntries(formData.entries()))
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to retrieve car information');
+                }
+
+                const responseData = await response.json();
+                updateRegistrationInfo(responseData);
+
+            } catch (error) {
+                console.error('Error retrieving car information:', error);
+            }
+        }
+
+        async function updateRegistrationInfo(registrationData) {
+
+            if (registrationData.eligible_registration_result === "Error") {
+                alert("Please select vehicle registration date.");
+                return;
+            }
+            const resultsDiv = document.getElementById("results");
+
+            resultsDiv.innerHTML = "";
+            const result = document.createElement("h2");
+            result.textContent = registrationData.eligible_registration_result;
+            result.classList.add("result-phrase");
+            resultsDiv.appendChild(result);
+
+            const additionalInfoParagraph = document.createElement("p");
+            additionalInfoParagraph.innerHTML = registrationData.eligible_registration_description;
+            resultsDiv.appendChild(additionalInfoParagraph);
+            additionalInfoParagraph.classList.add("registration-description");
+            additionalInfoParagraph.classList.add("text-small");
+
+
+            if (registrationData.eligible_registration_image != "None") {
+                const registrationImageContainer = document.createElement("div");
+                registrationImageContainer.classList.add("registrationImageContainer")
+                const registrationImage = document.createElement("img");
+                registrationImage.src = registrationData.eligible_registration_image;
+                registrationImage.alt = "Eligible Registration Image";
+                registrationImage.classList.add("registration-image");
+                registrationImageContainer.appendChild(registrationImage);
+                resultsDiv.appendChild(registrationImageContainer);
+            }
+        }
+    </script>
+</body>
+{% endblock %}
+
+</html>

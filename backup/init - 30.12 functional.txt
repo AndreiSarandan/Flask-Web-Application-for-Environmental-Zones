@@ -1,0 +1,57 @@
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from os import path
+from flask_login import LoginManager
+
+db=SQLAlchemy()
+DB_NAME='users_databse.db' 
+
+
+from .views import views
+def create_app():
+    app=Flask(__name__)
+    app.config['SECRET_KEY'] = 'abc' 
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    db.init_app(app)
+
+    app.register_blueprint(views, url_prefix = '/')
+    from .auth import auth
+    app.register_blueprint(auth, url_prefix = '/')
+
+    create_database(app)
+
+    # Import here to avoid circular import
+    from .models import User, Car, Zone
+    login_manger = LoginManager()
+    login_manger.login_view = 'auth.login' #redirect to login page if user tries to access restricted tabs
+    login_manger.init_app(app)
+
+    @login_manger.user_loader
+    def load_user(id):
+        return User.query.get(int(id))
+
+
+    return app
+
+def create_database(app):
+    with app.app_context():
+        if not path.exists('website/' + DB_NAME):
+            db.create_all()
+            print("Database created! ")
+     # SQL statements to insert initial data into the Zone table
+    sql_statements = """
+        INSERT INTO zone (country, city, descriptions, required_pass, minimum_euro) VALUES
+        ('France', 'Paris', 'Beautiful city with many green spaces.', 'GreenPass123', '50'),
+        ('Germany', 'Berlin', 'Capital city with parks and recreational areas.', 'EcoPass456', '40'),
+        ('Italy', 'Rome', 'Historic city with parks and gardens.', 'NaturePass789', '55'),
+        ('Spain', 'Madrid', 'Vibrant city with green zones and outdoor activities.', 'MadGreenPass', '45'),
+        ('United Kingdom', 'London', 'Large city with various parks and green initiatives.', 'LondonGreen123', '60');
+    """
+
+    # Execute the SQL statements
+    with db.engine.connect() as connection:
+        connection.execute(sql_statements)
+
+    print("Initial Zone data added to the database!")
+
+

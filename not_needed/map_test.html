@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Address Selection</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../static/map_test.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans+Text:500&amp;lang=en">
+    <script src="../static/map_test.js"></script>
+</head>
+
+<body>
+    <div class="card-container">
+        <div class="panel">
+            <div>
+                <img class="sb-title-icon"
+                    src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt="">
+                <span class="sb-title">Address Selection</span>
+            </div>
+            <input type="text" placeholder="Address" id="origin-input" />
+            <input type="text" placeholder="City" id="locality-input" />
+            <div class="half-input-container">
+                <input type="text" class="half-input" placeholder="State/Province"
+                    id="administrative_area_level_1-input" />
+                <input type="text" class="half-input" placeholder="Zip/Postal code" id="postal_code-input" />
+            </div>
+            <input type="text" placeholder="Country" id="country-input" />
+        </div>
+    </div>
+
+    <div class="card-container">
+        <div class="panel">
+            <div>
+                <img class="sb-title-icon"
+                    src="https://fonts.gstatic.com/s/i/googlematerialicons/location_pin/v5/24px.svg" alt="">
+                <span class="sb-title">Address Selection 2</span>
+            </div>
+            <input type="text" placeholder="Address" id="destination-input" />
+            <input type="text" placeholder="City" id="locality-input" />
+            <div class="half-input-container">
+                <input type="text" class="half-input" placeholder="State/Province"
+                    id="administrative_area_level_1-input" />
+                <input type="text" class="half-input" placeholder="Zip/Postal code" id="postal_code-input" />
+            </div>
+            <input type="text" placeholder="Country" id="country-input" />
+            <button onclick="calculateDirections()">Get Directions</button>
+        </div>
+    </div>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSrGZOUl7LV020hIPMv0WXyKemXGj0Vgk&libraries=places,marker&callback=initMap&solution_channel=GMP_QB_addressselection_v2_cABC"
+        async defer></script>
+</body>
+
+<div id="map" style="height: 500px; width: 100%;"></div>
+
+<script>
+    var directionsService;
+    var directionsRenderer;
+    var map;
+
+    function initMap() {
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer();
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 6,
+            center: { lat: 51.509865, lng: -0.118092 } // Center of the map (you may adjust)
+        });
+        directionsRenderer.setMap(map);
+    }
+
+    function calculateDirections() {
+        var origin = document.getElementById('origin-input').value;
+        var destination = document.getElementById('destination-input').value;
+
+        var request = {
+            origin: origin,
+            destination: destination,
+            travelMode: 'DRIVING'
+        };
+
+        directionsService.route(request, function (result, status) {
+            if (status == 'OK') {
+                directionsRenderer.setDirections(result);
+            } else {
+                console.error('Error fetching directions:', status);
+            }
+        });
+    }
+</script>
+
+{% endblock %}
+
+</html>

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Place Autocomplete</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="../static/route_planner.js"></script>
+    <link rel="stylesheet" href="../static/map.css">
+
+
+</head>
+
+<body>
+    <div class=" form-container">
+        <form id="directions-form" class="two-columns" method="POST">
+            <div class="origin">
+                <label for="selected-car">Select Car:</label>
+                <select name="selected-car" id="selected-car">
+                    {% for car in user.cars %}
+                    <option value="{{ car.id }}">{{ car.brand }} - {{ car.model }}</option>
+                    {% endfor %}
+                </select> <br>
+                <label for="street-origin">Origin Street:</label>
+                <input class="address_election" type="text" id="street-origin" name="street-origin"
+                    placeholder="Enter origin street"><br>
+
+                <label for="country-origin">Origin Country:</label>
+                <input class="address_election" type="text" id="country-origin" name="country-origin"
+                    placeholder="Enter origin country"><br>
+
+                <label for="city-origin">Origin City:</label>
+                <input class="address_election" type="text" id="city-origin" name="city-origin"
+                    placeholder="Enter origin city"><br>
+            </div>
+
+            <div class="destination">
+
+                <label for="hidden" id="hidden">Select Car:</label>
+                <select name="hidden" id="hidden">
+                </select>
+
+
+
+                <label for="street-destination">Destination Street:</label>
+                <input class="address_election" type="text" id="street-destination" name="street-destination"
+                    placeholder="Enter destination street"><br>
+
+                <label for="country-destination">Destination Country:</label>
+                <input class="address_election" type="text" id="country-destination" name="country-destination"
+                    placeholder="Enter destination country"><br>
+
+                <label for="city-destination">Destination City:</label>
+                <input class="address_election" type="text" id="city-destination" name="city-destination"
+                    placeholder="Enter destination city"><br>
+            </div><br>
+            <button class="directions-button" type="button" onclick="handleFormSubmission()">Calculate
+                Directions</button>
+        </form>
+    </div>
+
+
+    <div class=map-box>
+        <div id="map" style="height: 500px; width: 100%;"></div><br>
+    </div>
+
+    <div class="textarea-container">
+        <textarea id="origin-description-output" readonly placeholder="Description will appear here" rows="100"
+            cols="80"></textarea><br>
+
+        <textarea id="destination-description-output" readonly placeholder="Description will appear here" rows="100"
+            cols="80"></textarea><br>
+    </div>
+
+</body>
+
+</html>
+
+{% endblock %}

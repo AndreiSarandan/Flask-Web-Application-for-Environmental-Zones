@@ -1,0 +1,247 @@
+how to update DB:
+
+setup in __init__.py -> f important
+
+from flask_migrate import Migrate
+
+db = SQLAlchemy()
+DB_NAME = 'users_databse.db'
+
+from .views import views
+
+
+def create_app():
+    app = Flask(__name__)
+    app.config['SECRET_KEY'] = 'abc'
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    db.init_app(app)
+    migrate = Migrate(app, db)
+
+------------------
+in folderul website (acolo este __init__.py):
+set FLASK_APP=__init__.py
+$env:FLASK_APP = "__init__.py"
+flask run -> porneste serverul
+---- -> https://flask-migrate.readthedocs.io/en/latest/
+apoi, dupa ce am setat app.py = __init__
+1. fac modificarea in models.py
+2. flask db init
+3. flask db migrate -m "Initial migration."
+4. flask db upgrade
+
+
+
+
+
+
+
+
+
+
+
+from . import db
+from flask_login import UserMixin
+from sqlalchemy import text
+
+# class Car(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+#     brand = db.Column(db.String(50))
+#     model = db.Column(db.String(50))
+#     year = db.Column(db.Integer)
+#     euro_standard=db.Column(db.String(50))
+
+
+class Car(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    brand = db.Column(db.String(50))
+    model = db.Column(db.String(50))
+    year = db.Column(db.Integer)
+    fuel_type = db.Column(db.String(50))
+    euro_standard = db.Column(db.String(50))
+    registration_country=db.Column(db.String(50))
+
+    # registrations
+    belgium_registrations= db.Column(db.String(50))
+    bulgaria_registrations= db.Column(db.String(50))
+    denmark_registrations= db.Column(db.String(50))
+    france_registrations = db.Column(db.String(50))
+    germany_registrations = db.Column(db.String(50))
+    greece_registrations= db.Column(db.String(50))
+    netherlands_registrations= db.Column(db.String(50))
+    norway_registrations= db.Column(db.String(50))
+    poland_registrations= db.Column(db.String(50))
+    spain_registrations = db.Column(db.String(50))
+    united_kingdom_registrations= db.Column(db.String(50))
+
+    def __init__(self, owner_id=None, brand=None, model=None, year=None, fuel_type=None, euro_standard=None, registration_country=None, belgium_registrations=None, bulgaria_registrations=None, denmark_registrations=None, france_registrations=None, germany_registrations=None, greece_registrations=None, netherlands_registrations=None, norway_registrations=None, poland_registrations=None, spain_registrations=None, united_kingdom_registrations=None):
+        self.owner_id = owner_id
+        self.brand = brand
+        self.model = model
+        self.year = year
+        self.fuel_type = fuel_type
+        self.euro_standard = euro_standard
+        self.registration_country = registration_country
+        self.belgium_registrations = belgium_registrations
+        self.bulgaria_registrations = bulgaria_registrations
+        self.denmark_registrations = denmark_registrations
+        self.france_registrations = france_registrations
+        self.germany_registrations = germany_registrations
+        self.greece_registrations = greece_registrations
+        self.netherlands_registrations = netherlands_registrations
+        self.norway_registrations = norway_registrations
+        self.poland_registrations = poland_registrations
+        self.spain_registrations = spain_registrations
+        self.united_kingdom_registrations = united_kingdom_registrations
+
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(150), unique=True)
+    password=db.Column(db.String(150))
+    first_name=db.Column(db.String(150))
+    cars = db.relationship('Car')
+    is_admin = db.Column(db.Boolean, default=False)
+
+
+class Zone(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    country = db.Column(db.String(50))
+    city = db.Column(db.String(50))
+    registration_class=db.Column(db.String(50))
+    minimum_diesel=db.Column(db.Integer)
+    minimum_petrol=db.Column(db.Integer)
+    fines=db.Column(db.String(50))
+    registration_type = db.Column(db.Text)
+    registration_validity = db.Column(db.Text)
+    required_registration=db.Column(db.String(50))
+    exception_country=db.Column(db.String(50))
+    official_page=db.Column(db.String(150))
+    description = db.Column(db.Text)
+
+
+
+    @classmethod
+    def get_description_by_city(cls, city):
+        query = text("SELECT description FROM Zone WHERE city = :city")
+        result = db.session.execute(query, {"city": city})
+        row = result.fetchone()
+        if row:
+            return row.description
+        return None
+    
+
+    @classmethod
+    def get_fines(cls, city_name):
+        zone = cls.query.filter_by(city=city_name).first()
+        return zone.fines if zone else None
+
+    @classmethod
+    def get_required_registration(cls, city_name):
+        zone = cls.query.filter_by(city=city_name).first()
+        return zone.required_registration if zone else None
+
+    @classmethod
+    def get_minimum_diesel_petrol(cls, city_name):
+        zone = cls.query.filter_by(city=city_name).first()
+        min_diesel = zone.minimum_diesel if zone else None
+        min_petr = zone.minimum_petrol if zone else None
+        return f"Only vehicles Euro {min_diesel} Diesel and Euro {min_petr} Petrol are allowed. "
+
+
+    @classmethod
+    def get_minimum_petrol(cls, city_name):
+        zone = cls.query.filter_by(city=city_name).first()
+        return zone.minimum_petrol if zone else None
+    
+
+    
+    @classmethod
+    def get_official_page(cls, city_name):
+        zone = cls.query.filter_by(city=city_name).first()
+        return zone.official_page if zone else None
+    
+
+
+
+class GeneralRegistrations(db.Model):
+    __abstract__ = True
+
+    id = db.Column(db.Integer, primary_key=True)
+    country = db.Column(db.String(50))
+    registration_type = db.Column(db.String(50))
+    name = db.Column(db.String(50))
+    minimum_diesel = db.Column(db.String(50))
+    minimum_petrol = db.Column(db.String(50))
+    description = db.Column(db.Text)
+    image_url = db.Column(db.String(255))
+
+    @classmethod
+    def find_best_registration_badge(cls, country, car_fuel_type, euro_standard):
+        # This method can be overridden by subclasses
+        pass
+
+class GermanyRegistrations(GeneralRegistrations):
+    __tablename__ = 'Germany_registrations'
+    minimum_diesel_wdpf = db.Column(db.String(50))
+    minimum_petrol_wdpf = db.Column(db.String(50))
+
+    @classmethod
+    def find_best_registration_badge(cls, car_fuel_type, car_euro_standard):
+        # Filter badges based on fuel type (diesel)
+        badges = cls.query.all()
+        best_badge = None
+
+        for badge in badges:
+            if car_fuel_type == "DIESEL":
+                minimum_standard = badge.minimum_diesel
+            else:
+                minimum_standard = badge.minimum_petrol
+
+            if minimum_standard != '-' and int(car_euro_standard[-1]) >= int(minimum_standard):
+                best_badge = badge
+                return best_badge
+            
+        return best_badge
+
+
+class FranceRegistrations(GeneralRegistrations):
+    __tablename__ = 'France_registrations'
+
+    @classmethod
+    def find_best_registration_badge(cls, car_fuel_type, car_euro_standard):
+        # Filter badges based on fuel type (diesel)
+        badges = cls.query.all()
+        best_badge = None
+
+        for badge in badges:
+            if car_fuel_type == "DIESEL":
+                minimum_standard = badge.minimum_diesel
+            else:
+                minimum_standard = badge.minimum_petrol
+
+            if minimum_standard != '-' and int(car_euro_standard[-1]) >= int(minimum_standard):
+                best_badge = badge
+                return best_badge
+            
+        return best_badge
+
+class SpainRegistrations(GeneralRegistrations):
+    __tablename__ = 'Spain_registrations'
+
+    @classmethod
+    def find_best_registration_badge(cls, car_fuel_type, euro_standard):
+        # Implement France-specific logic to find the best badge
+        pass
+
+
+# Function to dynamically select the appropriate subclass based on the country
+def get_registration_class(country):
+    if country == 'Germany':
+        return GermanyRegistrations
+    elif country == 'France':
+        return FranceRegistrations
+    # Add more countries as needed
+    else:
+        return None

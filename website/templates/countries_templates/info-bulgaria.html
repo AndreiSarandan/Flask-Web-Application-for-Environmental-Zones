@@ -1,0 +1,170 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../../static/country_info.css">
+
+    <title>Document</title>
+</head>
+
+<body class="bulgaria">
+
+    <div class="page-content">
+
+
+        <div class="paragraph-container">
+            <h2>Low Emission Zones in Bulgaria</h2>
+            <div>
+                <button type="button" class="collapsible  on-countries">General information </button>
+                <div class="collapsed-content-viewable">
+                    <p class="">
+                        &emsp;Sofia has an Access Regulation for lorries and a Low Emission Zone (LEZ) that is only
+                        active during the winter months. <br>
+
+                        &emsp;In January 2023, the Metropolitan Municipal Council of Sofia adopted an ordinance to
+                        create zones with low emissions of harmful substances in the atmospheric air within the
+                        territory of the Metropolitan Municipality. <br>
+
+                        &emsp;There will be two LEZs in Sofia, one inside the small ring road and one inside the big
+                        ring road, with the scheme active each year from 1 December to 28 February. <br>
+
+                        &emsp;The small ring road LEZ applies to M1 motor vehicles used for passenger transport, with a
+                        maximum of nine seats, including the driver's seat, as well as N1 motor vehicles used for goods
+                        transport, having a maximum mass not exceeding 3.5 tons. <br>
+
+                        &emsp;Eco-stickers are required for vehicles to enter these zones, with the minimum standards
+                        evolving over time. <br>
+
+                        &emsp;Starting from 1 December 2023, Eco sticker I will be required, which corresponds to diesel
+                        vehicles meeting Euro 4 standards and petrol vehicles meeting Euro 3 standards. <br>
+
+                        &emsp;From 1 December 2024, both Eco sticker I and II will be necessary, requiring diesel
+                        vehicles to meet Euro 6 standards and petrol vehicles to meet Euro 4 standards. <br>
+
+                        &emsp;Finally, from 1 December 2028, vehicles will need to display Eco stickers I, II, and III,
+                        indicating compliance with Euro 6a standards for both diesel and petrol vehicles. <br>
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" class="collapsible  on-countries">Which cities have Low
+                    Emission Zones ?
+                </button>
+                <div class="collapsed-content-viewable">
+                    <div class="cities-list">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>City</th>
+                                    <th>Required Registration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for city, registration in zip(cities, registrations) %}
+                                <tr>
+                                    <td>{{ city }}</td>
+                                    <td>{{ registration }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" class="collapsible  on-countries">How do I recognise a Low
+                    Emission Zone
+                    ?</button>
+                <div class="collapsed-content-viewable">
+                    <p>
+                        Momentarily, no traffic sign has been designed to mark the start of a LEZ.
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" class="collapsible  on-countries"> Do I need a sticker or
+                    registration to enter a
+                    Low Emission Zone ?
+                </button>
+
+                <div class="collapsed-content-viewable">
+                    <p>
+                        &emsp;Eco-stickers are disposed by local authotities. <br>
+                    </p>
+                </div>
+
+            </div>
+
+            <div>
+
+                <button type="button" class="collapsible  on-countries"> What are the penalties
+                    ?</button>
+                <div class="collapsed-content-viewable">
+                    <p>
+                        &emsp;Violating rules of Low Emission Zones in {{country|capitalize}} results in a fine of
+                        {{fines}}.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {% endblock %}
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+
+FLEX BOX MODEL 
+
+<div class="flex-box">
+
+    <ul class="list-group" aria-label="Low Emission Zones">
+        {%for city in cities%}
+        <li class="list-group-item">{{ city }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+
+    <p class="image-container">
+        <img class="on-page" src={{ url_for('static', filename='france/stickers.jpeg' ) }}>
+    </p>
+    <p>
+        <img class="on-page" src={{ url_for('static', filename='france/LEZe.jpg' ) }}>
+
+    </p>
+</div> -->

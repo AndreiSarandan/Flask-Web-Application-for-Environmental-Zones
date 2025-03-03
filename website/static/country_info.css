@@ -1,0 +1,150 @@
+/* body.france {
+    background-image: url("../static/france/paris.jpg");
+} */
+
+body.italy {
+    background: url("../static/italy/italy1.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+
+body.denmark {
+    background: url("../static/denmark/denmark_background.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+body.belgium {
+    background: url("../static/belgium/belgium_background.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+body.france {
+    background: url("../static/france/paris.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+body.germany {
+    background: url("../static/germany/germany_background.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+body.spain {
+    background: url("../static/spain/spain.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+body.bulgaria {
+    background: url("../static/bulgaria/city.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+body.hungary {
+    background: url("../static/hungary/budapest3.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+body.netherlands {
+    background: url("../static/netherlands/netherlands.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+body.poland {
+    background: url("../static/poland/poland3.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+body.portugal {
+    background: url("../static/portugal/portugal2.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+body.uk {
+    background: url("../static/uk/uk.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+
+h1 {
+    color: black !important;
+    font-size: 10vh;
+    position: absolute;
+    top: 12vh;
+    left: 8vw;
+
+}
+
+.paragraph-container {
+    background-color: rgb(255, 255, 255, 0.8);
+    color: black;
+    border-radius: 10px;
+    padding: 30px 30px;
+}
+
+.text {
+    margin: 10px 10px;
+}
+
+.flex-box {
+    display: flex;
+    justify-content: center;
+    gap: 8vw;
+}
+
+/* .image-container {
+    display: flex;
+    left: 70%;
+    bottom: 20%;
+} */
+
+/* img.on-page {
+    height: 40vh;
+    width: 40vh;
+} */
+
+ul:before {
+    content: attr(aria-label);
+    font-size: 120%;
+    font-weight: bold;
+    margin-left: -15px;
+}
+
+.on-countries {
+    margin-top: 3.5vh;
+    max-width: 90vw;
+}

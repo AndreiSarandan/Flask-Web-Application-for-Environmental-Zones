@@ -1,0 +1,173 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../../static/country_info.css">
+
+    <title>Document</title>
+</head>
+
+<body class="denmark">
+    <div class="page-content">
+
+        <div class="paragraph-container">
+            <h2>Low Emission Zones in Denmark</h2>
+            <div>
+                <button type="button" class="collapsible  on-countries">General information </button>
+                <div class="collapsed-content-viewable">
+                    <p class="">
+                        &emsp;Denmark has implemented Low Emission Zones (LEZs) in four major cities: Aalborg, Aarhus,
+                        Copenhagen, and Odense,
+                        to enhance air quality by limiting access to high-emission vehicles. In these zones, vehicles
+                        must meet at least the Euro 5
+                        emission standard to enter. <br>
+                        &emsp;In Aalborg, the LEZ encompasses the central areas of the city, operating 24/7, with strict
+                        adherence to the Euro 5
+                        minimum standard for both diesel and petrol vehicles. <br>
+                        &emsp;Aarhus' LEZ also covers the central city areas and operates around the clock, enforcing
+                        the same Euro 5 minimum
+                        standard. <br>
+                        &emsp;Copenhagen, the capital city, has one of the most comprehensive LEZs, covering the entire
+                        city center and requiring
+                        vehicles to meet the Euro 5 standard at all times. <br>
+                        &emsp;In Odense, the LEZ includes the central parts of the city, ensuring that only vehicles
+                        that meet the Euro 5 standard
+                        can access these areas, 24/7. <br>
+                        &emsp;Exemptions across these Danish LEZs typically include historic vehicles, emergency
+                        services, and vehicles for disabled
+                        persons.
+                    </p>
+                </div>
+            </div>
+
+
+            <div>
+                <button type="button" class="collapsible  on-countries">Which cities have Low
+                    Emission Zones ?
+                </button>
+                <div class="collapsed-content-viewable">
+                    <div class="cities-list">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>City</th>
+                                    <th>Required Registration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for city, registration in zip(cities, registrations) %}
+                                <tr>
+                                    <td>{{ city }}</td>
+                                    <td>{{ registration }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div>
+                <button type="button" class="collapsible  on-countries">How do I recognise a Low
+                    Emission Zone
+                    ?</button>
+                <div class="collapsed-content-viewable">
+                    <p> &emsp;Environmental zones are marked by specific traffic signs. </p>
+
+                    <div class="flex-box-space-around">
+                        <p>
+                            <img class="small-img on-page" src={{ url_for('static', filename='denmark/LEZ.png' ) }}>
+                            <img class="small-img on-page" src={{ url_for('static', filename='denmark/LEZ2.png' ) }}>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" class="collapsible  on-countries"> Do I need a sticker or
+                    registration to enter a
+                    Low Emission Zone ?
+                </button>
+
+                <div class="collapsed-content-viewable">
+                    <p>
+                        The registration is completely digital and mandatory for all vehicles registered outside Denmark
+                        and Norway.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <button type="button" class="collapsible  on-countries"> What are the penalties
+                    ?</button>
+                <div class="collapsed-content-viewable">
+                    <p>
+                        &emsp;Violating rules of Low Emission Zones in {{country|capitalize}} results in a fine of
+                        {{fines}}.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {% endblock %}
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+
+FLEX BOX MODEL 
+
+<div class="flex-box">
+
+    <ul class="list-group" aria-label="Low Emission Zones">
+        {%for city in cities%}
+        <li class="list-group-item">{{ city }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+
+    <p class="image-container">
+        <img class="on-page" src={{ url_for('static', filename='france/stickers.jpeg' ) }}>
+    </p>
+    <p>
+        <img class="on-page" src={{ url_for('static', filename='france/LEZe.jpg' ) }}>
+
+    </p>
+</div> -->

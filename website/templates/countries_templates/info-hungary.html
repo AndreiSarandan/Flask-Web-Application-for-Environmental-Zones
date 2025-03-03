@@ -1,0 +1,164 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../../static/country_info.css">
+
+    <title>Document</title>
+</head>
+
+<body class="hungary">
+
+    <div class="page-content">
+
+
+
+
+        <div class="paragraph-container">
+            <h2>Low Emission Zones in Hungary</h2>
+            <div>
+                <button type="button" class="collapsible  on-countries">General information </button>
+                <div class="collapsed-content-viewable">
+                    <p class="">
+                        &emsp;Hungary enforces access regulations in Budapest that generally apply to heavy vehicles,
+                        but
+                        regular passenger cars are typically unaffected. <br>
+
+
+                        &emsp;In the event of high pollution, a smog alert may be issued. When a this is active,
+                        vehicles that do not meet the minimum Euro 5 standard are
+                        prohibited from circulating between 06:00 and 22:00. <br>
+
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" class="collapsible  on-countries">Which cities have Low
+                    Emission Zones ?
+                </button>
+                <div class="collapsed-content-viewable">
+                    <div class="cities-list">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>City</th>
+                                    <th>Required Registration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for city, registration in zip(cities, registrations) %}
+                                <tr>
+                                    <td>{{ city }}</td>
+                                    <td>{{ registration }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div>
+                <button type="button" class="collapsible  on-countries">How do I recognise a Low
+                    Emission Zone
+                    ?</button>
+                <div class="collapsed-content-viewable">
+
+                    <div class="flex-box-space-around">
+                        <p>
+                            In case of activation due to bad air values (smog), the temporary zone of the city of
+                            Budapest City
+                            (temporary) is valid for the entire city, with the exception of some transit routes. </p>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div>
+                <button type="button" class="collapsible  on-countries"> Do I need a sticker or
+                    registration to enter a
+                    Low Emission Zone ?
+                </button>
+
+                <div class="collapsed-content-viewable">
+                    <p>
+                        No registration needed.
+
+                    </p>
+                </div>
+
+            </div>
+
+            <div>
+
+                <button type="button" class="collapsible  on-countries"> What are the penalties
+                    ?</button>
+                <div class="collapsed-content-viewable">
+                    <p>
+                        &emsp;Violating rules of Low Emission Zones in {{country|capitalize}} results in a fine of
+                        {{fines}}.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {% endblock %}
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+
+FLEX BOX MODEL 
+
+<div class="flex-box">
+
+    <ul class="list-group" aria-label="Low Emission Zones">
+        {%for city in cities%}
+        <li class="list-group-item">{{ city }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+
+    <p class="image-container">
+        <img class="on-page" src={{ url_for('static', filename='france/stickers.jpeg' ) }}>
+    </p>
+    <p>
+        <img class="on-page" src={{ url_for('static', filename='france/LEZe.jpg' ) }}>
+
+    </p>
+</div> -->

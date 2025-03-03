@@ -1,0 +1,173 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../../static/country_info.css">
+
+    <title>Document</title>
+</head>
+
+<body class="belgium">
+
+    <div class="page-content">
+
+
+
+        <div class="paragraph-container">
+            <h2>Low Emission Zones in Belgium</h2>
+            <div>
+                <button type="button" class="collapsible  on-countries">General information </button>
+                <div class="collapsed-content-viewable">
+                    <p class="">
+                        &emsp;Belgium has established three Low Emission Zones (LEZs) in Antwerp, Brussels, and Ghent to
+                        improve air
+                        quality by restricting access to high-emission vehicles. Notably, stickers are not required for
+                        entry into
+                        these zones. However, foreign vehicles must be registered, which is free of charge, and this
+                        registration
+                        applies to Euro 2 petrol and Euro 5 diesel vehicles. <br>
+                        &emsp;In Antwerp, the LEZ covers the entire city center and part of Linkeroever, operating 24/7,
+                        with restrictions
+                        on diesel vehicles below Euro 5 and petrol vehicles below Euro 2 standards. <br>
+                        &emsp;Brussels' LEZ encompasses the entire Brussels-Capital Region, also operating 24/7, with
+                        similar vehicle
+                        restrictions. <br>
+                        &emsp;Ghent's LEZ, covering the city center, follows the same operating hours and restrictions.
+                        Exemptions across
+                        these zones typically include historic vehicles (over 40 years old), emergency vehicles, and
+                        vehicles for disabled
+                        persons.
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" class="collapsible  on-countries">Which cities have Low
+                    Emission Zones ?
+                </button>
+                <div class="collapsed-content-viewable">
+                    <div class="cities-list">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>City</th>
+                                    <th>Required Registration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for city, registration in zip(cities, registrations) %}
+                                <tr>
+                                    <td>{{ city }}</td>
+                                    <td>{{ registration }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div>
+                <button type="button" class="collapsible  on-countries">How do I recognise a Low
+                    Emission Zone
+                    ?</button>
+                <div class="collapsed-content-viewable">
+                    <p> &emsp;Environmental zones are marked by specific traffic signs. </p>
+
+                    <div class="flex-box-space-around">
+                        <p>
+                            <img class="on-page" src={{ url_for('static', filename='belgium/LEZzone.jpg' ) }}>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" class="collapsible  on-countries"> Do I need a sticker or
+                    registration to enter a
+                    Low Emission Zone ?
+                </button>
+
+                <div class="collapsed-content-viewable">
+                    <p> The registration is completely digital and mandatory for all vehicles registered outside Belgium
+                        and Netherlands.
+                    <div class="flex-box-space-around">
+                        <img class="wide-img on-page" src={{ url_for('static', filename='belgium/belgium.png' ) }}>
+
+                    </div>
+                    </p>
+                </div>
+
+            </div>
+
+            <div>
+
+                <button type="button" class="collapsible  on-countries"> What are the penalties
+                    ?</button>
+                <div class="collapsed-content-viewable">
+                    <p>
+                        &emsp;Violating rules of Low Emission Zones in {{country|capitalize}} results in a fine of
+                        {{fines}}.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {% endblock %}
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+
+FLEX BOX MODEL 
+
+<div class="flex-box">
+
+    <ul class="list-group" aria-label="Low Emission Zones">
+        {%for city in cities%}
+        <li class="list-group-item">{{ city }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+
+    <p class="image-container">
+        <img class="on-page" src={{ url_for('static', filename='france/stickers.jpeg' ) }}>
+    </p>
+    <p>
+        <img class="on-page" src={{ url_for('static', filename='france/LEZe.jpg' ) }}>
+
+    </p>
+</div> -->

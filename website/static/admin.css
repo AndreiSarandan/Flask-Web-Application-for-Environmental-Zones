@@ -1,0 +1,210 @@
+.admin-container {
+    width: 98%;
+    height: 80vh;
+    margin: auto;
+    margin-top: 10px;
+
+    overflow-x: scroll;
+    overflow-y: scroll;
+}
+
+table {
+    width: 100%;
+    /* min-width: 1500px; */
+    overflow-x: auto;
+}
+
+th,
+td {
+    white-space: nowrap;
+    text-align: center;
+    vertical-align: middle;
+}
+
+th {
+    position: sticky;
+    top: 0;
+    background-color: #343a40;
+    /* Dark background for header */
+    color: #fff;
+    z-index: 1;
+}
+
+th .sort-buttons {
+    display: inline-block;
+}
+
+
+th .sort-buttons button {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 5px;
+}
+
+th .sort-buttons button:focus {
+    outline: none;
+}
+
+th .sort-buttons .fa {
+    font-size: 12px;
+}
+
+.description-cell,
+.temp-data-cell {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.description-cell.expanded,
+.temp-data-cell.expanded {
+    white-space: normal;
+}
+
+.admin-search-bar {
+    margin: 20px 20px;
+    width: 300px;
+    background-color: #32383e;
+    border: 1px solid #343a40;
+    /* Updated border color */
+    color: #888;
+    /* Text color */
+    position: relative;
+    /* Added */
+}
+
+.admin-search-bar-container {
+    position: relative;
+    display: inline-block;
+}
+
+.admin-search-bar {
+    padding: 10px 30px 10px 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+
+.admin-search-icon {
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+}
+
+
+.admin-buttons-container {
+    width: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+    background-color: rgb(146, 164, 155);
+    margin: 10px 10px;
+    border-radius: 10px;
+}
+
+.admin-text {
+    color: white;
+    font-family: sans-serif;
+
+}
+
+.admin-button {
+    color: white;
+    position: relative;
+    padding: 3px 7px;
+    border: 1px solid white;
+    border-radius: 9px;
+    background-color: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    overflow: hidden;
+    transition: .3s;
+    font-family: sans-serif;
+    font-weight: 400;
+    margin: 0px 20px;
+}
+
+.admin-button :hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.2);
+    box-shadow: 0 0 4px #111;
+}
+
+
+
+/* Custom styles for better appearance */
+body {
+    background-color: #f8f9fa;
+}
+
+.table thead th {
+    background-color: #343a40;
+    color: white;
+}
+
+.table tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+.sort-buttons {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.sort-buttons button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: white;
+}
+
+.description-cell {
+    cursor: pointer;
+    max-width: 150px;
+}
+
+.temp-data-cell {
+    cursor: pointer;
+    max-width: 150px;
+}
+
+.delete-button {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+}
+
+.delete-button svg {
+    vertical-align: middle;
+}
+
+.delete-button-span {
+    display: none;
+}
+
+.delete-button:hover .delete-button-span {
+    display: inline;
+}
