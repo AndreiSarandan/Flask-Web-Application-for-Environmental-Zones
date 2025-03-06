@@ -5,20 +5,19 @@ from os import path
 from flask_login import LoginManager
 import sqlite3
 from flask_migrate import Migrate
+import os
 
 db = SQLAlchemy()
-DB_NAME = 'users_databse.db'
-
-from .views import views
-migrate = Migrate()
 
 
-def create_app(config_name='DevelopmentConfig'):
+def create_app():
     app = Flask(__name__)
-    app.config.from_object(f'config.{config_name}')
-    
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@localhost:3306/flaskdb'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Optional
+
+    # Set the SECRET_KEY for session management
+    app.config['SECRET_KEY'] = os.urandom(24)  # This generates a random key
     db.init_app(app)
-    migrate.init_app(app, db)
 
     from .middleware import monitor_requests
 
@@ -27,20 +26,22 @@ def create_app(config_name='DevelopmentConfig'):
     def monitor_requests_wrapper():
         return monitor_requests()
 
+    #register blueprints
     from .views import views
     app.register_blueprint(views, url_prefix='/')
-    
     from .auth import auth
     app.register_blueprint(auth, url_prefix='/')
 
     with app.app_context():
         db.create_all()
 
-    from .models import User, Car
+    #setup login manager
+    from .models import User
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
+    # Load user
     @login_manager.user_loader
     def load_user(id):
         return User.query.get(int(id))
@@ -49,10 +50,17 @@ def create_app(config_name='DevelopmentConfig'):
 
 
 def create_database(app):
-    if not path.exists('website/' + DB_NAME):
-        db.create_all(app=app)
-        print('Created Database!')
-
+    try:
+        # Check if the database exists in MySQL
+        with app.app_context():
+            engine = db.engine
+            if not engine.dialect.has_database(engine.connect(), 'flaskdb'):  # Check if database exists
+                print('Database does not exist, creating database...')
+                with engine.connect() as conn:
+                    conn.execute('CREATE DATABASE flaskdb')
+                print('Database created successfully!')
+    except Exception as e:
+        print(f"Error creating database: {e}")
 
 
 

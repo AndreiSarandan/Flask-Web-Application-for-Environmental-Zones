@@ -4,10 +4,14 @@ from sqlalchemy import text
 from datetime import datetime
 from sqlalchemy import asc
 from datetime import datetime, timezone
+from sqlalchemy import create_engine, Column, Integer
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
-
+Base=declarative_base()
 
 class Car(db.Model):
+    __tablename__= 'car'
     id = db.Column(db.Integer, primary_key=True)
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     brand = db.Column(db.String(50))
@@ -70,6 +74,7 @@ class SavedRoute(db.Model):
     
 
 class User(db.Model, UserMixin):
+    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True)
     password=db.Column(db.String(150))
@@ -80,6 +85,7 @@ class User(db.Model, UserMixin):
 
 
 class Zone(db.Model):
+    __tablename__ = 'zone'
     id = db.Column(db.Integer, primary_key=True)
     country = db.Column(db.String(50))
     city = db.Column(db.String(50))
@@ -221,6 +227,7 @@ class Zone(db.Model):
     
 
 class ZoneTemporaryData(db.Model):
+    __tablename__ = 'zone_temporary_data'
     id = db.Column(db.Integer, primary_key=True)
     zone_id = db.Column(db.Integer, db.ForeignKey('zone.id'))
     city = db.Column(db.String(50))
@@ -472,3 +479,23 @@ class BlockedUser(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # For authenticated users
     blocked_until = db.Column(db.DateTime(timezone=True), nullable=False)
     total_bans = db.Column(db.Integer,default=0)
+
+# sqlite_engine = create_engine('sqlite:///test.db', echo=True)
+# SQLite_Session = sessionmaker(bind=sqlite_engine)
+# sqlite_session = SQLite_Session()
+
+
+# mysql_engine = create_engine('mysql://root:andrei@localhost:3306/flaskdb')
+# MYSQL_Session = sessionmaker(bind=mysql_engine)
+# mysql_session = MYSQL_Session()
+# Base.metadata.create_all(mysql_engine)
+
+# for table in [Car, User, SavedRoute, Zone, ZoneTemporaryData, GeneralRegistrations, BelgiumRegistrations, BulgariaRegistrations, DenmarkRegistrations, FranceRegistrations, GermanyRegistrations, GreeceRegistrations, ItalyAccess, NetherlandsRegistrations, PolandRegistrations, PortugalRefistrations, SpainRegistrations, UnitedKingdomRegistrations, RequestLog, BlockedUser]:
+#     records = sqlite_session.query(table).all()
+#     for record in records:
+#         mysql_session.add(record)
+
+# mysql_session.commit()
+# mysql_session.close()
+# sqlite_session.close()
+
