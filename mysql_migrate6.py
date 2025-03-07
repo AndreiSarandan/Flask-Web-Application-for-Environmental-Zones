@@ -40,16 +40,13 @@ df = pd.DataFrame(rows, columns=column_names)
 # Print DataFrame preview before inserting
 print(f"Sample data from {table_name}:\n{df.head()}")
 
-# Remove 'id' column if present (MySQL auto-increment workaround)
 if 'id' in df.columns:
     df = df.drop(columns=['id'])
 
 # Force insert into MySQL
 try:
-    # Use 'append' instead of 'replace' to avoid overwriting the table
     df.to_sql(table_name, mysql_conn, if_exists='append', index=False)
 
-    # Explicit commit to ensure the changes are saved
     mysql_conn.execute("COMMIT;")
     
     print(f"SUCCESS: Data from {table_name} migrated to MySQL.")
