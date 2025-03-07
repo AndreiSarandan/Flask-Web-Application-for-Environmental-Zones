@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: andrei
+      MYSQL_DATABASE: flaskdb
+      MYSQL_USER: your_username
+      MYSQL_PASSWORD: your_user_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      # Set this to the service name 'db' as defined below
+      DATABASE_HOST: db
+      DATABASE_USER: your_username
+      DATABASE_PASSWORD: your_user_password
+      DATABASE_NAME: your_database_name
+
+volumes:
+  mysql_data:

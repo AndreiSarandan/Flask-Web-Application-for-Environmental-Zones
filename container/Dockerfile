@@ -1,0 +1,7 @@
+FROM mysql:latest
+
+ENV MYSQL_ROOT_PASSWORD=andrei
+ENV MYSQL_DATABASE=flaskdb
+
+EXPOSE 3306
+

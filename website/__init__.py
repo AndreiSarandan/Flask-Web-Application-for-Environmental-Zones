@@ -12,7 +12,10 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@localhost:3306/flaskdb'
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@localhost:3306/flaskdb'
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@mysql-db:3306/flaskdb'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@127.0.0.1:3306/flaskdb'
+
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Optional
 
     # Set the SECRET_KEY for session management
