@@ -22,4 +22,4 @@ COPY /main.py .
 
 EXPOSE 5000
 
-CMD ["python", "main.py"]
+CMD sleep 10 && python main.py
