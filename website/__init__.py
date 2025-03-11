@@ -16,7 +16,10 @@ def create_app():
     # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@mysql-db:3306/flaskdb'
     # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@127.0.0.1:3306/flaskdb'
     # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@mysql-service:3306/flaskdb'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@db:3306/flaskdb'
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@db:3306/flaskdb'
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@host.docker.internal:3307/flaskdb'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@host.docker.internal:3306/flaskdb'
+
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Optional
 
@@ -37,8 +40,8 @@ def create_app():
     from .auth import auth
     app.register_blueprint(auth, url_prefix='/')
 
-    with app.app_context():
-        db.create_all()
+    # with app.app_context():
+    #     db.create_all()
 
     #setup login manager
     from .models import User
