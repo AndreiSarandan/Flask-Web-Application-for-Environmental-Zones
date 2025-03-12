@@ -1,0 +1,40 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Flask server CI pipeline
+
+on:
+  push:
+    branches: [ "main", "containerize-application" ]
+  pull_request:
+    branches: [ "main", "containerize-application" ]
+
+
+jobs:
+  build-an-test:
+    runs-on: ubuntu-latest
+   
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-actions@v2
+
+      - name: Build Docker image
+        run: docker build -t flask-server:latest .
+
+      - name: Run Container
+        run: docker run -d -p 5000:5000 --name=flask-server flask-server:latest
+
+      - name: Wait for Container Startup
+        run: sleep 10
+
+      - name: Check MySQL Connection
+        run: mysqladmin -h host.docker.internal -u root -pandrei ping
+        
+      - name: Install Python Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Pytest
+        run: pytest --disable-warnings -q
