@@ -6,6 +6,7 @@ RUN apt-get update && \
     libmariadb-dev \
     libmariadb-dev-compat \
     build-essential \
+    mariadb-client \
     python3-dev && \
     rm -rf /var/lib/apt/lists/*
 
