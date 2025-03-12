@@ -22,7 +22,10 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Create secrets.json
-        run: echo "${{ secrets.SECRETS_JSON }}" > secrets.json
+        run: |
+          cat <<'EOF' > secrets.json
+          ${{ secrets.SECRETS_JSON }}
+          EOF
       
       - name: Build Docker image
         run: docker build -t flask-server:latest .
