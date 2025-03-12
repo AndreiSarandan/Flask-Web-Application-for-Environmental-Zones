@@ -34,7 +34,7 @@ jobs:
         run: sleep 10
 
       - name: Check MySQL Connection
-        run: docker exec -it flask-server mysqladmin -h host.docker.internal -u root -pandrei ping
+        run: docker exec -i flask-server mysqladmin -h host.docker.internal -u root -pandrei ping
         
       - name: Install Python Dependencies
         run: pip install -r requirements.txt
