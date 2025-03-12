@@ -10,15 +10,16 @@ import os
 db = SQLAlchemy()
 
 
-def create_app():
+def create_app(config_name="None"):
     app = Flask(__name__)
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@localhost:3306/flaskdb'
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@mysql-db:3306/flaskdb'
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@127.0.0.1:3306/flaskdb'
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@mysql-service:3306/flaskdb'
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@db:3306/flaskdb'
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@host.docker.internal:3307/flaskdb'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@host.docker.internal:3306/flaskdb'
+
+    if config_name == 'test_env' or os.getenv('FLASK_ENV') == 'test_env':
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@localhost:3306/flaskdb_test'
+
+        # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@host.docker.internal:3306/flaskdb_test'
+        app.config['TESTING'] = True
+    else:
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@host.docker.internal:3306/flaskdb'
 
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Optional

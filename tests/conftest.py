@@ -1,5 +1,3 @@
-# tests/conftest.py
-
 import pytest
 import sys
 import os
@@ -11,18 +9,7 @@ from website import create_app, db
 
 @pytest.fixture(scope='module')
 def app():
-    app = create_app('TestingConfig')
-    with app.app_context():
-        yield app
+    os.environ['FLASK_ENV'] = 'test_env'
 
-@pytest.fixture(scope='module')
-def client(app):
-    return app.test_client()
-
-@pytest.fixture(scope='function')
-def init_database(app):
-    with app.app_context():
-        db.create_all()
-        yield db
-        db.session.remove()
-        db.drop_all()
+    app = create_app('test_env')
+    yield app
