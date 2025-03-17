@@ -52,7 +52,7 @@ jobs:
         run: docker ps -a
 
       - name: Adjust MySQL Privileges
-        run: docker exec -i $(docker ps --filter "ancestor=mysql:8.0" --format "{{.Names}}") mysql -u root -pandrei -e "SHOW TALBES; DESCRIBE user;"
+        run: docker exec -i $(docker ps --filter "ancestor=mysql:8.0" --format "{{.Names}}") mysql -u root -pandrei -e "SHOW TABLES; DESCRIBE user;"
 
       - name: Wait for Container Startup
         run: sleep 10
