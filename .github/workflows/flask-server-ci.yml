@@ -13,6 +13,16 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    services:
+      mysql-test-database:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: flaskdb_test
+        ports:
+          - 3306:3306
+        volumes:
+          - ./test_database:/docker-entrypoint-initdb.d
    
     steps:
       - name: Checkout Repository
