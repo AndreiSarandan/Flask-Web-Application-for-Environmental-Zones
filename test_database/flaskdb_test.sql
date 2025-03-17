@@ -565,7 +565,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ((10,'testuser@example.com','sha256$diD5H3x43u8onXEp$6fe5dc6f29ddb302b7963b9fad3e8d13aa093cf55db6d63efef66091b76324c6','test',0);
+INSERT INTO `user` VALUES (10,'testuser@example.com','sha256$diD5H3x43u8onXEp$6fe5dc6f29ddb302b7963b9fad3e8d13aa093cf55db6d63efef66091b76324c6','test',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
