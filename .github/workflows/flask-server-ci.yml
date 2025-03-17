@@ -17,7 +17,7 @@ jobs:
       mysql-test-database:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_ROOT_PASSWORD: andrei
           MYSQL_DATABASE: flaskdb_test
         ports:
           - 3306:3306
