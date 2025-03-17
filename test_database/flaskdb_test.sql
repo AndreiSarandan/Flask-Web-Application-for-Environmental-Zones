@@ -70,31 +70,31 @@ INSERT INTO `belgium_registrations` VALUES ('Belgium, Nertherlands',1,'Belgium',
 UNLOCK TABLES;
 
 --
--- Table structure for table `blocked_users`
+-- Table structure for table `Blocked_users`
 --
 
-DROP TABLE IF EXISTS `blocked_users`;
+DROP TABLE IF EXISTS `Blocked_users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `blocked_users` (
+CREATE TABLE `Blocked_users` (
   `ip_address` varchar(50) NOT NULL,
   `user_id` int DEFAULT NULL,
   `blocked_until` datetime NOT NULL,
   `total_bans` int DEFAULT NULL,
   PRIMARY KEY (`ip_address`),
   KEY `user_id` (`user_id`),
-  CONSTRAINT `blocked_users_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+  CONSTRAINT `Blocked_users_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `blocked_users`
+-- Dumping data for table `Blocked_users`
 --
 
-LOCK TABLES `blocked_users` WRITE;
-/*!40000 ALTER TABLE `blocked_users` DISABLE KEYS */;
-INSERT INTO `blocked_users` VALUES ('127.0.0.1',NULL,'2099-01-01 00:00:00',66);
-/*!40000 ALTER TABLE `blocked_users` ENABLE KEYS */;
+LOCK TABLES `Blocked_users` WRITE;
+/*!40000 ALTER TABLE `Blocked_users` DISABLE KEYS */;
+INSERT INTO `Blocked_users` VALUES ('127.0.0.1',NULL,'2099-01-01 00:00:00',66);
+/*!40000 ALTER TABLE `Blocked_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
