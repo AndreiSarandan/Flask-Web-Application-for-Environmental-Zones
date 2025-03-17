@@ -55,7 +55,7 @@ jobs:
         run: sleep 10
 
       - name: Adjust MySQL Privileges
-        run: docker exec -i mysql-test-database mysql -u root -proot -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+        run: docker exec -i $(docker ps --filter "ancestor=mysql:8.0" --format "{{.Names}}") mysql -u root -proot -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 
       - name: Get Docker Containers
         run: docker ps -a
