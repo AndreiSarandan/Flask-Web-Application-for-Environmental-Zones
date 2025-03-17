@@ -14,7 +14,9 @@ def create_app(config_name="None"):
     app = Flask(__name__)
 
     if config_name == 'test_env' or os.getenv('FLASK_ENV') == 'test_env':
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@localhost:3306/flaskdb_test'
+        # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@localhost:3306/flaskdb_test'
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@127.0.0.1:3306/flaskdb_test'
+
 
         # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@host.docker.internal:3306/flaskdb_test'
         app.config['TESTING'] = True
