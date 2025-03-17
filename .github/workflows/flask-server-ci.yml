@@ -48,6 +48,9 @@ jobs:
       - name: Run Container
         run: docker run -d -p 5000:5000 --name=flask-server flask-server:latest
 
+      - name: Get Docker Containers
+        run: docker ps -a
+
       - name: Wait for Container Startup
         run: sleep 10
 
