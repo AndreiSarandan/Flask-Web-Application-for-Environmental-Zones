@@ -50,7 +50,12 @@ jobs:
 
       - name: Get Docker Containers
         run: docker ps -a
-        
+
+      - name: Import Database Schema
+        run: |
+          docker exec -i $(docker ps --filter "ancestor=mysql:8.0" --format "{{.Names}}") \
+          mysql -u root -pandrei flaskdb_test < ./test_database/flaskdb_test.sql
+
       - name: SHOW MYSQL TABLES
         run: docker exec -i $(docker ps --filter "ancestor=mysql:8.0" --format "{{.Names}}") mysql -u root -pandrei -e "USE flaskdb_test; SHOW TABLES; DESCRIBE user;"
 
