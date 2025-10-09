@@ -5,10 +5,9 @@ name: Flask server CI pipeline
 
 on:
   push:
-    branches: [ "main", "containerize-application" ]
+    branches: ["main", "containerize-application", "migrate-to-aws"]
   pull_request:
-    branches: [ "main", "containerize-application" ]
-
+    branches: ["main", "containerize-application", "migrate-to-aws"]
 
 jobs:
   build-and-test:
@@ -28,7 +27,7 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
-   
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -41,7 +40,7 @@ jobs:
           cat <<'EOF' > secrets.json
           ${{ secrets.SECRETS_JSON }}
           EOF
-      
+
       - name: Build Docker image
         run: docker build -t flask-server:latest .
 
@@ -73,7 +72,7 @@ jobs:
 
       # - name: Check MySQL Connection
       #   run: docker exec -i flask-server mysqladmin -h host.docker.internal -u root -pandrei ping
-        
+
       - name: Install Python Dependencies
         run: pip install -r requirements.txt
 
