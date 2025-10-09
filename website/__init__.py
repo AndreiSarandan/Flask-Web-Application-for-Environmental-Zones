@@ -1,41 +1,38 @@
-from flask import Flask, current_app, g
+from flask import Flask, current_app, g, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import text
+from sqlalchemy import inspect, text
 from os import path
 from flask_login import LoginManager
 import sqlite3
 from flask_migrate import Migrate
 import os
+from dotenv import load_dotenv
+from config import TestingConfig, ProductionConfig
 
 db = SQLAlchemy()
 
 
 def create_app(config_name="None"):
+    load_dotenv()
+
     app = Flask(__name__)
 
-    if config_name == 'test_env' or os.getenv('FLASK_ENV') == 'test_env':
-        # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@localhost:3306/flaskdb_test'
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@127.0.0.1:3306/flaskdb_test'
-
-
-        # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@host.docker.internal:3306/flaskdb_test'
-        app.config['TESTING'] = True
+    env = os.getenv('FLASK_ENV', 'production').lower()
+    if env == 'testing':
+        app.config.from_object(TestingConfig)
     else:
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:andrei@host.docker.internal:3306/flaskdb'
+        app.config.from_object(ProductionConfig)
 
-
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Optional
-
-    # Set the SECRET_KEY for session management
-    app.config['SECRET_KEY'] = os.urandom(24)  # This generates a random key
     db.init_app(app)
+    # print("Connecting to:", app.config['SQLALCHEMY_DATABASE_URI'])
 
     from .middleware import monitor_requests
 
-    # Register Middleware
-    @app.before_request
-    def monitor_requests_wrapper():
-        return monitor_requests()
+
+    # Register Middleware       --> DDOS FEATURE
+    # @app.before_request
+    # def monitor_requests_wrapper():
+    #     return monitor_requests()
 
     #register blueprints
     from .views import views
