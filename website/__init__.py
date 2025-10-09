@@ -30,9 +30,9 @@ def create_app(config_name="None"):
 
 
     # Register Middleware       --> DDOS FEATURE
-    # @app.before_request
-    # def monitor_requests_wrapper():
-    #     return monitor_requests()
+    @app.before_request
+    def monitor_requests_wrapper():
+        return monitor_requests()
 
     #register blueprints
     from .views import views
