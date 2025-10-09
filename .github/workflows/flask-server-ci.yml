@@ -5,9 +5,9 @@ name: Flask server CI pipeline
 
 on:
   push:
-    branches: [ "main", "containerize-application" ]
+    branches: [ "main", "containerize-application","migrate-to-aws"]
   pull_request:
-    branches: [ "main", "containerize-application" ]
+    branches: [ "main", "containerize-application", "migrate-to-aws"]
 
 
 jobs:
