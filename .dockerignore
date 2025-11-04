@@ -1,0 +1,6 @@
+.env
+secrets.json
+*.pem
+__pycache__/
+.git
+.gitignore

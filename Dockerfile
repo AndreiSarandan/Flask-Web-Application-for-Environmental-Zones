@@ -18,8 +18,8 @@ RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 COPY /website ./website
-COPY /secrets.json .
 COPY /main.py .
+COPY /config.py .  
 
 EXPOSE 5000
 
