@@ -51,8 +51,10 @@ jobs:
 
             - name: Adjust MySQL Privileges
               run: |
-                  sudo apt-get update && sudo apt-get install -y mysql-client
-                  mysql -h 127.0.0.1 -P 3306 -u root -pandrei -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+                  sudo apt-get update -y
+                  sudo apt-get install -y mysql-client
+                  mysql -h 127.0.0.1 -P 3306 -u root -pandrei \
+                  -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 
             - name: Install Python Dependencies
               run: pip install -r requirements.txt
