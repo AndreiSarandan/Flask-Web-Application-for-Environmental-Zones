@@ -13,8 +13,8 @@ jobs:
             mysql-test-database:
                 image: mysql:8.0
                 env:
-                    MYSQL_ROOT_PASSWORD: andrei
-                    MYSQL_DATABASE: flaskdb_test
+                    MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+                    MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
                 ports:
                     - 3306:3306
                 volumes:
@@ -49,10 +49,10 @@ jobs:
                   docker exec -i $(docker ps --filter "ancestor=mysql:8.0" --format "{{.Names}}") \
                   mysql -u root -pandrei flaskdb_test < ./test_database/flaskdb_test.sql
 
-            - name: Adjust MySQL Privileges
-              run:
-                  docker exec -i $(docker ps --filter "ancestor=mysql:8.0" --format "{{.Names}}") \
-                  mysql -u root -pandrei -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+            # - name: Adjust MySQL Privileges
+            #   run:
+            #       docker exec -i $(docker ps --filter "ancestor=mysql:8.0" --format "{{.Names}}") \
+            #       mysql -u root -pandrei -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 
             - name: Install Python Dependencies
               run: pip install -r requirements.txt
