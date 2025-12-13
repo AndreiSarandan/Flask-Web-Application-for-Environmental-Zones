@@ -8,6 +8,7 @@ from flask_migrate import Migrate
 import os
 from dotenv import load_dotenv
 from config import TestingConfig, ProductionConfig
+from prometheus_flask_exporter import PrometheusMetrics
 
 db = SQLAlchemy()
 
@@ -22,6 +23,9 @@ def create_app(config_name="None"):
         app.config.from_object(TestingConfig)
     else:
         app.config.from_object(ProductionConfig)
+
+    metrics = PrometheusMetrics(app)
+
 
     db.init_app(app)
     # print("Connecting to:", app.config['SQLALCHEMY_DATABASE_URI'])

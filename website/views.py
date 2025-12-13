@@ -651,3 +651,6 @@ def navigation():
         return render_template("maps-test.html", user=current_user, user_car=user_car,saved_routes=saved_routes, countries_with_lez=countries_with_lez,cities_by_country=cities_by_country)
     return render_template("maps-test.html", user=current_user,saved_routes=saved_routes,countries_with_lez=countries_with_lez,cities_by_country=cities_by_country)
 
+@views.route("/health")
+def health():
+    return {"status": "ok"}, 200
