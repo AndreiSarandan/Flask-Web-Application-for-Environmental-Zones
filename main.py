@@ -2,15 +2,9 @@
 from website import create_app
 from flask_migrate import Migrate
 import json
-from prometheus_flask_exporter import PrometheusMetrics
 
 app = create_app()
 
-metrics = PrometheusMetrics(app)
-
-@app.route("/health")
-def health():
-    return {"status": "ok"}, 200
 
 if __name__ == '__main__':
     # app.run(debug='True')
