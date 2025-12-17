@@ -25,7 +25,7 @@ def create_app(config_name="None"):
     else:
         app.config.from_object(ProductionConfig)
 
-    metrics.init_app(app)
+    metrics.init_app(app, path="/metrics")
     db.init_app(app)
 
 
