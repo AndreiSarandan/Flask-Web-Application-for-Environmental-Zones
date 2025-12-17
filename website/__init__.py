@@ -10,6 +10,9 @@ from dotenv import load_dotenv
 from config import TestingConfig, ProductionConfig
 from prometheus_flask_exporter import PrometheusMetrics
 
+
+metrics = PrometheusMetrics.for_app_factory()
+
 db = SQLAlchemy()
 
 
@@ -25,7 +28,7 @@ def create_app(config_name="None"):
         app.config.from_object(ProductionConfig)
 
     db.init_app(app)
-    PrometheusMetrics(app)
+    metrics.init_app(app, path="/metrics")
 
     from .middleware import monitor_requests
 
