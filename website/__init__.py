@@ -11,6 +11,7 @@ from config import TestingConfig, ProductionConfig
 from prometheus_flask_exporter import PrometheusMetrics
 
 db = SQLAlchemy()
+metrics = PrometheusMetrics.for_app_factory()
 
 
 def create_app(config_name="None"):
@@ -24,28 +25,17 @@ def create_app(config_name="None"):
     else:
         app.config.from_object(ProductionConfig)
 
-    metrics = PrometheusMetrics(app)
-
-
+    metrics.init_app(app)
     db.init_app(app)
-    # print("Connecting to:", app.config['SQLALCHEMY_DATABASE_URI'])
+
 
     from .middleware import monitor_requests
-
-
-    # Register Middleware       --> DDOS FEATURE
-    # @app.before_request
-    # def monitor_requests_wrapper():
-    #     return monitor_requests()
 
     #register blueprints
     from .views import views
     app.register_blueprint(views, url_prefix='/')
     from .auth import auth
     app.register_blueprint(auth, url_prefix='/')
-
-    # with app.app_context():
-    #     db.create_all()
 
     #setup login manager
     from .models import User
@@ -76,5 +66,5 @@ def create_database(app):
 
 
 
-if __name__ == "__main__":
-    create_app().run(debug=True)
+# if __name__ == "__main__":
+#     create_app().run(debug=True)

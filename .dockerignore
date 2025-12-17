@@ -4,3 +4,7 @@ secrets.json
 __pycache__/
 .git
 .gitignore
+FlaskApp.pem
+.dockerignore
+website\short_schema.sql
+k8manifest.yaml
