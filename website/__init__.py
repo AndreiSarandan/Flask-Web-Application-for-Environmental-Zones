@@ -11,7 +11,6 @@ from config import TestingConfig, ProductionConfig
 from prometheus_flask_exporter import PrometheusMetrics
 
 db = SQLAlchemy()
-metrics = PrometheusMetrics.for_app_factory()
 
 
 def create_app(config_name="None"):
@@ -25,9 +24,8 @@ def create_app(config_name="None"):
     else:
         app.config.from_object(ProductionConfig)
 
-    metrics.init_app(app, path="/metrics")
     db.init_app(app)
-
+    PrometheusMetrics(app)
 
     from .middleware import monitor_requests
 
