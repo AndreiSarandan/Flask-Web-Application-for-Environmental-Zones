@@ -86,6 +86,7 @@ jobs:
                       docker run -d \
                         --name flask_app \
                         -p 5000:5000 \
+                        --network monitoring \
                         --env-file /home/ubuntu/.env \
                         -v /home/ubuntu/secrets.json:/app/secrets.json:ro \
                         --restart unless-stopped \

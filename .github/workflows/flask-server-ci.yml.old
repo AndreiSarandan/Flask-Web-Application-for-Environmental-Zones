@@ -45,7 +45,7 @@ jobs:
         run: docker build -t flask-server:latest .
 
       - name: Run Container
-        run: docker run -d -p 5000:5000 --name=flask-server flask-server:latest
+        run: docker run -d -p 5000:5000 --name=flask-server --network monitoring --restart unless-stopped flask-server:latest
 
       - name: Get Docker Containers
         run: docker ps -a
