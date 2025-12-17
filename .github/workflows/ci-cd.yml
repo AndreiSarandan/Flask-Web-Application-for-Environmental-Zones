@@ -73,23 +73,24 @@ jobs:
                   username: ${{ secrets.EC2_USER }}
                   key: ${{ secrets.EC2_SSH_KEY }}
                   script: |
-                      echo "Logging into Docker Hub..."
-                      docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+                    echo "Logging into Docker Hub..."
+                    docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
 
-                      echo "Pulling latest image..."
-                      docker pull ${{ secrets.DOCKERHUB_USERNAME }}/flask-web-application:flask-app
+                    echo "Stopping old container..."
+                    docker rm -f flask_app 2>/dev/null || true
 
-                      echo "Stopping old container..."
-                      docker rm -f flask_app 2>/dev/null || true
+                    echo "Removing old image..."
+                    docker image rm ${{ secrets.DOCKERHUB_USERNAME }}/flask-web-application:flask-app || true
 
-                      echo "Starting new container..."
-                      docker run -d \
-                        --name flask_app \
-                        -p 5000:5000 \
-                        --network monitoring \
-                        --env-file /home/ubuntu/.env \
-                        -v /home/ubuntu/secrets.json:/app/secrets.json:ro \
-                        --restart unless-stopped \
-                        ${{ secrets.DOCKERHUB_USERNAME }}/flask-web-application:flask-app
+                    echo "Pulling latest image..."
+                    docker pull ${{ secrets.DOCKERHUB_USERNAME }}/flask-web-application:flask-app
 
-                      echo "Deployment complete."
+                    echo "Starting new container..."
+                    docker run -d \
+                      --name flask_app \
+                      -p 5000:5000 \
+                      --network monitoring \
+                      --env-file /home/ubuntu/.env \
+                      -v /home/ubuntu/secrets.json:/app/secrets.json:ro \
+                      --restart unless-stopped \
+                      ${{ secrets.DOCKERHUB_USERNAME }}/flask-web-application:flask-app
