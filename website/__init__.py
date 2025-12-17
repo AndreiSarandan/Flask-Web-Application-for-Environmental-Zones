@@ -28,7 +28,7 @@ def create_app(config_name="None"):
         app.config.from_object(ProductionConfig)
 
     db.init_app(app)
-    metrics.init_app(app, path="/metrics")
+    metrics.init_app(app)
 
     from .middleware import monitor_requests
 
