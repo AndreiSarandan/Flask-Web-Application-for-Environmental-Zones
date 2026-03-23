@@ -23,4 +23,5 @@ COPY /config.py .
 
 EXPOSE 5000
 
-CMD ["python", "main.py"]
+#CMD ["python", "main.py"]
+CMD ["gunicorn", "-w", "2", "-b", "0.0.0.0:5000", "main:app"]
