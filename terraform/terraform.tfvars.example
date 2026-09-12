@@ -1,0 +1,12 @@
+# OPTIONAL. You normally don't need this file at all.
+#
+# Secrets and DB/region settings are loaded from ../.env by the tf.ps1 / tf.sh
+# wrapper (see README). This file is only for tuning the autoscaling behaviour.
+#
+# Copy to terraform.tfvars and uncomment what you want to change:
+
+# asg_min    = 1
+# asg_max    = 3
+# cpu_target = 60
+# instance_type = "t3.micro"
+# docker_image  = "andreisarandan900/flask-web-application:flask-app"

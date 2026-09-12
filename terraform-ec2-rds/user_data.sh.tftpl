@@ -1,0 +1,196 @@
+#!/bin/bash
+set -euo pipefail
+
+REGION="${region}"
+BUCKET="${bucket}"
+BASE_DIR="/opt/lez-demo"
+DB_ENDPOINT="${db_endpoint}"
+DB_NAME="${db_name}"
+DB_SECRET_ARN="${db_secret_arn}"
+
+dnf install -y docker jq
+systemctl enable --now docker
+
+if ! swapon --show | grep -q .; then
+  fallocate -l 2G /swapfile
+  chmod 600 /swapfile
+  mkswap /swapfile
+  swapon /swapfile
+  echo '/swapfile none swap sw 0 0' >> /etc/fstab
+fi
+
+mkdir -p "$BASE_DIR/grafana/provisioning/datasources"
+mkdir -p "$BASE_DIR/grafana/provisioning/dashboards"
+mkdir -p "$BASE_DIR/grafana/dashboards"
+
+aws s3 cp "s3://$BUCKET/${database_seed_key}" "$BASE_DIR/database-seed.sql" --region "$REGION"
+aws s3 cp "s3://$BUCKET/${app_secrets_key}" "$BASE_DIR/secrets.json" --region "$REGION"
+aws s3 cp "s3://$BUCKET/${prometheus_key}" "$BASE_DIR/prometheus.yml" --region "$REGION"
+aws s3 cp "s3://$BUCKET/${grafana_datasource_key}" "$BASE_DIR/grafana/provisioning/datasources/prometheus.yml" --region "$REGION"
+# Dashboard provisioning is disabled. User edits in Grafana are authoritative.
+printf 'apiVersion: 1\nproviders: []\n' > "$BASE_DIR/grafana/provisioning/dashboards/provider.yml"
+# Dashboard backups are restored manually; never download a dashboard from S3 here.
+
+aws ssm get-parameter \
+  --name "${app_runtime_parameter_name}" \
+  --with-decryption \
+  --query 'Parameter.Value' \
+  --output text \
+  --region "$REGION" > "$BASE_DIR/app-runtime.json"
+
+aws secretsmanager get-secret-value \
+  --secret-id "$DB_SECRET_ARN" \
+  --query 'SecretString' \
+  --output text \
+  --region "$REGION" > "$BASE_DIR/db-runtime.json"
+
+chmod 600 "$BASE_DIR/app-runtime.json" "$BASE_DIR/db-runtime.json" "$BASE_DIR/secrets.json"
+
+DB_USER=$(jq -r '.username' "$BASE_DIR/db-runtime.json")
+DB_PASSWORD=$(jq -r '.password' "$BASE_DIR/db-runtime.json")
+DB_PASSWORD_URLENCODED=$(python3 -c 'import sys; from urllib.parse import quote_plus; print(quote_plus(sys.argv[1]))' "$DB_PASSWORD")
+
+jq -r --arg host "$DB_ENDPOINT" --arg db "$DB_NAME" --arg user "$DB_USER" --arg password "$DB_PASSWORD_URLENCODED" \
+  '"FLASK_ENV=production\nSECRET_KEY=" + .SECRET_KEY + "\nMYSQL_HOST=" + $host + "\nMYSQL_PORT=3306\nMYSQL_DB=" + $db + "\nMYSQL_USER=" + $user + "\nMYSQL_PASS=" + $password' \
+  "$BASE_DIR/app-runtime.json" > "$BASE_DIR/app.env"
+
+jq -r '"GF_SECURITY_ADMIN_USER=admin\nGF_SECURITY_ADMIN_PASSWORD=" + .GRAFANA_ADMIN_PASSWORD + "\nGF_USERS_ALLOW_SIGN_UP=false\nGF_AUTH_ANONYMOUS_ENABLED=false"' \
+  "$BASE_DIR/app-runtime.json" > "$BASE_DIR/grafana.env"
+
+chmod 600 "$BASE_DIR/app.env" "$BASE_DIR/grafana.env"
+
+DOCKERHUB_USERNAME=$(jq -r '.DOCKERHUB_USERNAME' "$BASE_DIR/app-runtime.json")
+jq -r '.DOCKERHUB_TOKEN' "$BASE_DIR/app-runtime.json" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+
+docker network inspect lez-demo >/dev/null 2>&1 || docker network create lez-demo
+docker volume create prometheus_data_filtered >/dev/null
+docker volume create grafana_data >/dev/null
+
+for attempt in $(seq 1 120); do
+  if docker run --rm -e MYSQL_PWD="$DB_PASSWORD" mysql:8.0 \
+    mysqladmin ping -h "$DB_ENDPOINT" -u "$DB_USER" --silent; then
+    break
+  fi
+  if [ "$attempt" -eq 120 ]; then
+    echo "RDS MySQL did not become reachable" >&2
+    exit 1
+  fi
+  sleep 5
+done
+
+TABLE_COUNT=$(docker run --rm -e MYSQL_PWD="$DB_PASSWORD" mysql:8.0 \
+  mysql -N -h "$DB_ENDPOINT" -u "$DB_USER" "$DB_NAME" \
+  -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='$DB_NAME';")
+
+if [ "$TABLE_COUNT" = "0" ]; then
+  docker run --rm -i -e MYSQL_PWD="$DB_PASSWORD" mysql:8.0 \
+    mysql -h "$DB_ENDPOINT" -u "$DB_USER" "$DB_NAME" < "$BASE_DIR/database-seed.sql"
+fi
+
+docker rm -f flask_app >/dev/null 2>&1 || true
+docker run -d \
+  --name flask_app \
+  --network lez-demo \
+  --restart unless-stopped \
+  --env-file "$BASE_DIR/app.env" \
+  -p 80:5000 \
+  -p 5000:5000 \
+  -v "$BASE_DIR/secrets.json:/app/secrets.json:ro" \
+  ${docker_image} \
+  gunicorn --worker-class gthread --workers 2 --threads 8 --timeout 120 --bind 0.0.0.0:5000 main:app
+
+docker rm -f node-exporter >/dev/null 2>&1 || true
+docker run -d \
+  --name node-exporter \
+  --network lez-demo \
+  --restart unless-stopped \
+  --pid host \
+  -v /:/host:ro,rslave \
+  prom/node-exporter:latest \
+  --path.rootfs=/host
+
+docker rm -f prometheus >/dev/null 2>&1 || true
+docker run -d \
+  --name prometheus \
+  --network lez-demo \
+  --restart unless-stopped \
+  -v "$BASE_DIR/prometheus.yml:/etc/prometheus/prometheus.yml:ro" \
+  -v prometheus_data_filtered:/prometheus \
+  prom/prometheus:latest \
+  --config.file=/etc/prometheus/prometheus.yml \
+  --storage.tsdb.path=/prometheus \
+  --storage.tsdb.retention.time=7d \
+  --storage.tsdb.retention.size=1GB
+
+docker rm -f grafana >/dev/null 2>&1 || true
+docker run -d \
+  --name grafana \
+  --network lez-demo \
+  --restart unless-stopped \
+  --env-file "$BASE_DIR/grafana.env" \
+  -p 3000:3000 \
+  -v grafana_data:/var/lib/grafana \
+  -v "$BASE_DIR/grafana/provisioning:/etc/grafana/provisioning:ro" \
+  -v "$BASE_DIR/grafana/dashboards:/var/lib/grafana/dashboards:ro" \
+  grafana/grafana:latest
+
+cat > /usr/local/bin/lez-demo-status <<'STATUS_EOF'
+#!/bin/bash
+set -u
+docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
+echo
+curl -fsS http://localhost/health && echo
+docker exec prometheus wget -qO- http://localhost:9090/-/ready && echo
+curl -fsS http://localhost:3000/api/health && echo
+STATUS_EOF
+chmod +x /usr/local/bin/lez-demo-status
+
+cat > /usr/local/bin/lez-demo-backup <<BACKUP_EOF
+#!/bin/bash
+set -euo pipefail
+STAMP=\$(date -u +%Y%m%dT%H%M%SZ)
+docker run --rm -e MYSQL_PWD="$DB_PASSWORD" mysql:8.0 \
+  mysqldump -h "$DB_ENDPOINT" -u "$DB_USER" --single-transaction "$DB_NAME" | gzip > "/tmp/lez-demo-\$STAMP.sql.gz"
+aws s3 cp "/tmp/lez-demo-\$STAMP.sql.gz" "s3://$BUCKET/backups/lez-demo-\$STAMP.sql.gz" --region "$REGION"
+rm -f "/tmp/lez-demo-\$STAMP.sql.gz"
+BACKUP_EOF
+chmod 700 /usr/local/bin/lez-demo-backup
+
+cat > /etc/systemd/system/lez-demo-backup.service <<'SERVICE_EOF'
+[Unit]
+Description=Back up LEZ RDS MySQL to the private bootstrap bucket
+After=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/lez-demo-backup
+SERVICE_EOF
+
+cat > /etc/systemd/system/lez-demo-backup.timer <<'TIMER_EOF'
+[Unit]
+Description=Nightly LEZ RDS database backup
+
+[Timer]
+OnCalendar=*-*-* 02:00:00 UTC
+Persistent=true
+RandomizedDelaySec=300
+
+[Install]
+WantedBy=timers.target
+TIMER_EOF
+
+systemctl daemon-reload
+systemctl enable --now lez-demo-backup.timer
+rm -f "$BASE_DIR/app-runtime.json" "$BASE_DIR/db-runtime.json"
+
+for attempt in $(seq 1 60); do
+  if curl -fsS http://localhost/health >/dev/null && curl -fsS http://localhost:3000/api/health >/dev/null; then
+    /usr/local/bin/lez-demo-status
+    exit 0
+  fi
+  sleep 5
+done
+
+echo "Containers started, but one of the HTTP health checks did not become ready in time" >&2
+exit 1
+

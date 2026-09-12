@@ -1,0 +1,45 @@
+#!/bin/bash
+set -euxo pipefail
+
+# Install + start Docker (Amazon Linux 2023)
+dnf update -y
+dnf install -y docker
+systemctl enable --now docker
+
+# App secrets file (website/views.py reads ./secrets.json at IMPORT time, so the
+# container crashes without it). Delivered here and mounted into the container.
+mkdir -p /opt/flask
+cat > /opt/flask/secrets.json <<'SECRETS_EOF'
+${secrets_json}
+SECRETS_EOF
+
+# Authenticate to the PRIVATE Docker Hub repo before pulling the image.
+# Disable command echo (set +x) first so the token never lands in cloud-init logs.
+set +x
+echo '${dockerhub_token}' | docker login -u '${dockerhub_username}' --password-stdin
+set -x
+
+# Run the Flask app, pointed at RDS via env vars (config.py ProductionConfig).
+# --restart always => container comes back if it crashes or the box reboots.
+docker run -d --restart always \
+  -p 5000:5000 \
+  -e FLASK_ENV=production \
+  -e SECRET_KEY='${secret_key}' \
+  -e MYSQL_HOST='${db_host}' \
+  -e MYSQL_PORT='${db_port}' \
+  -e MYSQL_DB='${db_name}' \
+  -e MYSQL_USER='${db_user}' \
+  -e MYSQL_PASS='${db_pass}' \
+  -v /opt/flask/secrets.json:/app/secrets.json:ro \
+  ${docker_image} \
+  gunicorn --worker-class gthread --workers 2 --threads 8 --timeout 120 --bind 0.0.0.0:5000 main:app
+
+# node-exporter: per-instance host metrics (CPU/mem/disk) on :9100, scraped by the
+# central Prometheus via EC2 service discovery. --net/--pid host + rootfs bind so it
+# reports the REAL host, not the container. Only the monitoring SG can reach :9100.
+docker run -d --restart always --name node-exporter \
+  --net host \
+  --pid host \
+  -v /:/host:ro,rslave \
+  ${node_exporter_image} \
+  --path.rootfs=/host

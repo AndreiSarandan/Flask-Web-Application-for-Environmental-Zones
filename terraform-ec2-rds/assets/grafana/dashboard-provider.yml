@@ -1,0 +1,4 @@
+apiVersion: 1
+
+# Dashboards are managed in Grafana; backups are restored manually only.
+providers: []

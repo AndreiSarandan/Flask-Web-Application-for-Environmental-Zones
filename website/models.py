@@ -279,20 +279,20 @@ class GeneralRegistrations(db.Model):
 
 # Define classes for each country
 class BelgiumRegistrations(GeneralRegistrations):
-    __tablename__ = 'Belgium_registrations'
+    __tablename__ = 'belgium_registrations'
     exception_country = db.Column(db.String(50))
 
 
 class BulgariaRegistrations(GeneralRegistrations):
-    __tablename__ = 'Bulgaria_registrations'
+    __tablename__ = 'bulgaria_registrations'
 
 class DenmarkRegistrations(GeneralRegistrations):
-    __tablename__ = 'Denmark_registrations'
+    __tablename__ = 'denmark_registrations'
     exception_country = db.Column(db.String(50))
 
 class FranceRegistrations(GeneralRegistrations):
 
-    __tablename__ = 'France_registrations'
+    __tablename__ = 'france_registrations'
 
     def find_best_registration_badge(cls, car_fuel_type, car_euro_standard):
         # Filter badges based on fuel type (diesel)
@@ -315,7 +315,7 @@ class FranceRegistrations(GeneralRegistrations):
             return best_badge
 
 class GermanyRegistrations(GeneralRegistrations):
-    __tablename__ = 'Germany_registrations'
+    __tablename__ = 'germany_registrations'
     minimum_diesel_wdpf = db.Column(db.String(50))
     minimum_petrol_wdpf = db.Column(db.String(50))
 
@@ -347,17 +347,17 @@ class GermanyRegistrations(GeneralRegistrations):
             return best_badge
 
 class GreeceRegistrations(GeneralRegistrations):
-    __tablename__ = 'Greece_registrations'
+    __tablename__ = 'greece_registrations'
 
 class ItalyAccess(GeneralRegistrations):
-    __tablename__ = 'Italy_access'
+    __tablename__ = 'italy_access'
 
 class NetherlandsRegistrations(GeneralRegistrations):
-    __tablename__ = 'Netherlands_registrations'
+    __tablename__ = 'netherlands_registrations'
     exception_country = db.Column(db.String(50))
 
 class PolandRegistrations(GeneralRegistrations):
-    __tablename__ = 'Poland_registrations'
+    __tablename__ = 'poland_registrations'
     min_dis_bf_010323 = db.Column(db.String(50))
     min_dis_af_010323 = db.Column(db.String(50))
     min_pet_bf_010323 = db.Column(db.String(50))
@@ -400,10 +400,10 @@ class PolandRegistrations(GeneralRegistrations):
             return best_badge
 
 class PortugalRefistrations(GeneralRegistrations):
-    __tablename__ = 'Portugal_registrations'
+    __tablename__ = 'portugal_registrations'
 
 class SpainRegistrations(GeneralRegistrations):
-    __tablename__ = 'Spain_registrations'
+    __tablename__ = 'spain_registrations'
 
     def find_best_registration_badge(cls, car_fuel_type, car_euro_standard):
         # Filter badges based on fuel type (diesel)
@@ -431,7 +431,7 @@ class SpainRegistrations(GeneralRegistrations):
         return best_badge
 
 class UnitedKingdomRegistrations(GeneralRegistrations):
-    __tablename__ = 'UnitedKingdom_registrations'
+    __tablename__ = 'unitedkingdom_registrations'
 
 # Function to dynamically select the appropriate subclass based on the country
 def get_registration_class(country):

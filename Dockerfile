@@ -21,7 +21,10 @@ COPY /website ./website
 COPY /main.py .
 COPY /config.py .  
 
+COPY docker-entrypoint.sh gunicorn.conf.py ./
+
 EXPOSE 5000
 
-#CMD ["python", "main.py"]
+ENTRYPOINT ["sh", "/app/docker-entrypoint.sh"]
+
 CMD ["gunicorn", "-w", "2", "-b", "0.0.0.0:5000", "main:app"]

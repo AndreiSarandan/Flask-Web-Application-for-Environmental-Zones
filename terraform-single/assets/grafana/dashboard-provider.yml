@@ -1,0 +1,13 @@
+apiVersion: 1
+
+providers:
+  - name: LEZ Demo
+    orgId: 1
+    folder: LEZ Demo
+    type: file
+    disableDeletion: true
+    updateIntervalSeconds: 30
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/dashboards
+

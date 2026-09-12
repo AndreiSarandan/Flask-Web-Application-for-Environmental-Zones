@@ -1,0 +1,66 @@
+# Central Prometheus config — runs on the baseline monitoring host (i-02ac).
+# Scrapes: (a) the monitoring host's own app + node-exporter (static, via docker
+# 'monitoring' network), and (b) the autoscaled fleet behind the ALB, discovered
+# DYNAMICALLY through the EC2 API (the host's IAM role grants ec2:DescribeInstances).
+# Instances are matched by the ASG tag Name=flask-autoscale-app, so as the ASG adds
+# or removes instances the target list updates automatically — no static IPs.
+global:
+  scrape_interval: 15s
+  scrape_timeout: 10s
+
+scrape_configs:
+  # --- Prometheus self ---
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # --- Monitoring host's own containers (resolved over the docker 'monitoring' net) ---
+  - job_name: "flask-app-local"
+    static_configs:
+      - targets: ["flask_app:5000"]
+        labels:
+          role: "baseline"
+    metrics_path: /metrics
+
+  - job_name: "node-exporter-local"
+    static_configs:
+      - targets: ["node-exporter:9100"]
+        labels:
+          role: "baseline"
+
+  # --- Autoscaled Flask fleet (EC2 service discovery) ---
+  - job_name: "flask-app-asg"
+    metrics_path: /metrics
+    ec2_sd_configs:
+      - region: eu-central-1
+        port: 5000
+        filters:
+          - name: "tag:Name"
+            values: ["flask-autoscale-app"]
+          - name: "instance-state-name"
+            values: ["running"]
+    relabel_configs:
+      - source_labels: [__meta_ec2_instance_id]
+        target_label: instance_id
+      - source_labels: [__meta_ec2_availability_zone]
+        target_label: az
+      - source_labels: [__meta_ec2_private_ip]
+        target_label: private_ip
+
+  # --- node-exporter on each fleet instance (host CPU/mem saturation) ---
+  - job_name: "node-exporter-asg"
+    ec2_sd_configs:
+      - region: eu-central-1
+        port: 9100
+        filters:
+          - name: "tag:Name"
+            values: ["flask-autoscale-app"]
+          - name: "instance-state-name"
+            values: ["running"]
+    relabel_configs:
+      - source_labels: [__meta_ec2_instance_id]
+        target_label: instance_id
+      - source_labels: [__meta_ec2_availability_zone]
+        target_label: az
+      - source_labels: [__meta_ec2_private_ip]
+        target_label: private_ip

@@ -1,0 +1,335 @@
+{
+  "dashboard": {
+    "uid": "lez-availability-demo",
+    "title": "Service Availability Demo",
+    "description": "Controlled application stop/start: observe scrape availability and the Grafana alert. Availability checks do not validate every application function.",
+    "tags": [
+      "LEZ",
+      "demo"
+    ],
+    "timezone": "browser",
+    "schemaVersion": 39,
+    "version": 0,
+    "refresh": "5s",
+    "time": {
+      "from": "now-5m",
+      "to": "now"
+    },
+    "panels": [
+      {
+        "id": 1,
+        "title": "Flask application",
+        "type": "stat",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "afb4eyxi2fe9se"
+        },
+        "gridPos": {
+          "x": 0,
+          "y": 0,
+          "w": 8,
+          "h": 4
+        },
+        "targets": [
+          {
+            "refId": "A",
+            "expr": "up{job=\"flask-app-local\"}",
+            "instant": true,
+            "range": false,
+            "datasource": {
+              "type": "prometheus",
+              "uid": "afb4eyxi2fe9se"
+            }
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "min": 0,
+            "max": 1,
+            "mappings": [
+              {
+                "type": "value",
+                "options": {
+                  "0": {
+                    "text": "UNREACHABLE",
+                    "color": "red"
+                  },
+                  "1": {
+                    "text": "REACHABLE",
+                    "color": "green"
+                  }
+                }
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "green",
+                  "value": 1
+                }
+              ]
+            },
+            "noValue": "NO DATA"
+          },
+          "overrides": []
+        },
+        "options": {
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "orientation": "auto",
+          "textMode": "value",
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center"
+        }
+      },
+      {
+        "id": 2,
+        "title": "EC2 Node Exporter",
+        "type": "stat",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "afb4eyxi2fe9se"
+        },
+        "gridPos": {
+          "x": 8,
+          "y": 0,
+          "w": 8,
+          "h": 4
+        },
+        "targets": [
+          {
+            "refId": "A",
+            "expr": "up{job=\"node-exporter-local\"}",
+            "instant": true,
+            "range": false,
+            "datasource": {
+              "type": "prometheus",
+              "uid": "afb4eyxi2fe9se"
+            }
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "min": 0,
+            "max": 1,
+            "mappings": [
+              {
+                "type": "value",
+                "options": {
+                  "0": {
+                    "text": "UNREACHABLE",
+                    "color": "red"
+                  },
+                  "1": {
+                    "text": "REACHABLE",
+                    "color": "green"
+                  }
+                }
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "green",
+                  "value": 1
+                }
+              ]
+            },
+            "noValue": "NO DATA"
+          },
+          "overrides": []
+        },
+        "options": {
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "orientation": "auto",
+          "textMode": "value",
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center"
+        }
+      },
+      {
+        "id": 3,
+        "title": "Prometheus",
+        "type": "stat",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "afb4eyxi2fe9se"
+        },
+        "gridPos": {
+          "x": 16,
+          "y": 0,
+          "w": 8,
+          "h": 4
+        },
+        "targets": [
+          {
+            "refId": "A",
+            "expr": "up{job=\"prometheus\"}",
+            "instant": true,
+            "range": false,
+            "datasource": {
+              "type": "prometheus",
+              "uid": "afb4eyxi2fe9se"
+            }
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "min": 0,
+            "max": 1,
+            "mappings": [
+              {
+                "type": "value",
+                "options": {
+                  "0": {
+                    "text": "UNREACHABLE",
+                    "color": "red"
+                  },
+                  "1": {
+                    "text": "REACHABLE",
+                    "color": "green"
+                  }
+                }
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "green",
+                  "value": 1
+                }
+              ]
+            },
+            "noValue": "NO DATA"
+          },
+          "overrides": []
+        },
+        "options": {
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "orientation": "auto",
+          "textMode": "value",
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "center"
+        }
+      },
+      {
+        "id": 4,
+        "title": "Application alert — Normal / Pending / Firing",
+        "type": "alertlist",
+        "gridPos": {
+          "x": 0,
+          "y": 4,
+          "w": 24,
+          "h": 6
+        },
+        "options": {
+          "viewMode": "list",
+          "groupMode": "default",
+          "maxItems": 10,
+          "sortOrder": 1,
+          "dashboardAlerts": false,
+          "alertName": "LEZ application unavailable",
+          "alertInstanceLabelFilter": "",
+          "stateFilter": {
+            "firing": true,
+            "pending": true,
+            "noData": true,
+            "normal": true,
+            "error": true
+          }
+        }
+      },
+      {
+        "id": 5,
+        "title": "Availability timeline (1 = reachable, 0 = unreachable)",
+        "type": "timeseries",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "afb4eyxi2fe9se"
+        },
+        "gridPos": {
+          "x": 0,
+          "y": 10,
+          "w": 24,
+          "h": 7
+        },
+        "targets": [
+          {
+            "refId": "A",
+            "expr": "up{job=~\"flask-app-local|node-exporter-local\"}",
+            "legendFormat": "{{job}}",
+            "range": true,
+            "datasource": {
+              "type": "prometheus",
+              "uid": "afb4eyxi2fe9se"
+            }
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "min": 0,
+            "max": 1,
+            "decimals": 0,
+            "custom": {
+              "drawStyle": "line",
+              "lineInterpolation": "stepAfter",
+              "lineWidth": 2,
+              "fillOpacity": 10,
+              "spanNulls": false
+            }
+          },
+          "overrides": []
+        },
+        "options": {
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          }
+        }
+      }
+    ]
+  },
+  "folderUid": "afx4qtmom8hdsa",
+  "overwrite": false,
+  "message": "Add a focused availability and incident recovery demo."
+}

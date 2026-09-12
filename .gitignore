@@ -7,3 +7,89 @@ Documente/Prezentare Licenta - Andrei Sarandan 2706.pptx
 .env
 FlaskApp.pem
 AWS setup/
+key.pem
+locust_data
+Terraform_accessKeys.csv
+.local-archive/
+
+# Local configuration and credentials
+.env.*
+!.env.example
+*.key
+*.p12
+*.pfx
+
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Local working files and editor state
+.tmp/
+tmp/
+.codex/
+.claude/
+.agents/
+CLAUDE.md
+AGENTS.md
+HANDOFF.md
+*_HANDOFF.md
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.old
+~$*
+
+# Local documents, backups and databases
+/backup/
+/database backup/
+/instance/
+/test_database/
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Terraform local state, plans and private inputs
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+crash.*.log
+
+# One-off diagnostics and presentation artifacts
+/_graf.sh
+/demo-*.json
+/demo-local-edit.py
+/disk-*.json
+/eligibility-*-ssm.json
+/grafana-*.json
+/grafana-label-inspect.py
+/requests-*.json
+/monitoring/_*.sh
+/monitoring/_*.ps1
+/monitoring/grafana/*-backup.json
+/monitoring/grafana/*-before-demo.json
+/perf_run/
+/terraform/ss/
+/terraform-ec2-rds/micro-check.json
+/terraform-ec2-rds/grafana-password-update.json
+/3 instante.png
+/Arhitectura ASG.drawio.png
+/Arhitectura Single Instance.drawio.png
+/ce_testam.png
+/initial bottleneck.png
+/load test for ASG.png
+/test final pe asg.png

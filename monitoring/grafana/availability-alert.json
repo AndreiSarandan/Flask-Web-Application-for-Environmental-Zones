@@ -1,0 +1,88 @@
+{
+  "uid": "lez-flask-unavailable",
+  "orgID": 1,
+  "folderUID": "afx4qtmom8hdsa",
+  "ruleGroup": "demo-availability",
+  "title": "LEZ application unavailable",
+  "condition": "B",
+  "data": [
+    {
+      "refId": "A",
+      "queryType": "",
+      "relativeTimeRange": {
+        "from": 60,
+        "to": 0
+      },
+      "datasourceUid": "afb4eyxi2fe9se",
+      "model": {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "afb4eyxi2fe9se"
+        },
+        "expr": "up{job=\"flask-app-local\"}",
+        "instant": true,
+        "range": false,
+        "intervalMs": 1000,
+        "maxDataPoints": 43200,
+        "refId": "A"
+      }
+    },
+    {
+      "refId": "B",
+      "queryType": "",
+      "relativeTimeRange": {
+        "from": 0,
+        "to": 0
+      },
+      "datasourceUid": "__expr__",
+      "model": {
+        "refId": "B",
+        "type": "threshold",
+        "expression": "A",
+        "datasource": {
+          "type": "__expr__",
+          "uid": "__expr__"
+        },
+        "conditions": [
+          {
+            "evaluator": {
+              "type": "lt",
+              "params": [
+                1
+              ]
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "B"
+              ]
+            },
+            "reducer": {
+              "type": "last",
+              "params": []
+            },
+            "type": "query"
+          }
+        ]
+      }
+    }
+  ],
+  "noDataState": "NoData",
+  "execErrState": "Error",
+  "for": "10s",
+  "keepFiringFor": "0s",
+  "annotations": {
+    "summary": "The LEZ application metrics endpoint is unreachable.",
+    "description": "Prometheus cannot scrape Flask. Compare the EC2 exporter status to distinguish an application incident from a wider host or monitoring issue.",
+    "__dashboardUid__": "lez-availability-demo",
+    "__panelId__": "1"
+  },
+  "labels": {
+    "service": "flask",
+    "severity": "critical",
+    "purpose": "demo"
+  },
+  "isPaused": false
+}

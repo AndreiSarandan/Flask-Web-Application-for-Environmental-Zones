@@ -1,0 +1,93 @@
+{
+  "uid": "autoscaling-thesis",
+  "title": "Autoscaling — Thesis",
+  "tags": ["thesis", "autoscaling", "fleet"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "10s",
+  "time": { "from": "now-30m", "to": "now" },
+  "templating": { "list": [] },
+  "annotations": { "list": [] },
+  "panels": [
+    {
+      "id": 1,
+      "type": "stat",
+      "title": "Fleet instances (live)",
+      "description": "Number of ASG instances currently scraped UP via EC2 service discovery. Watch this climb as load drives CPU > 60%.",
+      "datasource": { "type": "prometheus", "uid": "afb4eyxi2fe9se" },
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 0 },
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "mode": "absolute", "steps": [ { "color": "blue", "value": null }, { "color": "green", "value": 2 }, { "color": "orange", "value": 3 } ] }, "unit": "none" }, "overrides": [] },
+      "options": { "colorMode": "background", "graphMode": "area", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "textMode": "value" },
+      "targets": [
+        { "refId": "A", "datasource": { "type": "prometheus", "uid": "afb4eyxi2fe9se" }, "expr": "count(up{job=\"flask-app-asg\"} == 1)", "legendFormat": "instances" }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "timeseries",
+      "title": "Total throughput (req/s) — whole fleet",
+      "description": "Aggregate request rate served by the fleet, regardless of instance count.",
+      "datasource": { "type": "prometheus", "uid": "afb4eyxi2fe9se" },
+      "gridPos": { "h": 6, "w": 18, "x": 6, "y": 0 },
+      "fieldConfig": { "defaults": { "unit": "reqps", "custom": { "drawStyle": "line", "fillOpacity": 15, "lineWidth": 2 } }, "overrides": [] },
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "multi" } },
+      "targets": [
+        { "refId": "A", "datasource": { "type": "prometheus", "uid": "afb4eyxi2fe9se" }, "expr": "sum(rate(flask_http_request_total{job=\"flask-app-asg\"}[1m]))", "legendFormat": "total req/s" }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "timeseries",
+      "title": "Throughput by instance (req/s) — load distribution",
+      "description": "Per-instance request rate. Shows the ALB spreading load as the ASG adds instances.",
+      "datasource": { "type": "prometheus", "uid": "afb4eyxi2fe9se" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 },
+      "fieldConfig": { "defaults": { "unit": "reqps", "custom": { "drawStyle": "line", "fillOpacity": 10, "lineWidth": 2, "stacking": { "mode": "normal" } } }, "overrides": [] },
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "multi" } },
+      "targets": [
+        { "refId": "A", "datasource": { "type": "prometheus", "uid": "afb4eyxi2fe9se" }, "expr": "sum by (instance) (rate(flask_http_request_total{job=\"flask-app-asg\"}[1m]))", "legendFormat": "{{instance}}" }
+      ]
+    },
+    {
+      "id": 4,
+      "type": "timeseries",
+      "title": "Latency p95 / p99 (s)",
+      "description": "Tail latency from the Flask request-duration histogram. The SLO line is what autoscaling protects under load.",
+      "datasource": { "type": "prometheus", "uid": "afb4eyxi2fe9se" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 6 },
+      "fieldConfig": { "defaults": { "unit": "s", "custom": { "drawStyle": "line", "fillOpacity": 5, "lineWidth": 2 } }, "overrides": [] },
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "multi" } },
+      "targets": [
+        { "refId": "A", "datasource": { "type": "prometheus", "uid": "afb4eyxi2fe9se" }, "expr": "histogram_quantile(0.95, sum(rate(flask_http_request_duration_seconds_bucket{job=\"flask-app-asg\"}[1m])) by (le))", "legendFormat": "p95" },
+        { "refId": "B", "datasource": { "type": "prometheus", "uid": "afb4eyxi2fe9se" }, "expr": "histogram_quantile(0.99, sum(rate(flask_http_request_duration_seconds_bucket{job=\"flask-app-asg\"}[1m])) by (le))", "legendFormat": "p99" }
+      ]
+    },
+    {
+      "id": 5,
+      "type": "timeseries",
+      "title": "Error rate (5xx %)",
+      "description": "Share of fleet responses that are 5xx. Should stay near zero even under load if autoscaling keeps up.",
+      "datasource": { "type": "prometheus", "uid": "afb4eyxi2fe9se" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 14 },
+      "fieldConfig": { "defaults": { "unit": "percent", "min": 0, "custom": { "drawStyle": "line", "fillOpacity": 20, "lineWidth": 2 }, "thresholds": { "mode": "absolute", "steps": [ { "color": "green", "value": null }, { "color": "red", "value": 1 } ] } }, "overrides": [] },
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "single" } },
+      "targets": [
+        { "refId": "A", "datasource": { "type": "prometheus", "uid": "afb4eyxi2fe9se" }, "expr": "100 * (sum(rate(flask_http_request_total{job=\"flask-app-asg\",status=~\"5..\"}[1m])) or vector(0)) / clamp_min(sum(rate(flask_http_request_total{job=\"flask-app-asg\"}[1m])), 1)", "legendFormat": "5xx %" }
+      ]
+    },
+    {
+      "id": 6,
+      "type": "timeseries",
+      "title": "CPU per instance (%) — scaling trigger",
+      "description": "Host CPU from node-exporter. The 60% line is the ASG target-tracking threshold that triggers scale-out.",
+      "datasource": { "type": "prometheus", "uid": "afb4eyxi2fe9se" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 14 },
+      "fieldConfig": { "defaults": { "unit": "percent", "min": 0, "max": 100, "custom": { "drawStyle": "line", "fillOpacity": 10, "lineWidth": 2 }, "thresholds": { "mode": "absolute", "steps": [ { "color": "green", "value": null }, { "color": "orange", "value": 60 } ] } }, "overrides": [] },
+      "options": { "legend": { "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "multi" } },
+      "targets": [
+        { "refId": "A", "datasource": { "type": "prometheus", "uid": "afb4eyxi2fe9se" }, "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{job=\"node-exporter-asg\",mode=\"idle\"}[1m])) * 100)", "legendFormat": "{{instance}}" }
+      ]
+    }
+  ]
+}
