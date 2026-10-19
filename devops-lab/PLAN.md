@@ -13,7 +13,7 @@ Regula de aur: **apply → învață → destroy** pentru tot ce e scump. Infras
 - **Versiuni fixate:** `required_version` pentru Terraform, `~>` pentru provider, `.terraform.lock.hcl` comis.
 - **State:** un bucket S3 (`devops-lab-tfstate-<account>`), câte o cheie per strat: `dev/<strat>/terraform.tfstate`. Straturile se leagă prin `terraform_remote_state` / data sources, niciodată prin copy-paste de ID-uri.
 - **Naming:** `lab-<env>-<componentă>` (ex. `lab-dev-vpc`, `lab-dev-private-app-a`). Tag-uri prin `default_tags`: `Project`, `Env`, `ManagedBy`, plus `Layer` (stratul care a creat resursa).
-- **Module:** în `infra/modules/`, fără provider și fără backend în ele. Au `variables.tf` / `main.tf` / `outputs.tf` / `versions.tf`. Straturile din `live/` doar le compun.
+- **Module:** în `infra/modules/`, fără provider și fără backend în ele. Au `variables.tf` / `main.tf` / `outputs.tf` / `versions.tf`. Straturile din `infra/NN-*` doar le compun.
 - **Calitate:** `pre-commit` local (fmt, validate, tflint). Aceleași verificări + scanare IaC în CI.
 - **Least privilege:** fiecare actor are rolul lui: tu (IAM user), `gha-tf-plan`, `gha-tf-apply`, `gha-app-deploy`, rolurile instanțelor și task-urilor.
 
@@ -27,7 +27,7 @@ Regula de aur: **apply → învață → destroy** pentru tot ce e scump. Infras
 ## Straturi Terraform: ce rămâne pornit vs ce distrugi
 Ca în companii, infrastructura e împărțită pe **straturi cu state separat**. Stratul de jos se schimbă rar, cele de sus des.
 
-| Strat (`infra/live/dev/…`) | Conține | Ciclu de viață | Cost aprox. |
+| Strat (`infra/…`) | Conține | Ciclu de viață | Cost aprox. |
 |---|---|---|---|
 | `00-bootstrap` | bucket S3 pentru state, OIDC provider + rol GitHub | permanent | ~0$ |
 | `10-foundation` | VPC, subneturi, IGW, route tables, S3 endpoint, ECR, Secrets Manager | permanent | ~1$/lună (secrete 0.40$/buc) |
@@ -75,12 +75,11 @@ devops-lab/
   notes/                  # notițele tale per fază (ce ai învățat, comenzi, greșeli)
   infra/
     modules/              # network, nat, rds, ecr, ec2-app, ecs-service, eks, monitoring-host
-    live/dev/
-      00-bootstrap/       # S3 state bucket + GitHub OIDC role
-      10-foundation/      # VPC, ECR, secrets          (permanent)
-      20-data/            # RDS                        (permanent)
-      30-nat/             # NAT Gateway                (efemer)
-      40-compute-ec2/  50-ecs/  60-eks/                (efemer)
+    00-bootstrap/         # S3 state bucket + GitHub OIDC role
+    10-foundation/        # VPC, ECR, secrets          (permanent)
+    20-data/              # RDS                        (permanent)
+    30-nat/               # NAT Gateway                (efemer)
+    40-compute-ec2/  50-ecs/  60-eks/                (efemer)
   k8s/
     base/  overlays/dev/  # Kustomize
     charts/flask-app/     # Helm chart propriu
@@ -125,11 +124,20 @@ wsl --install -d Ubuntu-24.04              # pentru Ansible (+ Docker Desktop)
 
 ## Faza 1 — Terraform fundamente: bootstrap + rețea (2–3 sesiuni, ~1$)
 **Concepte:** provider, resource, data source, variables/outputs/locals, state, remote backend, locking, `plan -out`/`apply`/`destroy`, module, `for_each`/`count`, `default_tags`, version pinning + `.terraform.lock.hcl`, `fmt`/`validate`/`tflint`, VPC/subnet/route table/IGW/NAT, Security Group, IAM role + instance profile, SSM.
-- [ ] `live/dev/00-bootstrap`: bucket S3 pentru state (versioning, SSE, block public access, policy care refuză HTTP, lifecycle pe versiunile vechi), `use_lockfile = true` (lock nativ în S3, fără DynamoDB). Oul și găina: apply cu state local → `terraform init -migrate-state` → state-ul bootstrap-ului se mută în propriul bucket.
+- [x] `infra/00-bootstrap` (2026-10-19): bucket creat manual în consolă (account regional namespace: `devops-lab-tfstate-678530698532-eu-central-1-an`, versioning, SSE-S3, block public access), adus în TF cu blocuri `import` → zero drift. 4 resurse în state: bucket, versioning, SSE, public access block. Backend S3 cu `use_lockfile = true`. Policy HTTP-deny + lifecycle: sărite (opțional).
 - [ ] Tooling local: `pre-commit` (fmt, validate, tflint), `.terraform.lock.hcl` comis în git.
-- [ ] `modules/network` **scris de mână** (nu modulul community): VPC, 6 subneturi, IGW, route tables, S3 gateway endpoint (gratuit) → `live/dev/10-foundation`.
-- [ ] `modules/nat` → `live/dev/30-nat` (efemer).
-- [ ] `live/dev/40-sandbox` (efemer): un EC2 `t4g.nano` în private-app, fără IP public și fără SSH, accesat prin **SSM Session Manager**. Rol IAM + instance profile + SG scrise de mână. Testezi ce se întâmplă fără NAT.
+- [ ] `modules/network` **scris de mână** (nu modulul community): VPC, 6 subneturi, IGW, route tables, S3 gateway endpoint (gratuit) → `infra/10-foundation`.
+  - **Design:** VPC `10.20.0.0/16`, AZ `eu-central-1a` + `eu-central-1b`, DNS hostnames/support ON.
+    | Nivel | 1a | 1b | Route table |
+    |---|---|---|---|
+    | public | `10.20.0.0/24` | `10.20.1.0/24` | `0.0.0.0/0 → IGW` |
+    | private-app | `10.20.10.0/24` | `10.20.11.0/24` | doar local (+ `0.0.0.0/0 → NAT` adăugat de `30-nat`) |
+    | private-data | `10.20.20.0/24` | `10.20.21.0/24` | doar local, niciodată internet |
+    S3 gateway endpoint atașat pe RT-urile private. Outputs: `vpc_id`, id-uri subneturi pe nivel, id-uri RT private (le citește `30-nat`).
+  - **Ordine (câte o resursă, plan după fiecare):** 1) VPC → 2) subneturi cu `for_each` → 3) IGW + RT public + asocieri → 4) RT-uri private + asocieri → 5) S3 gateway endpoint → 6) outputs → 7) refactor în `modules/network` cu blocuri `moved` (fără recreare).
+  - Scriem întâi direct în `infra/10-foundation`, apoi extragem modulul — vezi resursele înainte de abstracție.
+- [ ] `modules/nat` → `infra/30-nat` (efemer).
+- [ ] `infra/40-sandbox` (efemer): un EC2 `t4g.nano` în private-app, fără IP public și fără SSH, accesat prin **SSM Session Manager**. Rol IAM + instance profile + SG scrise de mână. Testezi ce se întâmplă fără NAT.
 - [ ] Exercițiu: `destroy` + `apply` pe `10-foundation` de câteva ori, până devine banal (înainte să pui RDS peste).
 **Gata când:** poți recrea rețeaua de la zero în < 5 min, explici fiecare route table și intri pe o instanță privată prin SSM.
 
@@ -145,7 +153,7 @@ wsl --install -d Ubuntu-24.04              # pentru Ansible (+ Docker Desktop)
 ## Faza 3 — Date + compute pe EC2 (2 sesiuni, ~2$)
 **Concepte:** RDS (subnet group, parameter group, Multi-AZ, backups), Secrets Manager, ECR, IAM instance profile, launch template, ASG, ALB (listener, target group, health check), SG chaining (SG ca sursă).
 - [ ] `modules/ecr`: repo + lifecycle policy (păstrează ultimele 10 imagini).
-- [ ] `live/dev/20-data` cu `modules/rds`: MySQL `db.t4g.micro` în private-db, `manage_master_user_password = true` (parola stă în Secrets Manager, nu în state), `deletion_protection`, backup 7 zile. **Rămâne pornit.**
+- [ ] `infra/20-data` cu `modules/rds`: MySQL `db.t4g.micro` în private-db, `manage_master_user_password = true` (parola stă în Secrets Manager, nu în state), `deletion_protection`, backup 7 zile. **Rămâne pornit.**
 - [ ] Acces la DB de pe laptop fără să fie public: SSM port forwarding printr-o instanță din VPC (`AWS-StartPortForwardingSessionToRemoteHost`).
 - [ ] App config: `secrets.json` → env var; app citește secretele la startup.
 - [ ] `modules/ec2-app`: ASG în private-app + ALB public; user_data trage imaginea din ECR; SG: ALB → app:5000 → RDS:3306.
