@@ -1,0 +1,19 @@
+# Let git decide what is text; normalize to LF in the repo
+* text=auto
+
+# Files executed on Linux (containers, EC2 user_data, CI) must stay LF on checkout too
+*.sh      text eol=lf
+*.tftpl   text eol=lf
+Dockerfile text eol=lf
+*.yml     text eol=lf
+*.yaml    text eol=lf
+*.j2      text eol=lf
+
+# Windows-only scripts keep CRLF
+*.ps1     text eol=crlf
+
+# Binary
+*.png  binary
+*.jpg  binary
+*.pptx binary
+*.zip  binary

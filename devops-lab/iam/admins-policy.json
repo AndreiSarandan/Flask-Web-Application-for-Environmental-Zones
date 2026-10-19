@@ -1,0 +1,82 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "BillingAndCost",
+      "Effect": "Allow",
+      "Action": [
+        "billing:*",
+        "ce:*",
+        "budgets:*",
+        "cur:*",
+        "bcm-data-exports:*",
+        "freetier:*",
+        "invoicing:*",
+        "payments:*",
+        "tax:*",
+        "consolidatedbilling:*",
+        "cost-optimization-hub:*",
+        "pricing:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "AccountSettings",
+      "Effect": "Allow",
+      "Action": [
+        "account:*",
+        "servicequotas:*",
+        "support:*",
+        "trustedadvisor:*",
+        "notifications:*",
+        "notifications-contacts:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "IdentityManagement",
+      "Effect": "Allow",
+      "Action": [
+        "iam:Get*",
+        "iam:List*",
+        "iam:Generate*",
+        "iam:Simulate*",
+        "iam:Create*",
+        "iam:Delete*",
+        "iam:Update*",
+        "iam:Put*",
+        "iam:Attach*",
+        "iam:Detach*",
+        "iam:Add*",
+        "iam:Remove*",
+        "iam:Tag*",
+        "iam:Untag*",
+        "iam:Set*",
+        "iam:Change*",
+        "iam:Upload*",
+        "iam:Enable*",
+        "iam:Deactivate*",
+        "iam:Resync*",
+        "iam:Reset*",
+        "access-analyzer:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "AuditReadOnly",
+      "Effect": "Allow",
+      "Action": [
+        "organizations:Describe*",
+        "organizations:List*",
+        "cloudtrail:LookupEvents",
+        "cloudtrail:Describe*",
+        "cloudtrail:Get*",
+        "cloudtrail:List*",
+        "health:Describe*",
+        "tag:Get*",
+        "resource-explorer-2:*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

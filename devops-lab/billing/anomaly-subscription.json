@@ -1,0 +1,13 @@
+{
+  "SubscriptionName": "devops-lab-anomalies",
+  "MonitorArnList": ["arn:aws:ce::678530698532:anomalymonitor/cfaaa8ff-7cc6-4c4f-a0b6-879c5d249239"],
+  "Subscribers": [{ "Type": "EMAIL", "Address": "alesiavlai8@gmail.com" }],
+  "Frequency": "DAILY",
+  "ThresholdExpression": {
+    "Dimensions": {
+      "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE",
+      "Values": ["5"],
+      "MatchOptions": ["GREATER_THAN_OR_EQUAL"]
+    }
+  }
+}

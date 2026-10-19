@@ -1,0 +1,10 @@
+{
+  "BudgetName": "devops-lab-monthly",
+  "BudgetType": "COST",
+  "TimeUnit": "MONTHLY",
+  "BudgetLimit": { "Amount": "50", "Unit": "USD" },
+  "CostTypes": {
+    "IncludeCredit": false,
+    "IncludeRefund": false
+  }
+}
