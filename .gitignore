@@ -93,3 +93,9 @@ crash.*.log
 /initial bottleneck.png
 /load test for ASG.png
 /test final pe asg.png
+# Terraform local state, plans and private inputs
+tfplan
+
+# Local configuration and credentials
+*.pem
+*.csv

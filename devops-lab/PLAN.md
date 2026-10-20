@@ -13,7 +13,7 @@ Regula de aur: **apply → învață → destroy** pentru tot ce e scump. Infras
 - **Versiuni fixate:** `required_version` pentru Terraform, `~>` pentru provider, `.terraform.lock.hcl` comis.
 - **State:** un bucket S3 (`devops-lab-tfstate-<account>`), câte o cheie per strat: `dev/<strat>/terraform.tfstate`. Straturile se leagă prin `terraform_remote_state` / data sources, niciodată prin copy-paste de ID-uri.
 - **Naming:** `lab-<env>-<componentă>` (ex. `lab-dev-vpc`, `lab-dev-private-app-a`). Tag-uri prin `default_tags`: `Project`, `Env`, `ManagedBy`, plus `Layer` (stratul care a creat resursa).
-- **Module:** în `infra/modules/`, fără provider și fără backend în ele. Au `variables.tf` / `main.tf` / `outputs.tf` / `versions.tf`. Straturile din `infra/NN-*` doar le compun.
+- **Module:** în `infra/modules/`, fără provider și fără backend în ele. Au `variables.tf` / `main.tf` / `outputs.tf` / `terraform.tf`. Straturile din `infra/NN-*` doar le compun.
 - **Calitate:** `pre-commit` local (fmt, validate, tflint). Aceleași verificări + scanare IaC în CI.
 - **Least privilege:** fiecare actor are rolul lui: tu (IAM user), `gha-tf-plan`, `gha-tf-apply`, `gha-app-deploy`, rolurile instanțelor și task-urilor.
 
@@ -126,7 +126,7 @@ wsl --install -d Ubuntu-24.04              # pentru Ansible (+ Docker Desktop)
 **Concepte:** provider, resource, data source, variables/outputs/locals, state, remote backend, locking, `plan -out`/`apply`/`destroy`, module, `for_each`/`count`, `default_tags`, version pinning + `.terraform.lock.hcl`, `fmt`/`validate`/`tflint`, VPC/subnet/route table/IGW/NAT, Security Group, IAM role + instance profile, SSM.
 - [x] `infra/00-bootstrap` (2026-10-19): bucket creat manual în consolă (account regional namespace: `devops-lab-tfstate-678530698532-eu-central-1-an`, versioning, SSE-S3, block public access), adus în TF cu blocuri `import` → zero drift. 4 resurse în state: bucket, versioning, SSE, public access block. Backend S3 cu `use_lockfile = true`. Policy HTTP-deny + lifecycle: sărite (opțional).
 - [ ] Tooling local: `pre-commit` (fmt, validate, tflint), `.terraform.lock.hcl` comis în git.
-- [ ] `modules/network` **scris de mână** (nu modulul community): VPC, 6 subneturi, IGW, route tables, S3 gateway endpoint (gratuit) → `infra/10-foundation`.
+- [x] (2026-10-20) `modules/network` **scris de mână** (nu modulul community): VPC, 6 subneturi, IGW, route tables, S3 gateway endpoint (gratuit) → `infra/10-foundation`.
   - **Design:** VPC `10.20.0.0/16`, AZ `eu-central-1a` + `eu-central-1b`, DNS hostnames/support ON.
     | Nivel | 1a | 1b | Route table |
     |---|---|---|---|
