@@ -126,7 +126,7 @@ wsl --install -d Ubuntu-24.04              # pentru Ansible (+ Docker Desktop)
 **Concepte:** provider, resource, data source, variables/outputs/locals, state, remote backend, locking, `plan -out`/`apply`/`destroy`, module, `for_each`/`count`, `default_tags`, version pinning + `.terraform.lock.hcl`, `fmt`/`validate`/`tflint`, VPC/subnet/route table/IGW/NAT, Security Group, IAM role + instance profile, SSM.
 - [x] `infra/00-bootstrap` (2026-10-19): bucket creat manual în consolă (account regional namespace: `devops-lab-tfstate-678530698532-eu-central-1-an`, versioning, SSE-S3, block public access), adus în TF cu blocuri `import` → zero drift. 4 resurse în state: bucket, versioning, SSE, public access block. Backend S3 cu `use_lockfile = true`. Policy HTTP-deny + lifecycle: sărite (opțional).
 - [ ] Tooling local: `pre-commit` (fmt, validate, tflint), `.terraform.lock.hcl` comis în git.
-- [ ] `modules/network` **scris de mână** (nu modulul community): VPC, 6 subneturi, IGW, route tables, S3 gateway endpoint (gratuit) → `infra/10-foundation`.
+- [x] (2026-10-20) `modules/network` **scris de mână** (nu modulul community): VPC, 6 subneturi, IGW, route tables, S3 gateway endpoint (gratuit) → `infra/10-foundation`.
   - **Design:** VPC `10.20.0.0/16`, AZ `eu-central-1a` + `eu-central-1b`, DNS hostnames/support ON.
     | Nivel | 1a | 1b | Route table |
     |---|---|---|---|
