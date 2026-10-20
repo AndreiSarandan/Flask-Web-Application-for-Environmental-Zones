@@ -13,7 +13,7 @@ Regula de aur: **apply → învață → destroy** pentru tot ce e scump. Infras
 - **Versiuni fixate:** `required_version` pentru Terraform, `~>` pentru provider, `.terraform.lock.hcl` comis.
 - **State:** un bucket S3 (`devops-lab-tfstate-<account>`), câte o cheie per strat: `dev/<strat>/terraform.tfstate`. Straturile se leagă prin `terraform_remote_state` / data sources, niciodată prin copy-paste de ID-uri.
 - **Naming:** `lab-<env>-<componentă>` (ex. `lab-dev-vpc`, `lab-dev-private-app-a`). Tag-uri prin `default_tags`: `Project`, `Env`, `ManagedBy`, plus `Layer` (stratul care a creat resursa).
-- **Module:** în `infra/modules/`, fără provider și fără backend în ele. Au `variables.tf` / `main.tf` / `outputs.tf` / `versions.tf`. Straturile din `infra/NN-*` doar le compun.
+- **Module:** în `infra/modules/`, fără provider și fără backend în ele. Au `variables.tf` / `main.tf` / `outputs.tf` / `terraform.tf`. Straturile din `infra/NN-*` doar le compun.
 - **Calitate:** `pre-commit` local (fmt, validate, tflint). Aceleași verificări + scanare IaC în CI.
 - **Least privilege:** fiecare actor are rolul lui: tu (IAM user), `gha-tf-plan`, `gha-tf-apply`, `gha-app-deploy`, rolurile instanțelor și task-urilor.
 
